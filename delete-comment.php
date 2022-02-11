@@ -1,5 +1,8 @@
 <?php
 
+require_once 'librairies/database.php';
+require_once 'librairies/functions.php';
+
 /**
  * DANS CE FICHIER ON CHERCHE A SUPPRIMER LE COMMENTAIRE DONT L'ID EST PASSE EN PARAMETRE GET !
  * 
@@ -25,10 +28,7 @@ $id = $_GET['id'];
  * 
  * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+$pdo = getPdo();
 
 /**
  * 3. Vérification de l'existence du commentaire
@@ -53,5 +53,4 @@ $query->execute(['id' => $id]);
 /**
  * 5. Redirection vers l'article en question
  */
-header("Location: article.php?id=" . $article_id);
-exit();
+redirect('article.php?id=' . $article_id);

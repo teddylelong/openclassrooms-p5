@@ -1,5 +1,8 @@
 <?php
 
+require_once 'librairies/database.php';
+require_once 'librairies/functions.php';
+
 /**
  * CE FICHIER DOIT AFFICHER UN ARTICLE ET SES COMMENTAIRES !
  * 
@@ -35,10 +38,7 @@ if (!$article_id) {
  * 
  * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+$pdo = getPdo();
 
 /**
  * 3. Récupération de l'article en question
@@ -65,8 +65,5 @@ $commentaires = $query->fetchAll();
  * 5. On affiche 
  */
 $pageTitle = $article['title'];
-ob_start();
-require('templates/articles/show.html.php');
-$pageContent = ob_get_clean();
 
-require('templates/layout.html.php');
+render('articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));

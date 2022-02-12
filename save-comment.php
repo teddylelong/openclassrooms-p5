@@ -9,20 +9,6 @@ $articleModel = new Article();
 $commentModel = new Comment();
 
 /**
- * CE FICHIER DOIT ENREGISTRER UN NOUVEAU COMMENTAIRE EST REDIRIGER SUR L'ARTICLE !
- * 
- * On doit d'abord vérifier que toutes les informations ont été entrées dans le formulaire
- * Si ce n'est pas le cas : un message d'erreur
- * Sinon, on va sauver les informations
- * 
- * Pour sauvegarder les informations, ce serait bien qu'on soit sur que l'article qu'on essaye de commenter existe
- * Il faudra donc faire une première requête pour s'assurer que l'article existe
- * Ensuite on pourra intégrer le commentaire
- * 
- * Et enfin on pourra rediriger l'utilisateur vers l'article en question
- */
-
-/**
  * 1. On vérifie que les données ont bien été envoyées en POST
  * D'abord, on récupère les informations à partir du POST
  * Ensuite, on vérifie qu'elles ne sont pas nulles
@@ -51,7 +37,6 @@ if (!empty($_POST['article_id']) && ctype_digit($_POST['article_id'])) {
 if (!$author || !$article_id || !$content) {
     die("Votre formulaire a été mal rempli !");
 }
-
 
 $article = $articleModel->find($article_id);
 

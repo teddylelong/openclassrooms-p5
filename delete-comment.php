@@ -2,6 +2,9 @@
 
 require_once 'librairies/database.php';
 require_once 'librairies/functions.php';
+require_once 'librairies/models/Comment.php';
+
+$model = new Comment();
 
 /**
  * DANS CE FICHIER ON CHERCHE A SUPPRIMER LE COMMENTAIRE DONT L'ID EST PASSE EN PARAMETRE GET !
@@ -33,7 +36,7 @@ $pdo = getPdo();
 /**
  * 3. Vérification de l'existence du commentaire
  */
-$commentaire = findComment($id);
+$commentaire = $model->find($id);
 if (!$commentaire) {
     die("Aucun commentaire n'a l'identifiant $id !");
 }
@@ -43,7 +46,7 @@ if (!$commentaire) {
  * On récupère l'identifiant de l'article avant de supprimer le commentaire
  */
 $article_id = $commentaire['article_id'];
-deleteComment($id);
+$model->delete($id);
 
 
 /**

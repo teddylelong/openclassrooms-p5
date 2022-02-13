@@ -1,10 +1,10 @@
 <?php
 
-define('HOST', 'localhost');
-define('DBNAME', 'blogpoo');
-define('CHARSET', 'utf8');
-define('USERNAME', 'root');
-define('PASSWORD', '');
+const HOST = 'localhost';
+const DBNAME = 'blogpoo';
+const CHARSET = 'utf8';
+const USERNAME = 'root';
+const PASSWORD = '';
 
 /**
  * Return database connexion

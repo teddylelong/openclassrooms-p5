@@ -2,10 +2,9 @@
 
 namespace Controllers;
 
-require_once 'librairies/models/Comment.php';
+require_once 'librairies/autoload.php';
 require_once 'librairies/functions.php';
-require_once 'librairies/models/Article.php';
-require_once 'librairies/controllers/Controller.php';
+
 
 class Comment extends Controller
 {

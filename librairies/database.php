@@ -1,10 +1,10 @@
 <?php
 
-const HOST = 'localhost';
-const DBNAME = 'blogpoo';
-const CHARSET = 'utf8';
-const USERNAME = 'root';
-const PASSWORD = '';
+const HOST      = 'localhost';
+const DBNAME    = 'blogpoo';
+const CHARSET   = 'utf8';
+const USERNAME  = 'root';
+const PASSWORD  = '';
 
 /**
  * Return database connexion

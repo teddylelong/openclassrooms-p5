@@ -1,19 +1,7 @@
 <?php
 
-require_once 'librairies/database.php';
-require_once 'librairies/functions.php';
-require_once 'librairies/models/Article.php';
+require_once 'librairies/controllers/Article.php';
 
-$model = new Article();
-
-/**
- * 2. Récupération des articles
- */
-
-$articles = $model->findAll('created_at DESC');
-
-/**
- * 3. Affichage
- */
-$pageTitle = "Accueil";
-render('articles/index', compact('pageTitle', 'articles'));
+// On appelle l'action à effectuer (Afficher tous les articles) via notre controller Article
+$controller = new \Controllers\Article();
+$controller->index();

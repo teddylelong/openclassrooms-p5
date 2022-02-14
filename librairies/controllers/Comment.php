@@ -3,8 +3,6 @@
 namespace Controllers;
 
 require_once 'librairies/autoload.php';
-require_once 'librairies/functions.php';
-
 
 class Comment extends Controller
 {
@@ -49,7 +47,7 @@ class Comment extends Controller
         $this->model->insert($author, $content, $article_id);
 
         // Redirection vers l'article
-        redirect('article.php?id=' . $article_id);
+        \Http::redirect('article.php?id=' . $article_id);
     }
 
     public function delete()
@@ -73,6 +71,6 @@ class Comment extends Controller
 
 
         // Redirection vers l'article
-        redirect('article.php?id=' . $article_id);
+        \Http::redirect('article.php?id=' . $article_id);
     }
 }

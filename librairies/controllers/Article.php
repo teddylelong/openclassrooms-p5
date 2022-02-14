@@ -3,7 +3,6 @@
 namespace Controllers;
 
 require_once 'librairies/autoload.php';
-require_once 'librairies/functions.php';
 
 class Article extends Controller
 {
@@ -16,7 +15,7 @@ class Article extends Controller
 
         // 2. Affichage
         $pageTitle = "Accueil";
-        render('articles/index', compact('pageTitle', 'articles'));
+        \Renderer::render('articles/index', compact('pageTitle', 'articles'));
     }
 
     public function show()
@@ -43,7 +42,7 @@ class Article extends Controller
 
         // 5. Affichage
         $pageTitle = $article['title'];
-        render('articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
+        \Renderer::render('articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
     }
 
     public function delete()
@@ -65,6 +64,6 @@ class Article extends Controller
         $this->model->delete($id);
 
         // 4. Redirection vers la page d'accueil
-        redirect('index.php');
+        \Http::redirect('index.php');
     }
 }

@@ -1,0 +1,3 @@
+ErrorDocument 404 /index.php?controller=error&task=show404
+
+Options -Indexes

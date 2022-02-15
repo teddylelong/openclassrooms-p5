@@ -24,16 +24,16 @@ class Comment extends Model
     }
 
     /**
-     * Create a comment on article
+     * Create a comment on a article
      *
      * @param string $author
      * @param string $content
      * @param string $article_id
      * @return void
      */
-    public function insert(string $author, string $content, string $article_id): void
+    public function insert(string $author, string $content, string $email, string $article_id): void
     {
-        $query = $this->pdo->prepare('INSERT INTO comments SET author = :author, content = :content, article_id = :article_id, created_at = NOW()');
-        $query->execute(compact('author', 'content', 'article_id'));
+        $query = $this->pdo->prepare('INSERT INTO comments SET author = :author, content = :content, email = :email, article_id = :article_id, created_at = NOW()');
+        $query->execute(compact('author', 'content', 'email', 'article_id'));
     }
 }

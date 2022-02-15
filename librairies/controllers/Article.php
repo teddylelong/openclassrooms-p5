@@ -8,6 +8,11 @@ class Article extends Controller
 {
     protected $modelName = \Models\Article::class;
 
+    /**
+     * Get all articles order by date and display it
+     *
+     * @return void
+     */
     public function index()
     {
         // 1. Récupération des articles
@@ -18,6 +23,60 @@ class Article extends Controller
         \Renderer::render('articles/index', compact('pageTitle', 'articles'));
     }
 
+    public function create()
+    {
+        $pageTitle = "Rédiger un article";
+        \Renderer::render('articles/create', compact('pageTitle'));
+    }
+
+    /**
+     * Insert a new article
+     *
+     * @return void
+     */
+    public function insert(): void
+    {
+        // Vérification du champ titre
+        $title = null;
+        if (!empty($_POST['title'])) {
+            $title = $_POST['title'];
+        }
+
+        // Vérification du champ Extrait
+        $excerpt = null;
+        if (!empty($_POST['excerpt'])) {
+            $excerpt = $_POST['excerpt'];
+        }
+
+        // Vérification du champ Contenu
+        $content = null;
+        if (!empty($_POST['content'])) {
+            $content = $_POST['content'];
+        }
+
+        // Vérification du champ User ID
+        $fk_user_id = null;
+        if (!empty($_POST['fk_user_id']) && ctype_digit($_POST['fk_user_id'])) {
+            $fk_user_id = $_POST['fk_user_id'];
+        }
+
+        // Vérification globale
+        if (!$title || !$excerpt || !$content || !$fk_user_id) {
+            die("Erreur : tous les champs du formulaire doivent être remplis.");
+        }
+
+        // Insertion de l'article dans la base de données
+        $this->model->insert($title, $excerpt, $content, 0, $fk_user_id);
+
+        // Redirection vers l'article
+        \Http::redirect("/?controller=article&task=show&id="); // TODO : Récupérer l'identifiant de l'article qui vient d'être inséré et l'utiliser en $_GET
+    }
+
+    /**
+     * Get an article and display it
+     *
+     * @return void
+     */
     public function show()
     {
         $commentModel = new \Models\Comment();
@@ -31,7 +90,7 @@ class Article extends Controller
         }
 
         if (!$article_id) {
-            die("Vous devez préciser un paramètre `id` dans l'URL !");
+            die("Vous devez préciser un paramètre 'id' dans l'URL.");
         }
 
         // 3. Récupération de l'article
@@ -45,11 +104,16 @@ class Article extends Controller
         \Renderer::render('articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
     }
 
+    /**
+     * Delete an article
+     *
+     * @return void
+     */
     public function delete()
     {
         // 1. Vérification du $_GET
         if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
-            die("Ho ?! Tu n'as pas précisé l'id de l'article !");
+            die("Erreur : l'identifiant de l'article est invalide.");
         }
 
         $id = $_GET['id'];

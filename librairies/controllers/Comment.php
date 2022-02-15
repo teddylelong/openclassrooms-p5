@@ -15,7 +15,14 @@ class Comment extends Controller
         // Vérification du champ "Pseudo"
         $author = null;
         if (!empty($_POST['author'])) {
-            $author = $_POST['author'];
+            $author = htmlspecialchars($_POST['author']);
+        }
+
+        // Vérification du champ "Email"
+        $email = null;
+        if (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            // Sécurisation de l'affichage de l'email
+            $email = htmlspecialchars($_POST['email']);
         }
 
         // Vérification du champ "Contenu"
@@ -32,7 +39,7 @@ class Comment extends Controller
         }
 
         // Vérification globale du formulaire
-        if (!$author || !$article_id || !$content) {
+        if (!$author || !$email || !$article_id || !$content) {
             die("Erreur : tous les champs du formulaire doivent être complétés.");
         }
 
@@ -40,11 +47,11 @@ class Comment extends Controller
 
         // Vérification de l'existence de l'article
         if (!$article) {
-            die("Ho ! L'article $article_id n'existe pas boloss !");
+            die("Erreur : impossible de trouver l'article N°$article_id dans la base de données.");
         }
 
         // Insertion du commentaire en BDD
-        $this->model->insert($author, $content, $article_id);
+        $this->model->insert($author, $content, $email, $article_id);
 
         // Redirection vers l'article
         \Http::redirect('/?controller=article&task=show&id=' . $article_id);
@@ -54,7 +61,7 @@ class Comment extends Controller
     {
         // Vérification de l'ID en $_GET
         if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
-            die("Ho ! Fallait préciser le paramètre id en GET !");
+            die("Erreur : l'identifiant n'est pas valide.");
         }
 
         $id = $_GET['id'];
@@ -62,7 +69,7 @@ class Comment extends Controller
         // Vérification de l'existence du commentaire
         $commentaire = $this->model->find($id);
         if (!$commentaire) {
-            die("Aucun commentaire n'a l'identifiant $id !");
+            die("Erreur : impossible de trouver le commentaire N°$id.");
         }
 
         // Suppression du commentaire

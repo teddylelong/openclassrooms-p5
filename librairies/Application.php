@@ -15,18 +15,24 @@ class Application
             $task = $_GET['task'];
         }
 
-        // Controller full name
-        $controllerName = "\Controllers\\" . $controllerName;
+        // Get Controller full name
+        $controllerPath = self::getControllerPathToString($controllerName);
 
-        // Check if controller & method exists
-        if (!method_exists($controllerName, $task)) {
+        // Check if this controller & method exists
+        // If not, call 404 controller
+        if (!method_exists($controllerPath, $task)) {
             header('HTTP/1.1 404 Not Found');
             $controllerName = 'Error';
-            $task = 'show';
-            $controllerName = "\Controllers\\" . $controllerName; // TODO Solve duplication ?
+            $task = 'show404';
+            $controllerPath = self::getControllerPathToString($controllerName);
         }
 
-        $controller = new $controllerName();
+        $controller = new $controllerPath();
         $controller->$task();
+    }
+
+    public static function getControllerPathToString($name)
+    {
+        return "\Controllers\\" . $name;
     }
 }

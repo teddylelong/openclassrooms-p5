@@ -21,5 +21,6 @@
     <h2>Site-web</h2>
     <ul>
         <li><a href="index.php?controller=article&task=index">Retour sur le site</a></li>
+        <li><a href="index.php?controller=login&task=logout">Déconnexion</a></li>
     </ul>
 </nav>

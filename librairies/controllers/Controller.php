@@ -10,5 +10,9 @@ abstract class Controller
     public function __construct()
     {
         $this->model = new $this->modelName();
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 }

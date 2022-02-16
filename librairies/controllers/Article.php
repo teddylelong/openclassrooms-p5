@@ -63,7 +63,6 @@ class Article extends Controller
             die("Vous devez préciser un paramètre 'id' dans l'URL.");
         }
 
-        // 3. Récupération de l'article
         $article = $this->model->find($article_id);
 
         $pageTitle = "Modifier un article";

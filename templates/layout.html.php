@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mon superbe blog | <?= $pageTitle ?></title>
+    <title>Mon blog | <?= $pageTitle ?></title>
 </head>
 
-<body>
+<body class="website">
+    <?php require_once 'inc/website/header.inc.php'?>
+    <?php require_once 'inc/website/nav.inc.php'; ?>
+
     <?= $pageContent ?>
+
+    <?php require_once 'inc/website/footer.inc.php' ?>
 </body>
 
 </html>

@@ -14,3 +14,5 @@
 
     <input type="submit" value="Publier">
 </form>
+
+<p><a href="index.php?controller=adminpanel&task=dashboard">Retour au dashboard</a></p>

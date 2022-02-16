@@ -8,13 +8,18 @@ class Renderer
      * @param array $var
      * @return void
      */
-    public static function render(string $path, array $var = [])
+    public static function render(string $path, array $var = [], $toAdminPage = false)
     {
         extract($var);
         ob_start();
         require('templates/' . $path . '.html.php');
         $pageContent = ob_get_clean();
 
-        require('templates/layout.html.php');
+        if ($toAdminPage) {
+            require 'templates/adminlayout.html.php';
+        }
+        else {
+            require('templates/layout.html.php');
+        }
     }
 }

@@ -4,7 +4,7 @@ class Database
 {
 
     private const HOST      = 'localhost';
-    private const DBNAME    = 'blogpoo';
+    private const DBNAME    = 'oc_p5_blog';
     private const CHARSET   = 'utf8';
     private const USERNAME  = 'root';
     private const PASSWORD  = '';

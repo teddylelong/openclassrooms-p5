@@ -6,6 +6,7 @@ require_once "librairies/autoload.php";
 
 class Login extends Model
 {
+    protected $table = 'users';
     /**
      * Find a user in database & check if email and provided password matches
      *
@@ -25,6 +26,21 @@ class Login extends Model
             return true;
         }
 
+        return false;
+    }
+
+    /**
+     * Check if a user has admin rights or not
+     *
+     * @param $id
+     * @return bool
+     */
+    public function checkAdmin($id): bool
+    {
+        $user = $this->find($id);
+        if ($user['is_admin'] === 1) {
+            return true;
+        }
         return false;
     }
 }

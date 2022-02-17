@@ -22,13 +22,8 @@ class Login extends Controller
      */
     public function loginForm(): void
     {
-        if($this->isLoggedIn()) {
-            $this->adminController->dashboard();
-        }
-        else {
             $pageTitle = "Connexion";
             \Renderer::render('admin/users/login', compact('pageTitle'), true);
-        }
     }
 
     /**
@@ -66,6 +61,14 @@ class Login extends Controller
     public function isLoggedIn(): bool
     {
         if (isset($_SESSION['user'])) {
+            return true;
+        }
+        return false;
+    }
+
+    public function isLoggedInAdmin($userId): bool
+    {
+        if ($this->isLoggedIn() /*&& $this->model->checkAdmin($userId)*/) {
             return true;
         }
         return false;

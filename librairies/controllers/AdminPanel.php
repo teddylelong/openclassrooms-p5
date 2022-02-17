@@ -6,8 +6,7 @@ require_once 'librairies/autoload.php';
 
 class AdminPanel extends Controller
 {
-    protected $modelName = \Models\AdminPanel::class;
-    protected $loginController;
+    public function __construct() {}
 
     /**
      * Display Admin Panel
@@ -16,14 +15,7 @@ class AdminPanel extends Controller
      */
     public function dashboard(): void
     {
-        $loginController = new \Controllers\Login();
-
-        if ($loginController->isLoggedIn()) {
             $pageTitle = "Dashboard";
             \Renderer::render('admin/dashboard', compact('pageTitle'), true);
-        }
-        else {
-            $loginController->loginForm();
-        }
     }
 }

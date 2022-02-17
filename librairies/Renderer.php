@@ -1,5 +1,7 @@
 <?php
 
+require_once 'librairies/autoload.php';
+
 class Renderer
 {
     /**

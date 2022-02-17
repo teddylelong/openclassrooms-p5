@@ -59,25 +59,32 @@ class Comment extends Controller
 
     public function delete()
     {
-        // Vérification de l'ID en $_GET
-        if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
-            die("Erreur : l'identifiant n'est pas valide.");
+        $loginController = new \Controllers\Login();
+
+        if ($loginController->isLoggedIn()) {
+            // Vérification de l'ID en $_GET
+            if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
+                die("Erreur : l'identifiant n'est pas valide.");
+            }
+
+            $id = $_GET['id'];
+
+            // Vérification de l'existence du commentaire
+            $commentaire = $this->model->find($id);
+            if (!$commentaire) {
+                die("Erreur : impossible de trouver le commentaire N°$id.");
+            }
+
+            // Suppression du commentaire
+            $article_id = $commentaire['article_id'];
+            $this->model->delete($id);
+
+
+            // Redirection vers l'article
+            \Http::redirect('/?controller=article&task=show&id=' . $article_id);
         }
-
-        $id = $_GET['id'];
-
-        // Vérification de l'existence du commentaire
-        $commentaire = $this->model->find($id);
-        if (!$commentaire) {
-            die("Erreur : impossible de trouver le commentaire N°$id.");
+        else {
+            $loginController->loginForm();
         }
-
-        // Suppression du commentaire
-        $article_id = $commentaire['article_id'];
-        $this->model->delete($id);
-
-
-        // Redirection vers l'article
-        \Http::redirect('/?controller=article&task=show&id=' . $article_id);
     }
 }

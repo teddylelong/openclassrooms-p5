@@ -24,130 +24,164 @@ class Article extends Controller
     }
 
     /**
-     * Get all articles order by date and display it in admin panel
+     * Get all articles order by date and display it in admin panel (User admin role is required)
+     * indexAdmin provides actions (update, delete) in admin panel
      *
      * @return void
      */
     public function indexAdmin(): void
     {
-        $articles = $this->model->findAll('created_at DESC');
+        if (\AccessControl::isUserAdmin()) {
+            $articles = $this->model->findAll('created_at DESC');
 
-        $pageTitle = "Gérer les articles";
-        \Renderer::render('admin/articles/index', compact('pageTitle', 'articles'), true);
+            $pageTitle = "Gérer les articles";
+            \Renderer::render('admin/articles/index', compact('pageTitle', 'articles'), true);
+        }
+        else {
+            \Http::redirect('index.php?controller=login&task=loginform');
+        }
     }
 
     /**
-     * Display the write an article form
+     * Display write an article form (User admin role is required)
+     *
      * @return void
      */
     public function create(): void
     {
-        $pageTitle = "Rédiger un article";
-        \Renderer::render('admin/articles/create', compact('pageTitle'), true);
+        if (\AccessControl::isUserAdmin()) {
+            $pageTitle = "Rédiger un article";
+            \Renderer::render('admin/articles/create', compact('pageTitle'), true);
+        }
+        else {
+            \Http::redirect('index.php?controller=login&task=loginform');
+        }
     }
 
     /**
-     * Display the article update form
+     * Display the article update form (User admin role is required)
      *
      * @return void
      */
     public function modify(): void
     {
-        $article_id = null;
+        if (\AccessControl::isUserAdmin()) {
+            $article_id = null;
 
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-            $article_id = $_GET['id'];
+            if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+                $article_id = $_GET['id'];
+            }
+
+            if (!$article_id) {
+                die("Vous devez préciser un paramètre 'id' dans l'URL.");
+            }
+
+            $article = $this->model->find($article_id);
+
+            $pageTitle = "Modifier un article";
+            \Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle'), true);
         }
-
-        if (!$article_id) {
-            die("Vous devez préciser un paramètre 'id' dans l'URL.");
+        else {
+            \Http::redirect('index.php?controller=login&task=loginform');
         }
-
-        $article = $this->model->find($article_id);
-
-        $pageTitle = "Modifier un article";
-        \Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle'), true);
-    }
-
-    public function update(): void
-    {
-        // Vérification du champ titre
-        $title = null;
-        if (!empty($_POST['title'])) {
-            $title = $_POST['title'];
-        }
-
-        // Vérification du champ Extrait
-        $excerpt = null;
-        if (!empty($_POST['excerpt'])) {
-            $excerpt = $_POST['excerpt'];
-        }
-
-        // Vérification du champ Contenu
-        $content = null;
-        if (!empty($_POST['content'])) {
-            $content = $_POST['content'];
-        }
-
-        // Verification du champ ID article
-        $pk_id = null;
-        if (!empty($_POST['id']) && ctype_digit($_POST['id'])) {
-            $pk_id = $_POST['id'];
-        }
-
-        // Vérification globale
-        if (!$title || !$excerpt || !$content) {
-            die("Erreur : tous les champs du formulaire doivent être remplis.");
-        }
-
-        // Insertion de l'article dans la base de données
-        $this->model->update($title, $excerpt, $content, 1, $pk_id);
-
-        // Redirection vers l'article
-        \Http::redirect("/?controller=article&task=indexadmin"); // TODO : Récupérer l'identifiant de l'article qui vient d'être inséré et l'utiliser en $_GET
     }
 
     /**
-     * Insert a new article
+     * Update a article (User admin role is required)
+     *
+     * @return void
+     */
+    public function update(): void
+    {
+        if (\AccessControl::isUserAdmin()) {
+
+            // Vérification du champ titre
+            $title = null;
+            if (!empty($_POST['title'])) {
+                $title = $_POST['title'];
+            }
+
+            // Vérification du champ Extrait
+            $excerpt = null;
+            if (!empty($_POST['excerpt'])) {
+                $excerpt = $_POST['excerpt'];
+            }
+
+            // Vérification du champ Contenu
+            $content = null;
+            if (!empty($_POST['content'])) {
+                $content = $_POST['content'];
+            }
+
+            // Verification du champ ID article
+            $pk_id = null;
+            if (!empty($_POST['id']) && ctype_digit($_POST['id'])) {
+                $pk_id = $_POST['id'];
+            }
+
+            // Vérification globale
+            if (!$title || !$excerpt || !$content) {
+                die("Erreur : tous les champs du formulaire doivent être remplis.");
+            }
+
+            // Insertion de l'article dans la base de données
+            $this->model->update($title, $excerpt, $content, 1, $pk_id);
+
+            // Redirection vers la liste des articles
+            \Http::redirect("index.php?controller=article&task=indexadmin");
+        }
+        else {
+            \Http::redirect('index.php?controller=login&task=loginform');
+        }
+
+    }
+
+    /**
+     * Insert a new article (User admin role is required)
      *
      * @return void
      */
     public function insert(): void
     {
-        // Vérification du champ titre
-        $title = null;
-        if (!empty($_POST['title'])) {
-            $title = $_POST['title'];
+        if (\AccessControl::isUserAdmin()) {
+            // Vérification du champ titre
+            $title = null;
+            if (!empty($_POST['title'])) {
+                $title = $_POST['title'];
+            }
+
+            // Vérification du champ Extrait
+            $excerpt = null;
+            if (!empty($_POST['excerpt'])) {
+                $excerpt = $_POST['excerpt'];
+            }
+
+            // Vérification du champ Contenu
+            $content = null;
+            if (!empty($_POST['content'])) {
+                $content = $_POST['content'];
+            }
+
+            // Vérification du champ User ID
+            $fk_user_id = null;
+            if (!empty($_POST['fk_user_id']) && ctype_digit($_POST['fk_user_id'])) {
+                $fk_user_id = $_POST['fk_user_id'];
+            }
+
+            // Vérification globale
+            if (!$title || !$excerpt || !$content || !$fk_user_id) {
+                die("Erreur : tous les champs du formulaire doivent être remplis.");
+            }
+
+            // Insertion de l'article dans la base de données
+            $this->model->insert($title, $excerpt, $content, 0, $fk_user_id);
+
+            // Redirection vers l'article
+            \Http::redirect("/?controller=article&task=indexadmin"); // TODO : Récupérer l'identifiant de l'article qui vient d'être inséré et l'utiliser en $_GET
         }
-
-        // Vérification du champ Extrait
-        $excerpt = null;
-        if (!empty($_POST['excerpt'])) {
-            $excerpt = $_POST['excerpt'];
+        else {
+            \Http::redirect('index.php?controller=login&task=loginform');
         }
-
-        // Vérification du champ Contenu
-        $content = null;
-        if (!empty($_POST['content'])) {
-            $content = $_POST['content'];
-        }
-
-        // Vérification du champ User ID
-        $fk_user_id = null;
-        if (!empty($_POST['fk_user_id']) && ctype_digit($_POST['fk_user_id'])) {
-            $fk_user_id = $_POST['fk_user_id'];
-        }
-
-        // Vérification globale
-        if (!$title || !$excerpt || !$content || !$fk_user_id) {
-            die("Erreur : tous les champs du formulaire doivent être remplis.");
-        }
-
-        // Insertion de l'article dans la base de données
-        $this->model->insert($title, $excerpt, $content, 0, $fk_user_id);
-
-        // Redirection vers l'article
-        \Http::redirect("/?controller=article&task=show&id="); // TODO : Récupérer l'identifiant de l'article qui vient d'être inséré et l'utiliser en $_GET
     }
 
     /**
@@ -183,59 +217,72 @@ class Article extends Controller
     }
 
     /**
-     * Get an article and display it to admin panel
+     * Get an article and display it to admin panel (User admin role is required)
+     * showAdmin provides actions in admin panel (delete a comment)
      *
      * @return void
      */
     public function showAdmin()
     {
-        // 1. Récupération du param "id" et vérification de celui-ci
-        $article_id = null;
+        if (\AccessControl::isUserAdmin()) {
+            $commentModel = new \Models\Comment();
 
-        // 2. Vérification du $_GET
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-            $article_id = $_GET['id'];
+            // 1. Récupération du param "id" et vérification de celui-ci
+            $article_id = null;
+
+            // 2. Vérification du $_GET
+            if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+                $article_id = $_GET['id'];
+            }
+
+            if (!$article_id) {
+                die("Vous devez préciser un paramètre 'id' dans l'URL.");
+            }
+
+            // 3. Récupération de l'article
+            $article = $this->model->find($article_id);
+
+            // 4. Récupération des commentaires de l'article en question
+            $commentaires = $commentModel->findAllByArticle($article_id);
+
+            // 5. Affichage
+            $pageTitle = $article['title'];
+            \Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'), true);
         }
-
-        if (!$article_id) {
-            die("Vous devez préciser un paramètre 'id' dans l'URL.");
+        else {
+            \Http::redirect('index.php?controller=login&task=loginform');
         }
-
-        // 3. Récupération de l'article
-        $article = $this->model->find($article_id);
-
-        // 4. Récupération des commentaires de l'article en question
-        $commentaires = $commentModel->findAllByArticle($article_id);
-
-        // 5. Affichage
-        $pageTitle = $article['title'];
-        \Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'), true);
     }
 
     /**
-     * Delete an article
+     * Delete an article (User admin role is required)
      *
      * @return void
      */
     public function delete()
     {
-        // 1. Vérification du $_GET
-        if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
-            die("Erreur : l'identifiant de l'article est invalide.");
+        if (\AccessControl::isUserAdmin()) {
+            // 1. Vérification du $_GET
+            if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
+                die("Erreur : l'identifiant de l'article est invalide.");
+            }
+
+            $id = $_GET['id'];
+
+            // 2. Vérification de l'existence de l'article
+            $article = $this->model->find($id);
+            if (!$article) {
+                die("Erreur : impossible de trouver l'article $id.");
+            }
+
+            // 3. Suppression de l'article
+            $this->model->delete($id);
+
+            // 4. Redirection vers la page d'accueil
+            \Http::redirect('/?controller=article&task=indexadmin');
         }
-
-        $id = $_GET['id'];
-
-        // 2. Vérification de l'existence de l'article
-        $article = $this->model->find($id);
-        if (!$article) {
-            die("Erreur : impossible de trouver l'article $id.");
+        else {
+            \Http::redirect('index.php?controller=login&task=loginform');
         }
-
-        // 3. Suppression de l'article
-        $this->model->delete($id);
-
-        // 4. Redirection vers la page d'accueil
-        \Http::redirect('/?controller=adminpanel&task=dashboard');
     }
 }

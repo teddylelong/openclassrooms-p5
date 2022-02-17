@@ -22,25 +22,10 @@ class Login extends Model
         $user = $query->fetch();
 
         if (password_verify($password, $user['password'])) {
-            $_SESSION['user'] = $user['pk_id'];
+            $_SESSION['user_id'] = $user['pk_id'];
             return true;
         }
 
-        return false;
-    }
-
-    /**
-     * Check if a user has admin rights or not
-     *
-     * @param $id
-     * @return bool
-     */
-    public function checkAdmin($id): bool
-    {
-        $user = $this->find($id);
-        if ($user['is_admin'] === 1) {
-            return true;
-        }
         return false;
     }
 }

@@ -7,27 +7,29 @@ require_once 'librairies/autoload.php';
 class Login extends Controller
 {
     protected $modelName = \Models\Login::class;
-    protected $adminController;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->adminController = new \Controllers\AdminPanel();
-    }
 
     /**
-     * display the login form
+     * Display the login form. If a user is already logged-in and has admin role, redirect automatically to admin panel.
      *
      * @return void
      */
     public function loginForm(): void
     {
+        if (\AccessControl::isUserAdmin()) {
+            \Http::redirect('index.php?controller=adminpanel&task=dashboard');
+        }
+        else {
             $pageTitle = "Connexion";
             \Renderer::render('admin/users/login', compact('pageTitle'), true);
+        }
+
     }
 
     /**
      * Login form process
+     * Check if email and password provided in login form match with a user in database
+     *
+     * @return void
      */
     public function process(): void
     {
@@ -46,42 +48,22 @@ class Login extends Controller
         }
 
         if($this->model->checkLogin($email, $password)) {
-            $this->adminController->dashboard();
+            \Http::redirect('index.php?controller=adminpanel&task=dashboard');
         }
         else {
-            $this->loginForm();
+            \Http::redirect('index.php?controller=login&task=loginform');
         }
     }
 
     /**
-     * Check if a login $_SESSION exists
+     * Destroy the login $_SESSION, disconnect user and redirect to login form
      *
-     * @return bool
-     */
-    public function isLoggedIn(): bool
-    {
-        if (isset($_SESSION['user'])) {
-            return true;
-        }
-        return false;
-    }
-
-    public function isLoggedInAdmin($userId): bool
-    {
-        if ($this->isLoggedIn() /*&& $this->model->checkAdmin($userId)*/) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Destroy the login $_SESSION and disconnect User
      * @return void
      */
     public function logout(): void
     {
-        unset($_SESSION['user']);
-        $this->loginForm();
+        unset($_SESSION['user_id']);
+        \Http::redirect('index.php?controller=login&task=loginform');
         exit;
     }
 }

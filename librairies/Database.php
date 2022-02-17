@@ -11,7 +11,7 @@ class Database
 
     private static $instance = null;
 
-    private static $debug = false;
+    private static $debug = true;
 
     /**
      * Return database connexion

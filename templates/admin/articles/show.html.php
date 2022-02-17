@@ -25,10 +25,8 @@
 
 <?php endif ?>
 
-<form action="index.php?controller=comment&task=insert" method="POST">
+<form action="index.php?controller=comment&task=insertadmin" method="POST">
     <h3>Déposez votre commentaire ci-dessous</h3>
-    <input type="text" name="author" placeholder="Votre pseudo !">
-    <input type="email" name="email" placeholder="Votre email !">
     <textarea name="content" id="" cols="30" rows="10" placeholder="Votre commentaire ..."></textarea>
     <input type="hidden" name="article_id" value="<?= $article_id ?>">
     <button>Commenter !</button>

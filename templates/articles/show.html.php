@@ -6,7 +6,7 @@
 
 <hr>
 
-<?= $article['content'] ?>
+<?= $article->getContent(); ?>
 
 <?php if (count($commentaires) === 0) : ?>
     <h2>Il n'y a pas encore de commentaires pour cet article... Soyez le premier !</h2>

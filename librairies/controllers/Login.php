@@ -16,7 +16,7 @@ class Login extends Controller
     public function loginForm(): void
     {
         if (\AccessControl::isUserAdmin()) {
-            \Http::redirect('index.php?controller=adminpanel&task=dashboard');
+            \Http::redirect('/adminpanel/dashboard/');
         }
         else {
             $pageTitle = "Connexion";
@@ -48,10 +48,10 @@ class Login extends Controller
         }
 
         if($this->model->checkLogin($email, $password)) {
-            \Http::redirect('index.php?controller=adminpanel&task=dashboard');
+            \Http::redirect('/adminpanel/dashboard/');
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 
@@ -63,7 +63,7 @@ class Login extends Controller
     public function logout(): void
     {
         unset($_SESSION['user_id']);
-        \Http::redirect('index.php?controller=login&task=loginform');
+        \Http::redirect('/login/');
         exit;
     }
 }

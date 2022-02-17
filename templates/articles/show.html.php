@@ -6,7 +6,7 @@
 
 <hr>
 
-<?= $article->getContent(); ?>
+<?= $article['content']; ?>
 
 <?php if (count($commentaires) === 0) : ?>
     <h2>Il n'y a pas encore de commentaires pour cet article... Soyez le premier !</h2>
@@ -24,7 +24,7 @@
 
 <?php endif ?>
 
-<form action="index.php?controller=comment&task=insert" method="POST">
+<form action="/comment/insert/" method="POST">
     <h3>Déposez votre commentaire ci-dessous</h3>
     <input type="text" name="author" placeholder="Votre pseudo !">
     <input type="email" name="email" placeholder="Votre email !">

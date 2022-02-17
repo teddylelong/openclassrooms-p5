@@ -1,6 +1,6 @@
 <h1>Connexion</h1>
 
-<form action="index.php?controller=login&task=process" method="POST">
+<form action="/login/process/" method="POST">
     <label for="email">Adresse e-mail :</label>
     <input type="email" name="email" id="email">
 
@@ -10,4 +10,4 @@
     <input type="submit" value="Se connecter">
 </form>
 
-<p><a href="index.php?controller=article&task=index">Retour sur le site</a></p>
+<p><a href="/">Retour sur le site</a></p>

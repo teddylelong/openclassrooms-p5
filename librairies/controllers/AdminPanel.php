@@ -20,7 +20,7 @@ class AdminPanel extends Controller
             \Renderer::render('admin/dashboard', compact('pageTitle'), true);
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 }

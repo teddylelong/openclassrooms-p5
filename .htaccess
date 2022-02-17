@@ -1,3 +1,10 @@
 ErrorDocument 404 /index.php?controller=error&task=show404
 
 Options -Indexes
+
+RewriteEngine On
+RewriteRule ^([a-z]+)/([a-z]+)/([0-9]+)/$ index.php?controller=$1&task=$2&id=$3
+RewriteRule ^([a-z]+)/([a-z]+)/$ index.php?controller=$1&task=$2
+
+RewriteRule ^login/$ index.php?controller=login&task=loginform
+RewriteRule ^logout/$ index.php?controller=login&task=logout

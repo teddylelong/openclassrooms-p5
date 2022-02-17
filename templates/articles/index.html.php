@@ -4,5 +4,5 @@
     <h2><?= $article['title'] ?></h2>
     <small>Écrit le <?= $article['created_at'] ?></small>
     <p><?= $article['excerpt'] ?></p>
-    <a href="/?controller=article&task=show&id=<?= $article['pk_id'] ?>">Lire la suite</a>
+    <a href="/article/show/<?= $article['pk_id'] ?>/">Lire la suite</a>
 <?php endforeach ?>

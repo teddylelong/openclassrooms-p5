@@ -59,7 +59,7 @@ class Comment extends Controller
         $this->model->insert($author, $content, $email, $article_id);
 
         // Redirection vers l'article
-        \Http::redirect('index.php?controller=article&task=show&id=' . $article_id);
+        \Http::redirect('/article/show/' . $article_id . '/');
     }
 
     /**
@@ -110,10 +110,10 @@ class Comment extends Controller
             $this->model->insert($author, $content, $email, $article_id);
 
             // Redirection vers l'article
-            \Http::redirect('index.php?controller=article&task=showadmin&id=' . $article_id);
+            \Http::redirect('/article/showadmin/' . $article_id . '/');
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 
@@ -142,10 +142,10 @@ class Comment extends Controller
             $this->model->delete($id);
 
             // Redirection vers l'article
-            \Http::redirect('index.php?controller=article&task=showadmin&id=' . $article_id);
+            \Http::redirect('/article/showadmin/' . $article_id . '/');
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 }

@@ -22,7 +22,7 @@ class User extends Controller
             \Renderer::render('admin/users/index', compact('pageTitle', 'users'), true);
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 
@@ -72,10 +72,10 @@ class User extends Controller
 
             $this->model->insert($firstname, $lastname, $email, $password, $is_admin);
 
-            \Http::redirect('index.php?controller=user&task=index');
+            \Http::redirect('/user/index/');
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 
@@ -91,7 +91,7 @@ class User extends Controller
             \Renderer::render('admin/users/create', compact('pageTitle'), true);
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 
@@ -120,10 +120,10 @@ class User extends Controller
             $this->model->delete($id);
 
             // 4. Redirection vers la page d'accueil
-            \Http::redirect('index.php?controller=user&task=index');
+            \Http::redirect('/user/index/');
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 }

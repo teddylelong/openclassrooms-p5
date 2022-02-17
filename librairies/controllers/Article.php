@@ -38,7 +38,7 @@ class Article extends Controller
             \Renderer::render('admin/articles/index', compact('pageTitle', 'articles'), true);
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 
@@ -54,7 +54,7 @@ class Article extends Controller
             \Renderer::render('admin/articles/create', compact('pageTitle'), true);
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 
@@ -82,7 +82,7 @@ class Article extends Controller
             \Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle'), true);
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 
@@ -128,10 +128,10 @@ class Article extends Controller
             $this->model->update($title, $excerpt, $content, 1, $pk_id);
 
             // Redirection vers la liste des articles
-            \Http::redirect("index.php?controller=article&task=indexadmin");
+            \Http::redirect("/article/indexadmin/");
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
 
     }
@@ -177,10 +177,10 @@ class Article extends Controller
             $this->model->insert($title, $excerpt, $content, 0, $fk_user_id);
 
             // Redirection vers l'article
-            \Http::redirect("/?controller=article&task=indexadmin"); // TODO : Récupérer l'identifiant de l'article qui vient d'être inséré et l'utiliser en $_GET
+            \Http::redirect("/article/indexadmin/"); // TODO : Récupérer l'identifiant de l'article qui vient d'être inséré et l'utiliser en $_GET
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 
@@ -250,7 +250,7 @@ class Article extends Controller
             \Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'), true);
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 
@@ -278,11 +278,11 @@ class Article extends Controller
             // 3. Suppression de l'article
             $this->model->delete($id);
 
-            // 4. Redirection vers la page d'accueil
-            \Http::redirect('/?controller=article&task=indexadmin');
+            // 4. Redirection vers la liste des articles
+            \Http::redirect('/article/indexadmin/');
         }
         else {
-            \Http::redirect('index.php?controller=login&task=loginform');
+            \Http::redirect('/login/');
         }
     }
 }

@@ -1,6 +1,6 @@
 <h1>Rédiger un article</h1>
 
-<form action="index.php?controller=article&task=insert" method="POST">
+<form action="/article/insert/" method="POST">
     <label for="title">Titre :</label>
     <input type="text" name="title" id="title"/>
 
@@ -15,4 +15,4 @@
     <input type="submit" value="Publier">
 </form>
 
-<p><a href="index.php?controller=adminpanel&task=dashboard">Retour au dashboard</a></p>
+<p><a href="/adminpanel/dashboard/">Retour au dashboard</a></p>

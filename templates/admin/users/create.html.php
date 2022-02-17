@@ -1,6 +1,6 @@
 <h1>Créer un nouvel utilisateur</h1>
 
-<form action="index.php?controller=user&task=insert" method="POST">
+<form action="/user/insert/" method="POST">
     <label for="firstname">Prénom :</label>
     <input type="text" name="firstname" id="firstname">
 
@@ -26,4 +26,4 @@
     <input type="submit" value="Créer l'utilisateur">
 </form>
 
-<p><a href="index.php?controller=adminpanel&task=dashboard">Retour au dashboard</a></p>
+<p><a href="/adminpanel/dashboard/">Retour au dashboard</a></p>

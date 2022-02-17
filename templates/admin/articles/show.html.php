@@ -20,12 +20,12 @@
         <blockquote>
             <em><?= $commentaire['content'] ?></em>
         </blockquote>
-        <a href="/?controller=comment&task=delete&id=<?= $commentaire['pk_id'] ?>" onclick="return window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
+        <a href="/comment/delete/<?= $commentaire['pk_id'] ?>/" onclick="return window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
     <?php endforeach ?>
 
 <?php endif ?>
 
-<form action="index.php?controller=comment&task=insertadmin" method="POST">
+<form action="/comment/insertadmin/" method="POST">
     <h3>Déposez votre commentaire ci-dessous</h3>
     <textarea name="content" id="" cols="30" rows="10" placeholder="Votre commentaire ..."></textarea>
     <input type="hidden" name="article_id" value="<?= $article_id ?>">

@@ -166,10 +166,10 @@ class Article extends Controller
                 $content = $_POST['content'];
             }
 
-            // Vérification du champ User ID
+            // Vérification du user ID
             $fk_user_id = null;
-            if (!empty($_POST['fk_user_id']) && ctype_digit($_POST['fk_user_id'])) {
-                $fk_user_id = $_POST['fk_user_id'];
+            if (!empty($_SESSION['user_id'])) {
+                $fk_user_id = $_SESSION['user_id'];
             }
 
             // Vérification globale

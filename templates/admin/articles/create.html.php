@@ -10,8 +10,6 @@
     <label for="content">Contenu :</label>
     <textarea name="content" id="content"></textarea>
 
-    <input type="hidden" name="fk_user_id" value="1">
-
     <input type="submit" value="Publier">
 </form>
 

@@ -15,7 +15,7 @@
 
     <h2>Gestion des commentaires</h2>
     <ul>
-        <li></li>
+        <li><a href="/comment/indexbyapprovement/">En attente de modération</a></li>
     </ul>
 
     <h2>Site-web</h2>

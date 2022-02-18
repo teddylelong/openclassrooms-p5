@@ -4,6 +4,7 @@ namespace Controllers;
 
 use AccessControl;
 use Http;
+use Renderer;
 
 require_once 'librairies/autoload.php';
 
@@ -11,12 +12,7 @@ class Comment extends Controller
 {
     protected $modelName = \Models\Comment::class;
 
-    /**
-     * Insert a comment form process
-     *
-     * @return void
-     */
-    public function insert()
+    public function checkInsert(bool $ifAdmin = false)
     {
         $articleModel = new \Models\Article();
 
@@ -31,6 +27,15 @@ class Comment extends Controller
         if (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             // Sécurisation de l'affichage de l'email
             $email = htmlspecialchars($_POST['email']);
+        }
+
+        // Si l'utilisateur est admin, on rempli les champs automatiquement
+        if ($ifAdmin) {
+            $userModel = new \Models\User();
+            $user = $userModel->find($_SESSION['user_id']);
+
+            $author = $user['firstname'] . " (admin)";
+            $email = $user['email'];
         }
 
         // Vérification du champ "Contenu"
@@ -57,9 +62,20 @@ class Comment extends Controller
         if (!$article) {
             die("Erreur : impossible de trouver l'article N°$article_id dans la base de données.");
         }
+        return compact('author', 'email', 'article_id', 'content');
+    }
+
+    /**
+     * Insert a comment form process
+     *
+     * @return void
+     */
+    public function insert()
+    {
+        extract($this->checkInsert());
 
         // Insertion du commentaire en BDD
-        $this->model->insert($author, $content, $email, $article_id);
+        $this->model->insert($author, $content, $email, $article_id, 'pending');
 
         // Redirection vers l'article
         Http::redirect('/article/show/' . $article_id . '/');
@@ -74,43 +90,11 @@ class Comment extends Controller
     public function insertAdmin()
     {
         if (AccessControl::isUserAdmin()) {
-            $articleModel = new \Models\Article();
-            $userModel = new \Models\User();
-            $user = $userModel->find($_SESSION['user_id']);
 
-            // Vérification du champ "Pseudo"
-            $author = $user['firstname'] . " (admin)";
-
-            // Vérification du champ "Email"
-            $email = $user['email'];
-
-            // Vérification du champ "Contenu"
-            $content = null;
-            if (!empty($_POST['content'])) {
-                // Sécurisation de l'affichage du contenu
-                $content = htmlspecialchars($_POST['content']);
-            }
-
-            // Vérification du champ "ID"
-            $article_id = null;
-            if (!empty($_POST['article_id']) && ctype_digit($_POST['article_id'])) {
-                $article_id = $_POST['article_id'];
-            }
-
-            // Vérification globale du formulaire
-            if (!$author || !$email || !$article_id || !$content) {
-                die("Erreur : tous les champs du formulaire doivent être complétés.");
-            }
-
-            $article = $articleModel->find($article_id);
-
-            // Vérification de l'existence de l'article
-            if (!$article) {
-                die("Erreur : impossible de trouver l'article N°$article_id dans la base de données.");
-            }
+            extract($this->checkInsert(true));
 
             // Insertion du commentaire en BDD
-            $this->model->insert($author, $content, $email, $article_id);
+            $this->model->insert($author, $content, $email, $article_id, 'approved');
 
             // Redirection vers l'article
             Http::redirect('/article/showadmin/' . $article_id . '/');
@@ -121,7 +105,84 @@ class Comment extends Controller
     }
 
     /**
+     * Display a list of comments by approvement status (User admin role is required)
+     *
+     * @param string $is_approved
+     * @return void
+     */
+    public function indexByApprovement(string $is_approved = 'pending'): void
+    {
+        if (AccessControl::isUserAdmin()) {
+            $comments = $this->model->findByApproved($is_approved);
+
+            $pageTitle = "Commentaires en attente de modération";
+            Renderer::render('admin/comments/approvement',compact('comments', 'pageTitle'),true);
+        }
+        else {
+            Http::redirect('/login/');
+        }
+    }
+
+    /**
+     * Precheck $_GET values for approve or disapprove a comment
+     * @return int
+     */
+    public function checkApprovement(): int
+    {
+        // Vérification de l'ID en $_GET
+        $id = null;
+        if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
+            $id = $_GET['id'];
+        }
+        if (!$id) {
+            die("Erreur : l'ID du commentaire n'est pas valide.");
+        }
+
+        // Vérification de l'existence du commentaire
+        $comment = $this->model->find($id);
+        if (!$comment) {
+            die("Erreur : le commentaire n'existe pas.");
+        }
+        return $id;
+    }
+
+    /**
+     * Approve a comment (User admin role is required)
+     *
+     * @return void
+     */
+    public function approve(): void
+    {
+        if (AccessControl::isUserAdmin()) {
+            $id = $this->checkApprovement();
+            $this->model->updateApprovement($id, 'approved');
+            Http::redirect('/comment/indexbyapprovement/');
+        }
+        else {
+            Http::redirect('/login/');
+        }
+    }
+
+    /**
+     * Disapprove a comment (User admin role is required)
+     *
+     * @return void
+     */
+    public function disapprove(): void
+    {
+        if (AccessControl::isUserAdmin()) {
+            $id = $this->checkApprovement();
+            $this->model->updateApprovement($id, 'disapproved');
+            Http::redirect('/comment/indexbyapprovement/');
+        }
+        else {
+            Http::redirect('/login/');
+        }
+    }
+
+    /**
      * Delete a comment (User admin role is required)
+     *
      * @return void
      */
     public function delete()

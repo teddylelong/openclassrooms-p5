@@ -13,4 +13,17 @@ class Http
         header('Location: ' . $url);
         exit;
     }
+
+    /**
+     * Display a 404 error - page not found
+     *
+     * @return void
+     */
+    public static function error404(): void
+    {
+        header('HTTP/1.1 404 Not Found');
+        $pageTitle = "Erreur 404 - Page non-trouvée";
+        Renderer::render('errors/404', compact('pageTitle'));
+        exit();
+    }
 }

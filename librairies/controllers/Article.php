@@ -212,6 +212,10 @@ class Article extends Controller
         // 3. Récupération de l'article
         $article = $this->model->find($article_id);
 
+        if (!$article) {
+            Http::error404();
+        }
+
         // 4. Récupération des commentaires de l'article en question
         $commentaires = $commentModel->findAllByArticle($article_id);
 

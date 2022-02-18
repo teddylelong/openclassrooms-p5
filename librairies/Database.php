@@ -8,9 +8,7 @@ class Database
     private const CHARSET   = 'utf8';
     private const USERNAME  = 'root';
     private const PASSWORD  = '';
-
     private static $instance = null;
-
     private static bool $debug = true;
 
     /**

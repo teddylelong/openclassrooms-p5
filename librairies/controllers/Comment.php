@@ -2,6 +2,9 @@
 
 namespace Controllers;
 
+use AccessControl;
+use Http;
+
 require_once 'librairies/autoload.php';
 
 class Comment extends Controller
@@ -59,7 +62,7 @@ class Comment extends Controller
         $this->model->insert($author, $content, $email, $article_id);
 
         // Redirection vers l'article
-        \Http::redirect('/article/show/' . $article_id . '/');
+        Http::redirect('/article/show/' . $article_id . '/');
     }
 
     /**
@@ -70,7 +73,7 @@ class Comment extends Controller
      */
     public function insertAdmin()
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             $articleModel = new \Models\Article();
             $userModel = new \Models\User();
             $user = $userModel->find($_SESSION['user_id']);
@@ -110,10 +113,10 @@ class Comment extends Controller
             $this->model->insert($author, $content, $email, $article_id);
 
             // Redirection vers l'article
-            \Http::redirect('/article/showadmin/' . $article_id . '/');
+            Http::redirect('/article/showadmin/' . $article_id . '/');
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 
@@ -123,7 +126,7 @@ class Comment extends Controller
      */
     public function delete()
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             // Vérification de l'ID en $_GET
             if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
                 die("Erreur : l'identifiant n'est pas valide.");
@@ -142,10 +145,10 @@ class Comment extends Controller
             $this->model->delete($id);
 
             // Redirection vers l'article
-            \Http::redirect('/article/showadmin/' . $article_id . '/');
+            Http::redirect('/article/showadmin/' . $article_id . '/');
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 }

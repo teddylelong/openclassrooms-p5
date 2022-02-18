@@ -18,9 +18,7 @@ class Comment extends Model
     {
         $query = $this->pdo->prepare("SELECT * FROM comments WHERE article_id = :article_id");
         $query->execute(['article_id' => $articleId]);
-        $comments = $query->fetchAll();
-
-        return $comments;
+        return $query->fetchAll();
     }
 
     /**
@@ -28,6 +26,7 @@ class Comment extends Model
      *
      * @param string $author
      * @param string $content
+     * @param string $email
      * @param string $article_id
      * @return void
      */

@@ -2,6 +2,10 @@
 
 namespace Controllers;
 
+use AccessControl;
+use Http;
+use Renderer;
+
 require_once 'librairies/autoload.php';
 
 class AdminPanel extends Controller
@@ -15,12 +19,12 @@ class AdminPanel extends Controller
      */
     public function dashboard(): void
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             $pageTitle = "Dashboard";
-            \Renderer::render('admin/dashboard', compact('pageTitle'), true);
+            Renderer::render('admin/dashboard', compact('pageTitle'), true);
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 }

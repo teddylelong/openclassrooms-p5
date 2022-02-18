@@ -2,14 +2,17 @@
 
 namespace Models;
 
+use Database;
+use PDO;
+
 abstract class Model
 {
-    protected $pdo;
+    protected PDO $pdo;
     protected $table;
 
     public function __construct()
     {
-        $this->pdo = \Database::getPdo();
+        $this->pdo = Database::getPdo();
     }
 
     /**
@@ -20,10 +23,9 @@ abstract class Model
      */
     public function find(int $id)
     {
-        $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE pk_id = :id");
+        $query = $this->pdo->prepare("SELECT * FROM $this->table WHERE pk_id = :id");
         $query->execute(['id' => $id]);
-        $item = $query->fetch();
-        return $item;
+        return $query->fetch();
     }
 
     /**
@@ -34,25 +36,25 @@ abstract class Model
      */
     public function delete($id): void
     {
-        $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE pk_id = :id");
+        $query = $this->pdo->prepare("DELETE FROM $this->table WHERE pk_id = :id");
         $query->execute(['id' => $id]);
     }
 
     /**
      * Return all items from database table
      *
+     * @param string|null $order
      * @return array
      */
     public function findAll(?string $order = ''): array
     {
-        $sql = "SELECT * FROM {$this->table}";
+        $sql = "SELECT * FROM $this->table";
 
         if ($order) {
             $sql .= ' ORDER BY ' . $order;
         }
         $query = $this->pdo->query($sql);
 
-        $items = $query->fetchAll();
-        return $items;
+        return $query->fetchAll();
     }
 }

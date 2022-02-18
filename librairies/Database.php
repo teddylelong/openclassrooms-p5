@@ -11,14 +11,13 @@ class Database
 
     private static $instance = null;
 
-    private static $debug = true;
+    private static bool $debug = true;
 
     /**
      * Return database connexion
      *
      * @return PDO
      */
-
     public static function getPdo(): PDO
     {
         $args = [];

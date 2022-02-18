@@ -2,6 +2,10 @@
 
 namespace Controllers;
 
+use AccessControl;
+use Http;
+use Renderer;
+
 require_once 'librairies/autoload.php';
 
 class User extends Controller
@@ -15,14 +19,14 @@ class User extends Controller
      */
     public function index()
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             $users = $this->model->findAll('created_at DESC');
 
             $pageTitle = "Liste des utilisateurs";
-            \Renderer::render('admin/users/index', compact('pageTitle', 'users'), true);
+            Renderer::render('admin/users/index', compact('pageTitle', 'users'), true);
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 
@@ -33,7 +37,7 @@ class User extends Controller
      */
     public function insert(): void
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             // Vérification du champ prénom
             $firstname = null;
             if (!empty($_POST['firstname'])) {
@@ -72,10 +76,10 @@ class User extends Controller
 
             $this->model->insert($firstname, $lastname, $email, $password, $is_admin);
 
-            \Http::redirect('/user/index/');
+            Http::redirect('/user/index/');
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 
@@ -86,12 +90,12 @@ class User extends Controller
      */
     public function create(): void
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             $pageTitle = "Créer un nouvel utilisateur";
-            \Renderer::render('admin/users/create', compact('pageTitle'), true);
+            Renderer::render('admin/users/create', compact('pageTitle'), true);
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 
@@ -102,7 +106,7 @@ class User extends Controller
      */
     public function delete()
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             // 1. Vérification du $_GET
             if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
                 die("Erreur : l'identifiant de l'utilisateur est invalide.");
@@ -120,10 +124,10 @@ class User extends Controller
             $this->model->delete($id);
 
             // 4. Redirection vers la page d'accueil
-            \Http::redirect('/user/index/');
+            Http::redirect('/user/index/');
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 }

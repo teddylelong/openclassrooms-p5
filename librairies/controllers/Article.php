@@ -2,6 +2,10 @@
 
 namespace Controllers;
 
+use AccessControl;
+use Http;
+use Renderer;
+
 require_once 'librairies/autoload.php';
 
 class Article extends Controller
@@ -20,7 +24,7 @@ class Article extends Controller
 
         // 2. Affichage
         $pageTitle = "Accueil";
-        \Renderer::render('articles/index', compact('pageTitle', 'articles'));
+        Renderer::render('articles/index', compact('pageTitle', 'articles'));
     }
 
     /**
@@ -31,14 +35,14 @@ class Article extends Controller
      */
     public function indexAdmin(): void
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             $articles = $this->model->findAll('created_at DESC');
 
             $pageTitle = "Gérer les articles";
-            \Renderer::render('admin/articles/index', compact('pageTitle', 'articles'), true);
+            Renderer::render('admin/articles/index', compact('pageTitle', 'articles'), true);
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 
@@ -49,12 +53,12 @@ class Article extends Controller
      */
     public function create(): void
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             $pageTitle = "Rédiger un article";
-            \Renderer::render('admin/articles/create', compact('pageTitle'), true);
+            Renderer::render('admin/articles/create', compact('pageTitle'), true);
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 
@@ -65,7 +69,7 @@ class Article extends Controller
      */
     public function modify(): void
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             $article_id = null;
 
             if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
@@ -79,10 +83,10 @@ class Article extends Controller
             $article = $this->model->find($article_id);
 
             $pageTitle = "Modifier un article";
-            \Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle'), true);
+            Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle'), true);
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 
@@ -93,7 +97,7 @@ class Article extends Controller
      */
     public function update(): void
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
 
             // Vérification du champ titre
             $title = null;
@@ -128,10 +132,10 @@ class Article extends Controller
             $this->model->update($title, $excerpt, $content, 1, $pk_id);
 
             // Redirection vers la liste des articles
-            \Http::redirect("/article/indexadmin/");
+            Http::redirect("/article/indexadmin/");
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
 
     }
@@ -143,7 +147,7 @@ class Article extends Controller
      */
     public function insert(): void
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             // Vérification du champ titre
             $title = null;
             if (!empty($_POST['title'])) {
@@ -177,10 +181,10 @@ class Article extends Controller
             $this->model->insert($title, $excerpt, $content, 0, $fk_user_id);
 
             // Redirection vers l'article
-            \Http::redirect("/article/indexadmin/"); // TODO : Récupérer l'identifiant de l'article qui vient d'être inséré et l'utiliser en $_GET
+            Http::redirect("/article/indexadmin/"); // TODO : Récupérer l'identifiant de l'article qui vient d'être inséré et l'utiliser en $_GET
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 
@@ -213,7 +217,7 @@ class Article extends Controller
 
         // 5. Affichage
         $pageTitle = $article['title'];
-        \Renderer::render('articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
+        Renderer::render('articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
     }
 
     /**
@@ -224,7 +228,7 @@ class Article extends Controller
      */
     public function showAdmin()
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             $commentModel = new \Models\Comment();
 
             // 1. Récupération du param "id" et vérification de celui-ci
@@ -247,10 +251,10 @@ class Article extends Controller
 
             // 5. Affichage
             $pageTitle = $article['title'];
-            \Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'), true);
+            Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'), true);
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 
@@ -261,7 +265,7 @@ class Article extends Controller
      */
     public function delete()
     {
-        if (\AccessControl::isUserAdmin()) {
+        if (AccessControl::isUserAdmin()) {
             // 1. Vérification du $_GET
             if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
                 die("Erreur : l'identifiant de l'article est invalide.");
@@ -279,10 +283,10 @@ class Article extends Controller
             $this->model->delete($id);
 
             // 4. Redirection vers la liste des articles
-            \Http::redirect('/article/indexadmin/');
+            Http::redirect('/article/indexadmin/');
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 }

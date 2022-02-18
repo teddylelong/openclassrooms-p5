@@ -1,5 +1,7 @@
 <?php
 
+use Models\User;
+
 class AccessControl
 {
     public static function isUserAdmin(): bool
@@ -8,7 +10,7 @@ class AccessControl
 
             $id = $_SESSION['user_id'];
 
-            $userModel = new \Models\User();
+            $userModel = new User();
             $user = $userModel->find($id);
 
             if ($user['is_admin'] == true) {

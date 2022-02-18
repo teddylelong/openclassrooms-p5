@@ -14,7 +14,7 @@ class Article extends Model
      * @param string $title
      * @param string $excerpt
      * @param string $content
-     * @param bool $is_published
+     * @param int $is_published
      * @param int $fk_user_id
      * @return void
      */

@@ -2,6 +2,10 @@
 
 namespace Controllers;
 
+use AccessControl;
+use Http;
+use Renderer;
+
 require_once 'librairies/autoload.php';
 
 class Login extends Controller
@@ -15,12 +19,12 @@ class Login extends Controller
      */
     public function loginForm(): void
     {
-        if (\AccessControl::isUserAdmin()) {
-            \Http::redirect('/adminpanel/dashboard/');
+        if (AccessControl::isUserAdmin()) {
+            Http::redirect('/adminpanel/dashboard/');
         }
         else {
             $pageTitle = "Connexion";
-            \Renderer::render('admin/users/login', compact('pageTitle'), true);
+            Renderer::render('admin/users/login', compact('pageTitle'), true);
         }
 
     }
@@ -48,10 +52,10 @@ class Login extends Controller
         }
 
         if($this->model->checkLogin($email, $password)) {
-            \Http::redirect('/adminpanel/dashboard/');
+            Http::redirect('/adminpanel/dashboard/');
         }
         else {
-            \Http::redirect('/login/');
+            Http::redirect('/login/');
         }
     }
 
@@ -63,7 +67,7 @@ class Login extends Controller
     public function logout(): void
     {
         unset($_SESSION['user_id']);
-        \Http::redirect('/login/');
+        Http::redirect('/login/');
         exit;
     }
 }

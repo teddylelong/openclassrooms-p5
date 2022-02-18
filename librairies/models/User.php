@@ -20,7 +20,7 @@ class User extends Model
      */
     public function insert(string $firstname, string $lastname, string $email, string $password, int $is_admin = 0): void
     {
-        $query = $this->pdo->prepare("INSERT INTO {$this->table} SET firstname = :firstname, lastname = :lastname, email = :email, password = :password, is_admin = :is_admin");
+        $query = $this->pdo->prepare("INSERT INTO $this->table SET firstname = :firstname, lastname = :lastname, email = :email, password = :password, is_admin = :is_admin");
         $query->execute(compact('firstname', 'lastname', 'email', 'password', 'is_admin'));
     }
 }

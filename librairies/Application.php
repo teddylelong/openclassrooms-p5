@@ -16,7 +16,7 @@ class Application
         }
 
         // Get Controller full name
-        $controllerPath = self::getControllerPathToString($controllerName);
+        $controllerPath = self::getControllerPath($controllerName);
 
         // Check if this controller & method exists
         // If not, call 404 controller
@@ -24,14 +24,14 @@ class Application
             header('HTTP/1.1 404 Not Found');
             $controllerName = 'Error';
             $task = 'show404';
-            $controllerPath = self::getControllerPathToString($controllerName);
+            $controllerPath = self::getControllerPath($controllerName);
         }
 
         $controller = new $controllerPath();
         $controller->$task();
     }
 
-    public static function getControllerPathToString($name)
+    public static function getControllerPath($name): string
     {
         return "\Controllers\\" . $name;
     }

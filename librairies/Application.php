@@ -2,8 +2,19 @@
 
 class Application
 {
+    /**
+     * This is the app process, called in index.php file.
+     * Use controllers and methods directly in URL.
+     * URL are rewritten by .htaccess file at app root.
+     *
+     * Usage :    https://domain.com/controller/task/{optionnal_parameter}
+     *              https://domain.com/article/show/145
+     *
+     * @return void
+     */
     public static function process()
     {
+        // By default, call articles lists
         $controllerName = 'Article';
         $task = 'index';
 

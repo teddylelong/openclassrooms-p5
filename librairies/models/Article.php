@@ -18,10 +18,10 @@ class Article extends Model
      * @param int $fk_user_id
      * @return void
      */
-    public function insert(string $title, string $excerpt, string $content, int $is_published = 0, int $fk_user_id): void
+    public function insert(string $title, string $excerpt, string $content, int $fk_user_id): void
     {
-        $query = $this->pdo->prepare('INSERT INTO articles SET title = :title, excerpt = :excerpt, content = :content, is_published = :is_published, fk_user_id = :fk_user_id');
-        $query->execute(compact('title', 'excerpt', 'content', 'is_published', 'fk_user_id'));
+        $query = $this->pdo->prepare('INSERT INTO articles SET title = :title, excerpt = :excerpt, content = :content, fk_user_id = :fk_user_id');
+        $query->execute(compact('title', 'excerpt', 'content', 'fk_user_id'));
     }
 
     /**
@@ -34,9 +34,9 @@ class Article extends Model
      * @param int $pk_id
      * @return void
      */
-    public function update(string $title, string $excerpt, string $content, int $is_published, int $pk_id): void
+    public function update(string $title, string $excerpt, string $content, int $pk_id): void
     {
-        $query = $this->pdo->prepare('UPDATE articles SET title = :title, excerpt = :excerpt, content = :content, is_published = :is_published WHERE pk_id = :pk_id');
-        $query->execute(compact('title', 'excerpt', 'content', 'is_published', 'pk_id'));
+        $query = $this->pdo->prepare('UPDATE articles SET title = :title, excerpt = :excerpt, content = :content WHERE pk_id = :pk_id');
+        $query->execute(compact('title', 'excerpt', 'content', 'pk_id'));
     }
 }

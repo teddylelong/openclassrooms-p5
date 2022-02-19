@@ -129,7 +129,7 @@ class Article extends Controller
             }
 
             // Insertion de l'article dans la base de données
-            $this->model->update($title, $excerpt, $content, 1, $pk_id);
+            $this->model->update($title, $excerpt, $content, $pk_id);
 
             // Redirection vers la liste des articles
             Http::redirect("/article/indexadmin/");
@@ -178,7 +178,7 @@ class Article extends Controller
             }
 
             // Insertion de l'article dans la base de données
-            $this->model->insert($title, $excerpt, $content, 0, $fk_user_id);
+            $this->model->insert($title, $excerpt, $content, $fk_user_id);
 
             // Redirection vers l'article
             Http::redirect("/article/indexadmin/"); // TODO : Récupérer l'identifiant de l'article qui vient d'être inséré et l'utiliser en $_GET

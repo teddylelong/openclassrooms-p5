@@ -4,6 +4,7 @@ namespace Controllers;
 
 use AccessControl;
 use Http;
+use Notification;
 use Renderer;
 
 require_once 'librairies/autoload.php';
@@ -42,6 +43,7 @@ class Article extends Controller
             Renderer::render('admin/articles/index', compact('pageTitle', 'articles'), true);
         }
         else {
+            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
             Http::redirect('/login/');
         }
     }
@@ -58,6 +60,7 @@ class Article extends Controller
             Renderer::render('admin/articles/create', compact('pageTitle'), true);
         }
         else {
+            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
             Http::redirect('/login/');
         }
     }
@@ -77,15 +80,20 @@ class Article extends Controller
             }
 
             if (!$article_id) {
-                die("Vous devez préciser un paramètre 'id' dans l'URL.");
+                Http::error404();
             }
 
             $article = $this->model->find($article_id);
+
+            if (!$article) {
+                Http::error404();
+            }
 
             $pageTitle = "Modifier un article";
             Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle'), true);
         }
         else {
+            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
             Http::redirect('/login/');
         }
     }
@@ -125,16 +133,19 @@ class Article extends Controller
 
             // Vérification globale
             if (!$title || !$excerpt || !$content) {
-                die("Erreur : tous les champs du formulaire doivent être remplis.");
+                Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
+                Http::redirect('/article/showadmin/'.$pk_id.'/');
             }
 
             // Insertion de l'article dans la base de données
             $this->model->update($title, $excerpt, $content, $pk_id);
 
             // Redirection vers la liste des articles
+            Notification::set('success', "Les modifications de l'article ont bien été enregistrées.");
             Http::redirect("/article/indexadmin/");
         }
         else {
+            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
             Http::redirect('/login/');
         }
 
@@ -174,16 +185,19 @@ class Article extends Controller
 
             // Vérification globale
             if (!$title || !$excerpt || !$content || !$fk_user_id) {
-                die("Erreur : tous les champs du formulaire doivent être remplis.");
+                Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
+                Http::redirect('/article/create/');
             }
 
             // Insertion de l'article dans la base de données
             $this->model->insert($title, $excerpt, $content, $fk_user_id);
 
-            // Redirection vers l'article
-            Http::redirect("/article/indexadmin/"); // TODO : Récupérer l'identifiant de l'article qui vient d'être inséré et l'utiliser en $_GET
+            // Redirection vers la liste des articles
+            Notification::set('success', "Article ajouté avec succès !");
+            Http::redirect("/article/indexadmin/");
         }
         else {
+            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
             Http::redirect('/login/');
         }
     }
@@ -206,7 +220,8 @@ class Article extends Controller
         }
 
         if (!$article_id) {
-            die("Vous devez préciser un paramètre 'id' dans l'URL.");
+            Notification::set('error', "Vous devez préciser un paramètre 'id' dans l'URL.");
+            Http::redirect('/article/index/');
         }
 
         // 3. Récupération de l'article
@@ -244,7 +259,7 @@ class Article extends Controller
             }
 
             if (!$article_id) {
-                die("Vous devez préciser un paramètre 'id' dans l'URL.");
+                Http::error404();
             }
 
             // 3. Récupération de l'article
@@ -258,6 +273,7 @@ class Article extends Controller
             Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'), true);
         }
         else {
+            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
             Http::redirect('/login/');
         }
     }
@@ -272,7 +288,8 @@ class Article extends Controller
         if (AccessControl::isUserAdmin()) {
             // 1. Vérification du $_GET
             if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
-                die("Erreur : l'identifiant de l'article est invalide.");
+                Notification::set('error', "L'identifiant de l'article n'est pas valide.");
+                Http::redirect('/article/indexadmin/');
             }
 
             $id = $_GET['id'];
@@ -280,16 +297,19 @@ class Article extends Controller
             // 2. Vérification de l'existence de l'article
             $article = $this->model->find($id);
             if (!$article) {
-                die("Erreur : impossible de trouver l'article $id.");
+                Notification::set('error', "L'article est introuvable.");
+                Http::redirect('/article/indexadmin');
             }
 
             // 3. Suppression de l'article
             $this->model->delete($id);
 
             // 4. Redirection vers la liste des articles
+            Notification::set('success', "Suppression de l'article effectuée avec succès !");
             Http::redirect('/article/indexadmin/');
         }
         else {
+            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
             Http::redirect('/login/');
         }
     }

@@ -10,6 +10,8 @@
     <?php require_once 'inc/website/header.inc.php'?>
     <?php require_once 'inc/website/nav.inc.php'; ?>
 
+    <?php Notification::display(); ?>
+
     <?= $pageContent ?>
 
     <?php require_once 'inc/website/footer.inc.php' ?>

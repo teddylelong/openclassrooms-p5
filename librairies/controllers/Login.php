@@ -4,6 +4,7 @@ namespace Controllers;
 
 use AccessControl;
 use Http;
+use Notification;
 use Renderer;
 
 require_once 'librairies/autoload.php';
@@ -48,13 +49,16 @@ class Login extends Controller
         }
 
         if (!$email || !$password) {
-            die("Tous les champs du formulaire doivent être remplis");
+            Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
+            Http::redirect('/login/');
         }
 
         if($this->model->checkLogin($email, $password)) {
+            Notification::set('success', "Bienvenue !");
             Http::redirect('/adminpanel/dashboard/');
         }
         else {
+            Notification::set('error', "L'adresse email ou le mot de passe est incorrect.");
             Http::redirect('/login/');
         }
     }
@@ -67,6 +71,7 @@ class Login extends Controller
     public function logout(): void
     {
         unset($_SESSION['user_id']);
+        Notification::set('success', "Déconnexion effectuée avec succès. À bientôt !");
         Http::redirect('/login/');
         exit;
     }

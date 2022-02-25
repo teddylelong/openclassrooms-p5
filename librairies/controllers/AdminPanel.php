@@ -24,6 +24,7 @@ class AdminPanel extends Controller
             Renderer::render('admin/dashboard', compact('pageTitle'), true);
         }
         else {
+            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
             Http::redirect('/login/');
         }
     }

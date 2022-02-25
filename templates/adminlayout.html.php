@@ -7,6 +7,8 @@
 </head>
 
 <body class="admin">
+    <?php Notification::display(); ?>
+
     <?= $pageContent ?>
 </body>
 

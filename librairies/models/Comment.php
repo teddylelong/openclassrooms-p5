@@ -2,6 +2,8 @@
 
 namespace Models;
 
+use PDO;
+
 require_once 'librairies/autoload.php';
 
 class Comment extends Model
@@ -18,6 +20,7 @@ class Comment extends Model
     public function findAllByArticle(int $article_id, string $is_approved = 'approved'): array
     {
         $query = $this->pdo->prepare("SELECT * FROM comments WHERE article_id = :article_id AND is_approved = :is_approved");
+        $query->setFetchMode(PDO::FETCH_CLASS, get_class($this));
         $query->execute(compact('article_id', 'is_approved'));
         return $query->fetchAll();
     }

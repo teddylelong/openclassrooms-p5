@@ -6,12 +6,16 @@ use AccessControl;
 use Http;
 use Notification;
 use Renderer;
+use Classes;
+use Models;
+use DateTime;
 
 require_once 'librairies/autoload.php';
 
 class Article extends Controller
 {
-    protected $modelName = \Models\Article::class;
+    protected $modelName = Models\Article::class;
+    protected $className = Classes\Article::class;
 
     /**
      * Get all articles order by date and display it
@@ -100,6 +104,7 @@ class Article extends Controller
 
     /**
      * Update a article (User admin role is required)
+     * Check data from update article form
      *
      * @return void
      */
@@ -137,8 +142,20 @@ class Article extends Controller
                 Http::redirect('/article/showadmin/'.$pk_id.'/');
             }
 
+            // On créé un nouvel objet \Classes\Article
+            $article = $this->class;
+            $article->setTitle($title);
+            $article->setExcerpt($excerpt);
+            $article->setContent($content);
+            $article->setId($pk_id);
+
             // Insertion de l'article dans la base de données
-            $this->model->update($title, $excerpt, $content, $pk_id);
+            $this->model->update(
+                $article->getTitle(),
+                $article->getExcerpt(),
+                $article->getContent(),
+                $article->getId(),
+            );
 
             // Redirection vers la liste des articles
             Notification::set('success', "Les modifications de l'article ont bien été enregistrées.");
@@ -153,6 +170,7 @@ class Article extends Controller
 
     /**
      * Insert a new article (User admin role is required)
+     * Check data from create a article form
      *
      * @return void
      */
@@ -189,8 +207,22 @@ class Article extends Controller
                 Http::redirect('/article/create/');
             }
 
+            // On créé un nouvel objet \Classes\Article
+            $article = $this->class;
+            $article->setTitle($title);
+            $article->setExcerpt($excerpt);
+            $article->setContent($content);
+            $article->setCreatedAt(new DateTime('NOW'));
+            $article->setAuthorId($fk_user_id);
+
             // Insertion de l'article dans la base de données
-            $this->model->insert($title, $excerpt, $content, $fk_user_id);
+            $this->model->insert(
+                $article->getTitle(),
+                $article->getExcerpt(),
+                $article->getContent(),
+                $article->getAuthorId(),
+            );
+
 
             // Redirection vers la liste des articles
             Notification::set('success', "Article ajouté avec succès !");
@@ -235,7 +267,7 @@ class Article extends Controller
         $commentaires = $commentModel->findAllByArticle($article_id);
 
         // 5. Affichage
-        $pageTitle = $article['title'];
+        $pageTitle = $article->getTitle();
         Renderer::render('articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
     }
 
@@ -269,7 +301,7 @@ class Article extends Controller
             $commentaires = $commentModel->findAllByArticle($article_id);
 
             // 5. Affichage
-            $pageTitle = $article['title'];
+            $pageTitle = $article->getTitle();
             Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'), true);
         }
         else {

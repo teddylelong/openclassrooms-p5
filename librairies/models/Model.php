@@ -4,6 +4,7 @@ namespace Models;
 
 use Database;
 use PDO;
+use ReflectionClass;
 
 abstract class Model
 {
@@ -15,6 +16,11 @@ abstract class Model
         $this->pdo = Database::getPdo();
     }
 
+    public function getClassName(): string
+    {
+        return '\Classes\\'.(new ReflectionClass(get_called_class()))->getShortName();
+    }
+
     /**
      * Return an item from database for given ID
      *
@@ -24,6 +30,7 @@ abstract class Model
     public function find(int $id)
     {
         $query = $this->pdo->prepare("SELECT * FROM $this->table WHERE pk_id = :id");
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
         $query->execute(['id' => $id]);
         return $query->fetch();
     }
@@ -54,6 +61,7 @@ abstract class Model
             $sql .= ' ORDER BY ' . $order;
         }
         $query = $this->pdo->query($sql);
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
 
         return $query->fetchAll();
     }

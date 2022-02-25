@@ -1,16 +1,18 @@
-<h1>Modifier l'article <?= $article['title'] ?></h1>
+<h1>Modifier l'article <?= $article->getTitle() ?></h1>
 
 <form action="/article/update/" method="POST">
     <label for="title">Titre :</label>
-    <input type="text" name="title" id="title" value="<?= $article['title'] ?>"/>
+    <input type="text" name="title" id="title" value="<?= $article->getTitle() ?>"/>
 
     <label for="excerpt">Extrait :</label>
-    <textarea name="excerpt" id="excerpt"><?= $article['excerpt'] ?></textarea>
+    <textarea name="excerpt" id="excerpt"><?= $article->getExcerpt() ?></textarea>
 
     <label for="content">Contenu :</label>
-    <textarea name="content" id="content"><?= $article['content'] ?></textarea>
+    <textarea name="content" id="content"><?= $article->getContent() ?></textarea>
 
-    <input type="hidden" name="id" value="<?= $article['pk_id'] ?>">
+    <?php // TODO : Ajouter un champ "Modifier l'auteur" ?>
+
+    <input type="hidden" name="id" value="<?= $article->getId() ?>">
 
     <input type="submit" value="Publier">
 </form>

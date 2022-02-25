@@ -1,12 +1,12 @@
-<h1><?= $article['title'] ?></h1>
+<h1><?= $article->getTitle() ?></h1>
 
-<small>Ecrit le <?= $article['created_at'] ?></small>
+<small>Ecrit le <?= $article->getCreatedAt() ?></small>
 
-<p><?= $article['excerpt'] ?></p>
+<p><?= $article->getExcerpt() ?></p>
 
 <hr>
 
-<?= $article['content'] ?>
+<?= $article->getContent() ?>
 
 <?php if (count($commentaires) === 0) : ?>
     <h2>Il n'y a pas encore de commentaires pour cet article... Soyez le premier !</h2>

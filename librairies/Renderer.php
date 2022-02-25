@@ -12,7 +12,7 @@ class Renderer
      * @param bool $toAdminPage
      * @return void
      */
-    public static function render(string $path, array $var = [], bool $toAdminPage = false)
+    public static function render(string $path, $var = [], bool $toAdminPage = false)
     {
         extract($var);
         ob_start();

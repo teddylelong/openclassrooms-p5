@@ -1,4 +1,5 @@
 <?php
+// TODO : Use Classes\Comment here
 
 namespace Models;
 
@@ -20,7 +21,7 @@ class Comment extends Model
     public function findAllByArticle(int $article_id, string $is_approved = 'approved'): array
     {
         $query = $this->pdo->prepare("SELECT * FROM comments WHERE article_id = :article_id AND is_approved = :is_approved");
-        $query->setFetchMode(PDO::FETCH_CLASS, get_class($this));
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
         $query->execute(compact('article_id', 'is_approved'));
         return $query->fetchAll();
     }
@@ -34,6 +35,7 @@ class Comment extends Model
     public function findByApproved($is_approuved = 'pending'): array
     {
         $query = $this->pdo->prepare("SELECT * FROM comments WHERE is_approved = :is_approved");
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
         $query->execute(['is_approved' => $is_approuved]);
         return $query->fetchAll();
     }

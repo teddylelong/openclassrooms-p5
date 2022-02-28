@@ -16,13 +16,6 @@ echo '</pre>';*/
 
 <?= $article->getContent(); ?>
 
-<?php
-echo '<pre>';
-print_r($commentaires);
-die();
-echo '</pre>';
-?>
-
 <?php if (count($commentaires) === 0) : ?>
     <h2>Il n'y a pas encore de commentaires pour cet article... Soyez le premier !</h2>
 

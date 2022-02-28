@@ -1,4 +1,5 @@
 <?php
+// TODO : Here, use Classes\User in create, delete and other actions
 
 namespace Controllers;
 
@@ -12,6 +13,7 @@ require_once 'librairies/autoload.php';
 class User extends Controller
 {
     protected $modelName = \Models\User::class;
+    protected $className = \Classes\User::class;
 
     /**
      * Get all users, ordered by creation date, and display it (User admin role is required)

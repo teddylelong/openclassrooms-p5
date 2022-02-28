@@ -18,7 +18,7 @@ class AccessControl
             $userModel = new User();
             $user = $userModel->find($id);
 
-            if ($user['is_admin'] == true) {
+            if ($user->getIsAdmin() == true) {
                 return true;
             }
         }

@@ -92,7 +92,7 @@ class Article
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getCreatedAt(): ?string
     {

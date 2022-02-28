@@ -1,4 +1,5 @@
 <?php
+// TODO : Use \Classes\Comment
 
 namespace Controllers;
 
@@ -12,6 +13,7 @@ require_once 'librairies/autoload.php';
 class Comment extends Controller
 {
     protected $modelName = \Models\Comment::class;
+    protected $className = \Classes\Comment::class;
 
     /**
      * Check a comment before insert
@@ -41,8 +43,8 @@ class Comment extends Controller
             $userModel = new \Models\User();
             $user = $userModel->find($_SESSION['user_id']);
 
-            $author = $user['firstname'] . " (admin)";
-            $email = $user['email'];
+            $author = $user->getFirstname() . " (admin)";
+            $email = $user->getEmail();
         }
 
         // Vérification du champ "Contenu"
@@ -225,7 +227,7 @@ class Comment extends Controller
             $this->model->delete($id);
 
             // Redirection vers l'article
-            $article_id = $commentaire['article_id'];
+            $article_id = $commentaire->getArticleId();
             Notification::set('success', "Le commentaire a été supprimé avec succès.");
             Http::redirect('/article/showadmin/' . $article_id . '/');
         }

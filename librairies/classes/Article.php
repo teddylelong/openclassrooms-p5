@@ -1,7 +1,5 @@
 <?php
 
-// TODO : Créer les Classes\User, Classes\Comment
-
 namespace Classes;
 
 require_once 'librairies/autoload.php';

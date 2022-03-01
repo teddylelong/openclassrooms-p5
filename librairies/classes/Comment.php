@@ -16,6 +16,11 @@ class Comment
     private $is_approved;
     private $article_id;
 
+    // TODO : Const : bonne idée ? Visibilité des constantes ?
+    const PENDING     = 'pending';
+    const APPROVED    = 'approved';
+    const DISAPPROVED = 'disapproved';
+
     /**
      * @param int $id
      */

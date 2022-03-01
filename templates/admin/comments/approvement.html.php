@@ -12,12 +12,12 @@
     <tbody>
     <?php foreach ($comments as $comment) : ?>
         <tr>
-            <td><?= $comment['author'] ?></td>
-            <td><?= $comment['email'] ?></td>
-            <td><?= $comment['content'] ?></td>
-            <td><?= $comment['created_at'] ?></td>
-            <td><a href="/article/showadmin/<?= $comment['article_id'] ?>/">Voir</a></td>
-            <td><a href="/comment/approve/<?= $comment['pk_id'] ?>/">Approuver</a> <a href="/comment/disapprove/<?= $comment['pk_id'] ?>/">Désapprouver</a></td>
+            <td><?= $comment->getAuthor() ?></td>
+            <td><?= $comment->getEmail() ?></td>
+            <td><?= $comment->getContent() ?></td>
+            <td><?= $comment->getCreatedAt() ?></td>
+            <td><a href="/article/showadmin/<?= $comment->getArticleId() ?>/">Voir</a></td>
+            <td><a href="/comment/approve/<?= $comment->getId() ?>/">Approuver</a> <a href="/comment/disapprove/<?= $comment->getId() ?>/">Désapprouver</a></td>
         </tr>
     <?php endforeach ?>
     </tbody>

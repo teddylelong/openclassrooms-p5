@@ -12,12 +12,12 @@
     <tbody>
     <?php foreach ($users as $user) : ?>
         <tr>
-            <td><?= $user['lastname'] ?></td>
-            <td><?= $user['firstname'] ?></td>
-            <td><?= $user['email'] ?></td>
-            <td><?= $user['is_admin'] ?></td>
-            <td><?= $user['created_at'] ?></td>
-            <td><a href="/user/delete/<?= $user['pk_id'] ?>/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur ?')">Supprimer</a></td>
+            <td><?= $user->getLastname() ?></td>
+            <td><?= $user->getFirstname() ?></td>
+            <td><?= $user->getEmail() ?></td>
+            <td><?= $user->getIsAdmin() ?></td>
+            <td><?= $user->getCreatedAt() ?></td>
+            <td><a href="/user/delete/<?= $user->getId() ?>/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur ?')">Supprimer</a></td>
         </tr>
     <?php endforeach ?>
     </tbody>

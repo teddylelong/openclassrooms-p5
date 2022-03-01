@@ -1,4 +1,5 @@
 <?php
+// TODO : Use \Classes\Comment
 
 namespace Controllers;
 
@@ -12,6 +13,7 @@ require_once 'librairies/autoload.php';
 class Comment extends Controller
 {
     protected $modelName = \Models\Comment::class;
+    protected $className = \Classes\Comment::class;
 
     /**
      * Check a comment before insert
@@ -41,8 +43,8 @@ class Comment extends Controller
             $userModel = new \Models\User();
             $user = $userModel->find($_SESSION['user_id']);
 
-            $author = $user['firstname'] . " (admin)";
-            $email = $user['email'];
+            $author = $user->getFirstname() . " (admin)";
+            $email = $user->getEmail();
         }
 
         // Vérification du champ "Contenu"
@@ -61,6 +63,9 @@ class Comment extends Controller
         // Vérification globale du formulaire
         if (!$author || !$email || !$article_id || !$content) {
             Notification::set('error', "Tous les champs doivent être remplis.");
+            if ($ifAdmin) {
+                Http::redirect('/article/showadmin/'.$article_id.'/');
+            }
             Http::redirect('/article/show/'.$article_id.'/');
         }
 
@@ -70,7 +75,19 @@ class Comment extends Controller
         if (!$article) {
             Http::error404();
         }
-        return compact('author', 'email', 'article_id', 'content');
+
+        // TODO : Utiliser des constantes pour le IsApproved ?
+        $comment = $this->class;
+        $comment->setAuthor($author);
+        $comment->setEmail($email);
+        $comment->setContent($content);
+        $comment->setArticleId($article_id);
+        $comment->setIsApproved($comment::PENDING);
+        if ($ifAdmin) {
+            $comment->setIsApproved($comment::APPROVED);
+        }
+
+        return $comment;
     }
 
     /**
@@ -80,14 +97,20 @@ class Comment extends Controller
      */
     public function insert()
     {
-        extract($this->checkInsert());
+        $comment = $this->checkInsert();
 
         // Insertion du commentaire en BDD
-        $this->model->insert($author, $content, $email, $article_id, 'pending');
+        $this->model->insert(
+            $comment->getAuthor(),
+            $comment->getContent(),
+            $comment->getEmail(),
+            $comment->getArticleId(),
+            $comment->getIsApproved()
+        );
 
         // Redirection vers l'article
         Notification::set('success', "Merci pour votre commentaire ! Il est en attente de modération et sera traité dans les plus brefs délais.");
-        Http::redirect('/article/show/' . $article_id . '/');
+        Http::redirect('/article/show/' . $comment->getArticleId() . '/');
     }
 
     /**
@@ -100,14 +123,20 @@ class Comment extends Controller
     {
         if (AccessControl::isUserAdmin()) {
 
-            extract($this->checkInsert(true));
+            $comment = $this->checkInsert(true);
 
             // Insertion du commentaire en BDD
-            $this->model->insert($author, $content, $email, $article_id, 'approved');
+            $this->model->insert(
+                $comment->getAuthor(),
+                $comment->getContent(),
+                $comment->getEmail(),
+                $comment->getArticleId(),
+                $comment->getIsApproved()
+            );
 
             // Redirection vers l'article
             Notification::set('success', "Le commentaire a été publié avec succès.");
-            Http::redirect('/article/showadmin/' . $article_id . '/');
+            Http::redirect('/article/showadmin/' . $comment->getArticleId() . '/');
         }
         else {
             Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
@@ -225,7 +254,7 @@ class Comment extends Controller
             $this->model->delete($id);
 
             // Redirection vers l'article
-            $article_id = $commentaire['article_id'];
+            $article_id = $commentaire->getArticleId();
             Notification::set('success', "Le commentaire a été supprimé avec succès.");
             Http::redirect('/article/showadmin/' . $article_id . '/');
         }

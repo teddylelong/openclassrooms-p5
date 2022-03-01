@@ -1,7 +1,5 @@
 <?php
 
-// TODO : Créer les Classes\User, Classes\Comment
-
 namespace Classes;
 
 require_once 'librairies/autoload.php';
@@ -92,7 +90,7 @@ class Article
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getCreatedAt(): ?string
     {

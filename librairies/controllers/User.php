@@ -12,6 +12,7 @@ require_once 'librairies/autoload.php';
 class User extends Controller
 {
     protected $modelName = \Models\User::class;
+    protected $className = \Classes\User::class;
 
     /**
      * Get all users, ordered by creation date, and display it (User admin role is required)
@@ -83,7 +84,21 @@ class User extends Controller
                 Http::redirect('/user/create/');
             }
 
-            $this->model->insert($firstname, $lastname, $email, $password, $is_admin);
+            $user = $this->class;
+            $user->setFirstname($firstname);
+            $user->setLastname($lastname);
+            $user->setEmail($email);
+            $user->setPassword($password);
+            $user->setIsAdmin($is_admin);
+
+
+            $this->model->insert(
+                $user->getFirstname(),
+                $user->getLastname(),
+                $user->getEmail(),
+                $user->getPassword(),
+                $user->getIsAdmin()
+            );
 
             Notification::set('success', "Nouvel utilisateur créé avec succès !");
             Http::redirect('/user/index/');
@@ -128,6 +143,7 @@ class User extends Controller
             $id = $_GET['id'];
 
             // 2. Vérification de l'existence de l'utilisateur
+            // TODO (Mentor) : Ici, utiliser un objet Classes\User pour la suppression ?
             $article = $this->model->find($id);
             if (!$article) {
                 Notification::set('error', "L'utilisateur est introuvable.");

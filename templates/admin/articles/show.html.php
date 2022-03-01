@@ -15,12 +15,12 @@
     <h2>Il y a déjà <?= count($commentaires) ?> réactions : </h2>
 
     <?php foreach ($commentaires as $commentaire) : ?>
-        <h3>Commentaire de <?= $commentaire['author'] ?></h3>
-        <small>Le <?= $commentaire['created_at'] ?></small>
+        <h3>Commentaire de <?= $commentaire->getAuthor() ?></h3>
+        <small>Le <?= $commentaire->getCreatedAt() ?></small>
         <blockquote>
-            <em><?= $commentaire['content'] ?></em>
+            <em><?= $commentaire->getContent() ?></em>
         </blockquote>
-        <a href="/comment/delete/<?= $commentaire['pk_id'] ?>/" onclick="return window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
+        <a href="/comment/delete/<?= $commentaire->getId() ?>/" onclick="return window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
     <?php endforeach ?>
 
 <?php endif ?>
@@ -28,6 +28,6 @@
 <form action="/comment/insertadmin/" method="POST">
     <h3>Déposez votre commentaire ci-dessous</h3>
     <textarea name="content" id="" cols="30" rows="10" placeholder="Votre commentaire ..."></textarea>
-    <input type="hidden" name="article_id" value="<?= $article_id ?>">
+    <input type="hidden" name="article_id" value="<?= $article->getId() ?>">
     <button>Commenter !</button>
 </form>

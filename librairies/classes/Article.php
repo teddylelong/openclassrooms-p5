@@ -13,7 +13,7 @@ class Article
     private $excerpt;
     private $content;
     private $created_at;
-    private $author;
+    private $fk_user_id;
     private $updated_at;
 
     /**
@@ -104,9 +104,9 @@ class Article
     /**
      * @param int $authorId
      */
-    public function setAuthorId($authorId): void
+    public function setAuthorId(int $authorId): void
     {
-        $this->author = $authorId;
+        $this->fk_user_id = $authorId;
     }
 
     /**
@@ -114,7 +114,24 @@ class Article
      */
     public function getAuthorId(): ?int
     {
-        return $this->author;
+        return $this->fk_user_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorName(): string
+    {
+        // TODO : (mentor) Bonne façon de faire pour récupérer le nom de l'autheur et l'afficher ?
+        if (!is_null($this->getAuthorId())) {
+            $userModel = new \Models\User();
+            $user = $userModel->find($this->getAuthorId());
+            if ($user) {
+                return $user->getFirstname();
+            }
+            return 'Anonyme';
+        }
+        return 'Anonyme';
     }
 
     /**

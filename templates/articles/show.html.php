@@ -1,14 +1,6 @@
-
-<?php
-/*echo '<pre>';
-print_r($article);
-die();
-echo '</pre>';*/
-?>
-
 <h1><?= $article->getTitle() ?></h1>
 
-<small>Écrit le <?= $article->getCreatedAt() ?></small>
+<small>Écrit le <?= $article->getCreatedAt() ?> par <?= $article->getAuthorName() ?></small>
 
 <p><?= $article->getExcerpt() ?></p>
 

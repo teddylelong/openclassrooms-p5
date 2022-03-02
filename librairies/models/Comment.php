@@ -1,5 +1,4 @@
 <?php
-// TODO : Use Classes\Comment here
 
 namespace Models;
 

@@ -146,12 +146,15 @@ class Article
     /**
      * @return DateTime
      */
-    public function getUpdatedAt(): ?DateTime
+    public function getUpdatedAt(): ?string
     {
+        // TODO : Bonne façon de print la date de modif ?
+        if (!$this->updated_at) {
+            return null;
+        }
         if (is_string($this->updated_at)) {
             $dateTime = new DateTime($this->updated_at);
-            $dateTime->format('d-m-Y \à H\hi');
-            return $dateTime;
+            return '- Dernière modification le ' . $dateTime->format('d\/m\/Y \à H\hi');
         }
         return $this->updated_at;
     }

@@ -1,6 +1,6 @@
 <h1><?= $article->getTitle() ?></h1>
 
-<small>Écrit le <?= $article->getCreatedAt() ?> par <?= $article->getAuthorName() ?></small>
+<small>Écrit le <?= $article->getCreatedAt() ?> par <?= $article->getAuthorName() ?> <?= $article->getUpdatedAt() ?></small>
 
 <p><?= $article->getExcerpt() ?></p>
 

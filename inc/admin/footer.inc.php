@@ -1,1 +1,1 @@
-<?php
+<p><a href="/adminpanel/dashboard/">Retour au dashboard</a></p>

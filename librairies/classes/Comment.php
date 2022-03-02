@@ -99,6 +99,7 @@ class Comment
      */
     public function getCreatedAt(): string
     {
+        // TODO : Bonne façon de faire pour print la date ?
         if (is_string($this->created_at)) {
             $dateTime = new DateTime($this->created_at);
             return $dateTime->format('d\/m\/Y \à H\hi');

@@ -26,4 +26,3 @@
     <input type="submit" value="Créer l'utilisateur">
 </form>
 
-<p><a href="/adminpanel/dashboard/">Retour au dashboard</a></p>

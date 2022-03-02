@@ -16,5 +16,3 @@
 
     <input type="submit" value="Publier">
 </form>
-
-<p><a href="/adminpanel/dashboard/">Retour au dashboard</a></p>

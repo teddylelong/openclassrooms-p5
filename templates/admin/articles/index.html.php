@@ -8,5 +8,3 @@
     <a href="/article/modify/<?= $article->getId() ?>/">Modifier</a>
     <a href="/article/delete/<?= $article->getId() ?>/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet article ?')">Supprimer</a>
 <?php endforeach ?>
-
-<p><a href="/adminpanel/dashboard/">Retour au dashboard</a></p>

@@ -143,7 +143,6 @@ class User extends Controller
             $id = $_GET['id'];
 
             // 2. Vérification de l'existence de l'utilisateur
-            // TODO (Mentor) : Ici, utiliser un objet Classes\User pour la suppression ?
             $article = $this->model->find($id);
             if (!$article) {
                 Notification::set('error', "L'utilisateur est introuvable.");

@@ -7,7 +7,7 @@ use Http;
 use Notification;
 use Renderer;
 
-require_once 'librairies/autoload.php';
+require_once 'vendor/autoload.php';
 
 class AdminPanel extends Controller
 {

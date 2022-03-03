@@ -4,7 +4,7 @@ namespace Models;
 
 use PDO;
 
-require_once 'librairies/autoload.php';
+require_once 'vendor/autoload.php';
 
 class Comment extends Model
 {

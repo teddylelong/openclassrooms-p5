@@ -10,7 +10,7 @@ use Classes;
 use Models;
 use DateTime;
 
-require_once 'librairies/autoload.php';
+require_once 'vendor/autoload.php';
 
 class Article extends Controller
 {

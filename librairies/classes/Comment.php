@@ -16,7 +16,6 @@ class Comment
     private $is_approved;
     private $article_id;
 
-    // TODO : Const : bonne idée ? Visibilité des constantes ?
     const PENDING     = 'pending';
     const APPROVED    = 'approved';
     const DISAPPROVED = 'disapproved';
@@ -99,7 +98,6 @@ class Comment
      */
     public function getCreatedAt(): string
     {
-        // TODO : Bonne façon de faire pour print la date ?
         if (is_string($this->created_at)) {
             $dateTime = new DateTime($this->created_at);
             return $dateTime->format('d\/m\/Y \à H\hi');

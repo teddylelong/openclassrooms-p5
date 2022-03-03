@@ -75,7 +75,6 @@ class Comment extends Controller
             Http::error404();
         }
 
-        // TODO : Utiliser des constantes pour le IsApproved ?
         $comment = $this->class;
         $comment->setAuthor($author);
         $comment->setEmail($email);

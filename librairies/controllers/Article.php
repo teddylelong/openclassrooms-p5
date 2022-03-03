@@ -12,6 +12,7 @@ use DateTime;
 
 require_once 'vendor/autoload.php';
 
+// TODO : Alias ou rename class
 class Article extends Controller
 {
     protected $modelName = Models\Article::class;
@@ -143,19 +144,14 @@ class Article extends Controller
             }
 
             // On créé un nouvel objet \Classes\Article
-            $article = $this->class;
+            $article = new Classes\Article();
             $article->setTitle($title);
             $article->setExcerpt($excerpt);
             $article->setContent($content);
             $article->setId($pk_id);
 
             // Insertion de l'article dans la base de données
-            $this->model->update(
-                $article->getTitle(),
-                $article->getExcerpt(),
-                $article->getContent(),
-                $article->getId(),
-            );
+            $this->model->update($article);
 
             // Redirection vers la liste des articles
             Notification::set('success', "Les modifications de l'article ont bien été enregistrées.");
@@ -208,21 +204,23 @@ class Article extends Controller
             }
 
             // On créé un nouvel objet \Classes\Article
-            $article = $this->class;
+            $article = new Classes\Article();
             $article->setTitle($title);
             $article->setExcerpt($excerpt);
             $article->setContent($content);
             $article->setCreatedAt(new DateTime('NOW'));
             $article->setAuthorId($fk_user_id);
 
-            // Insertion de l'article dans la base de données
-            $this->model->insert(
-                $article->getTitle(),
-                $article->getExcerpt(),
-                $article->getContent(),
-                $article->getAuthorId(),
-            );
+            // Ne fonctionne pas :
+            /*$article = (new Classes\Article())
+                ->setTitle($title)
+                ->setExcerpt($excerpt)
+                ->setContent($content)
+                ->setCreatedAt(new DateTime('NOW'))
+                ->setAuthorId($fk_user_id);*/
 
+            // Insertion de l'article dans la base de données
+            $this->model->insert($article);
 
             // Redirection vers la liste des articles
             Notification::set('success', "Article ajouté avec succès !");

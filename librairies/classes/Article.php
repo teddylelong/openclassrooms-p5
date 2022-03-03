@@ -122,7 +122,7 @@ class Article
      */
     public function getAuthorName(): string
     {
-        // TODO : (mentor) Bonne façon de faire pour récupérer le nom de l'autheur et l'afficher ?
+        // TODO : (mentor) Bonne façon de faire pour récupérer le nom de l'auteur et l'afficher ? DTO
         if (!is_null($this->getAuthorId())) {
             $userModel = new \Models\User();
             $user = $userModel->find($this->getAuthorId());
@@ -148,7 +148,6 @@ class Article
      */
     public function getUpdatedAt(): ?string
     {
-        // TODO : Bonne façon de print la date de modif ?
         if (!$this->updated_at) {
             return null;
         }

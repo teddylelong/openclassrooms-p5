@@ -136,7 +136,13 @@ class User extends Controller
         if (AccessControl::isUserAdmin()) {
             // 1. Vérification du $_GET
             if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
-                Notification::set('error', "L'indentifiant de l'utilisateur n'est pas valide.");
+                Notification::set('error', "L'identifiant de l'utilisateur n'est pas valide.");
+                Http::redirect('/user/index/');
+            }
+
+            // 2. On vérifie que l'utilisateur ne se supprime pas lui-même...
+            if ($_GET['id'] === $_SESSION['user_id']) {
+                Notification::set('error', "Vous ne pouvez pas vous supprimer vous-même...");
                 Http::redirect('/user/index/');
             }
 

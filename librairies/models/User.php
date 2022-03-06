@@ -4,6 +4,8 @@ namespace Models;
 
 require_once 'vendor/autoload.php';
 
+use PDO;
+
 class User extends Model
 {
     protected $table = 'users';
@@ -28,5 +30,20 @@ class User extends Model
             'password'  => $user->getPassword(),
             'is_admin'  => $user->getIsAdmin(),
         ]);
+    }
+
+    /**
+     * Find a User by email address.
+     * Return User object on success, false on failure
+     *
+     * @param string $email
+     * @return \Classes\User|False
+     */
+    public function findByEmail(string $email)
+    {
+        $query = $this->pdo->prepare("SELECT * FROM $this->table WHERE email = :email");
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
+        $query->execute(['email' => $email]);
+        return $query->fetch();
     }
 }

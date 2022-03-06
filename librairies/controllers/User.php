@@ -60,7 +60,6 @@ class User extends Controller
 
             // Vérification du champ password
             $password = null;
-
             $passwordConfirmation = ($_POST['password'] === $_POST['password_confirmation']);
             if (!$passwordConfirmation) {
                 Notification::set('error', "Les mots de passe ne correspondent pas.");
@@ -83,14 +82,16 @@ class User extends Controller
                 $is_admin = $_POST['is_admin'];
             }
 
-            if (!$firstname || !$lastname || !$email || is_null($is_admin)) {
+            if (!$firstname || !$lastname || !$email || !$password || is_null($is_admin)) {
                 Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
                 Http::redirect('/user/create/');
             }
-            if (!$password) {
-                Notification::set('error', "Les mots de passe saisis ne correspondent pas. Le mot de passe doit contenir au moins 8 caratères.");
+
+            if ($this->model->findByEmail($email)) {
+                Notification::set('error', "L'adresse email utilisée existe déjà.");
                 Http::redirect('/user/create/');
             }
+
 
             $user = new \Classes\User();
             $user->setFirstname($firstname);
@@ -157,7 +158,7 @@ class User extends Controller
                 Http::redirect('/user/index/');
             }
 
-            // 3. Suppression de l'article
+            // 3. Suppression de l'utilisateur
             $this->model->delete($id);
 
             // 4. Redirection vers la page d'accueil

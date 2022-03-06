@@ -14,7 +14,8 @@ class Comment extends Model
      * Return a comments list for given article ID
      * By default, return only approved comments
      *
-     * @param string $articleId
+     * @param int $article_id
+     * @param string $is_approved
      * @return array
      */
     public function findAllByArticle(int $article_id, string $is_approved = 'approved'): array

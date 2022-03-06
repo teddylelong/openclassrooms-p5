@@ -119,9 +119,9 @@ class User
     }
 
     /**
-     * @return DateTime
+     * @return string|null DateTime
      */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): ?string
     {
         if (is_string($this->created_at)) {
             $dateTime = new DateTime($this->created_at);

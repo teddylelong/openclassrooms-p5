@@ -18,7 +18,7 @@ class Article extends Model
      */
     public function find(int $id)
     {
-        $query = $this->pdo->prepare("SELECT articles.*, users.firstname FROM articles LEFT JOIN users ON articles.fk_user_id = users.pk_id WHERE articles.pk_id = :id");
+        $query = $this->pdo->prepare("SELECT articles.*, users.firstname, users.lastname FROM articles LEFT JOIN users ON articles.fk_user_id = users.pk_id WHERE articles.pk_id = :id");
         $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
         $query->execute(['id' => $id]);
         return $query->fetch();
@@ -45,11 +45,7 @@ class Article extends Model
     /**
      * Insert a new article in database
      *
-     * @param string $title
-     * @param string $excerpt
-     * @param string $content
-     * @param int $is_published
-     * @param int $fk_user_id
+     * @param \Classes\Article $article
      * @return void
      */
     public function insert(\Classes\Article $article): void
@@ -66,21 +62,18 @@ class Article extends Model
     /**
      * Update an article from Database
      *
-     * @param string $title
-     * @param string $excerpt
-     * @param string $content
-     * @param int $is_published
-     * @param int $pk_id
+     * @param \Classes\Article $article
      * @return void
      */
     public function update(\Classes\Article $article): void
     {
-        $query = $this->pdo->prepare('UPDATE articles SET title = :title, excerpt = :excerpt, content = :content WHERE pk_id = :pk_id');
+        $query = $this->pdo->prepare('UPDATE articles SET title = :title, excerpt = :excerpt, content = :content, fk_user_id = :fk_user_id WHERE pk_id = :pk_id');
         $query->execute([
-            'title'   => $article->getTitle(),
-            'excerpt' => $article->getExcerpt(),
-            'content' => $article->getContent(),
-            'pk_id'   => $article->getId()
+            'title'      => $article->getTitle(),
+            'excerpt'    => $article->getExcerpt(),
+            'content'    => $article->getContent(),
+            'pk_id'      => $article->getId(),
+            'fk_user_id' => $article->getAuthorId()
         ]);
     }
 }

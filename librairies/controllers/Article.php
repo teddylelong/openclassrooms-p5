@@ -93,8 +93,10 @@ class Article extends Controller
                 Http::error404();
             }
 
+            $users = (new Models\User())->findAll();
+
             $pageTitle = "Modifier un article";
-            Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle'), true);
+            Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle', 'users'), true);
         }
         else {
             Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
@@ -136,8 +138,14 @@ class Article extends Controller
                 $pk_id = $_POST['id'];
             }
 
+            // Verification du champ auteur
+            $authorId = null;
+            if (!empty($_POST['author']) && ctype_digit($_POST['author'])) {
+                $authorId = $_POST['author'];
+            }
+
             // Vérification globale
-            if (!$title || !$excerpt || !$content) {
+            if (!$title || !$excerpt || !$content || !$authorId) {
                 Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
                 Http::redirect('/article/showadmin/'.$pk_id.'/');
             }
@@ -148,6 +156,7 @@ class Article extends Controller
             $article->setExcerpt($excerpt);
             $article->setContent($content);
             $article->setId($pk_id);
+            $article->setAuthorId($authorId);
 
             // Insertion de l'article dans la base de données
             $this->model->update($article);

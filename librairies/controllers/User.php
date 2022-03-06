@@ -92,14 +92,12 @@ class User extends Controller
                 Http::redirect('/user/create/');
             }
 
-
             $user = new \Classes\User();
             $user->setFirstname($firstname);
             $user->setLastname($lastname);
             $user->setEmail($email);
             $user->setPassword($password);
             $user->setIsAdmin($is_admin);
-
 
             $this->model->insert($user);
 

@@ -13,16 +13,12 @@ class User extends Model
     /**
      * Insert a new user in database
      *
-     * @param string $firstname
-     * @param string $lastname
-     * @param string $email
-     * @param string $password
-     * @param int $is_admin
+     * @param \Classes\User $user
      * @return void
      */
     public function insert(\Classes\User $user): void
     {
-        $query = $this->pdo->prepare("INSERT INTO $this->table SET firstname = :firstname, lastname = :lastname, email = :email, password = :password, is_admin = :is_admin");
+        $query = $this->pdo->prepare("INSERT INTO users SET firstname = :firstname, lastname = :lastname, email = :email, password = :password, is_admin = :is_admin");
         $query->execute([
             'firstname' => $user->getFirstname(),
             'lastname'  => $user->getLastname(),
@@ -41,7 +37,7 @@ class User extends Model
      */
     public function findByEmail(string $email)
     {
-        $query = $this->pdo->prepare("SELECT * FROM $this->table WHERE email = :email");
+        $query = $this->pdo->prepare("SELECT * FROM users WHERE email = :email");
         $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
         $query->execute(['email' => $email]);
         return $query->fetch();

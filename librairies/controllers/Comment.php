@@ -127,8 +127,7 @@ class Comment extends Controller
             Http::redirect('/article/showadmin/' . $comment->getArticleId() . '/');
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -147,8 +146,7 @@ class Comment extends Controller
             Renderer::render('admin/comments/approvement',compact('comments', 'pageTitle'),true);
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -191,8 +189,7 @@ class Comment extends Controller
             Http::redirect('/comment/indexbyapprovement/');
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -210,8 +207,7 @@ class Comment extends Controller
             Http::redirect('/comment/indexbyapprovement/');
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -246,8 +242,7 @@ class Comment extends Controller
             Http::redirect('/article/showadmin/' . $commentaire->getArticleId() . '/');
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 }

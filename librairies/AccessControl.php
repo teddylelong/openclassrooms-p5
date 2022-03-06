@@ -4,6 +4,7 @@ use Models\User;
 
 class AccessControl
 {
+    private const DENIED_MSG = "Vous n'avez pas les autorisations requises pour accéder à cette page.";
     /**
      * Check if current $_SESSION exist and matches with an existing admin user
      *
@@ -23,5 +24,10 @@ class AccessControl
             }
         }
         return false;
+    }
+
+    public static function denied() {
+        Notification::set('error', self::DENIED_MSG);
+        Http::redirect('/login/');
     }
 }

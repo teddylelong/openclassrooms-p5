@@ -28,8 +28,7 @@ class User extends Controller
             Renderer::render('admin/users/index', compact('pageTitle', 'users'), true);
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -106,8 +105,7 @@ class User extends Controller
             Http::redirect('/user/index/');
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -123,8 +121,7 @@ class User extends Controller
             Renderer::render('admin/users/create', compact('pageTitle'), true);
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -165,8 +162,7 @@ class User extends Controller
             Http::redirect('/user/index/');
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 }

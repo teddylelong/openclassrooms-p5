@@ -46,8 +46,7 @@ class Article extends Controller
             Renderer::render('admin/articles/index', compact('pageTitle', 'articles'), true);
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -63,8 +62,7 @@ class Article extends Controller
             Renderer::render('admin/articles/create', compact('pageTitle'), true);
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -98,8 +96,7 @@ class Article extends Controller
             Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle', 'users'), true);
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -165,8 +162,7 @@ class Article extends Controller
             Http::redirect("/article/indexadmin/");
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
 
     }
@@ -234,8 +230,7 @@ class Article extends Controller
             Http::redirect("/article/indexadmin/");
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -310,8 +305,7 @@ class Article extends Controller
             Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'), true);
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 
@@ -346,8 +340,7 @@ class Article extends Controller
             Http::redirect('/article/indexadmin/');
         }
         else {
-            Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");
-            Http::redirect('/login/');
+            AccessControl::denied();
         }
     }
 }

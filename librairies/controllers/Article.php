@@ -6,13 +6,12 @@ use AccessControl;
 use Http;
 use Notification;
 use Renderer;
-use Classes;
 use Models;
 use DateTime;
+use Classes\Article as ArticleClass;
 
 require_once 'vendor/autoload.php';
 
-// TODO : Alias ou rename class
 class Article extends Controller
 {
     protected $modelName = Models\Article::class;
@@ -151,7 +150,7 @@ class Article extends Controller
             }
 
             // On créé un nouvel objet \Classes\Article
-            $article = new Classes\Article();
+            $article = new ArticleClass();
             $article->setTitle($title);
             $article->setExcerpt($excerpt);
             $article->setContent($content);
@@ -212,7 +211,7 @@ class Article extends Controller
             }
 
             // On créé un nouvel objet \Classes\Article
-            $article = new Classes\Article();
+            $article = new ArticleClass();
             $article->setTitle($title);
             $article->setExcerpt($excerpt);
             $article->setContent($content);
@@ -245,7 +244,7 @@ class Article extends Controller
      *
      * @return void
      */
-    public function show()
+    public function show(): void
     {
         $commentModel = new \Models\Comment();
 
@@ -283,7 +282,7 @@ class Article extends Controller
      *
      * @return void
      */
-    public function showAdmin()
+    public function showAdmin(): void
     {
         if (AccessControl::isUserAdmin()) {
             $commentModel = new \Models\Comment();
@@ -321,7 +320,7 @@ class Article extends Controller
      *
      * @return void
      */
-    public function delete()
+    public function delete(): void
     {
         if (AccessControl::isUserAdmin()) {
             // 1. Vérification du $_GET

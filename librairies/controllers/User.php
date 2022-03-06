@@ -6,6 +6,7 @@ use AccessControl;
 use Http;
 use Notification;
 use Renderer;
+use Classes\User as UserClass;
 
 require_once 'vendor/autoload.php';
 
@@ -92,7 +93,7 @@ class User extends Controller
                 Http::redirect('/user/create/');
             }
 
-            $user = new \Classes\User();
+            $user = new UserClass();
             $user->setFirstname($firstname);
             $user->setLastname($lastname);
             $user->setEmail($email);

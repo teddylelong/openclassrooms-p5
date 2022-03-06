@@ -6,13 +6,15 @@ use AccessControl;
 use Http;
 use Notification;
 use Renderer;
+use Classes\Comment as CommentClass;
+use Models\Article as ArticleModel;
+use Models\User as UserModel;
 
 require_once 'vendor/autoload.php';
 
 class Comment extends Controller
 {
     protected $modelName = \Models\Comment::class;
-    protected $className = \Classes\Comment::class;
 
     /**
      * Check a comment before insert
@@ -20,9 +22,9 @@ class Comment extends Controller
      * @param bool $ifAdmin
      * @return array|void
      */
-    public function checkInsert(bool $ifAdmin = false) : ?\Classes\Comment
+    public function checkInsert(bool $ifAdmin = false) : ?CommentClass
     {
-        $articleModel = new \Models\Article();
+        $articleModel = new ArticleModel();
 
         // Vérification du champ "Pseudo"
         $author = null;
@@ -39,7 +41,7 @@ class Comment extends Controller
 
         // Si l'utilisateur est admin, on rempli les champs automatiquement
         if ($ifAdmin) {
-            $userModel = new \Models\User();
+            $userModel = new UserModel();
             $user = $userModel->find($_SESSION['user_id']);
 
             $author = $user->getFirstname() . " (admin)";
@@ -75,7 +77,7 @@ class Comment extends Controller
             Http::error404();
         }
 
-        $comment = new \Classes\Comment();
+        $comment = new CommentClass();
         $comment->setAuthor($author);
         $comment->setEmail($email);
         $comment->setContent($content);

@@ -1,1 +1,1 @@
-<p><a href="/adminpanel/dashboard/">Administration</a></p>
+<p><a href="/login/dashboard/">Administration</a></p>

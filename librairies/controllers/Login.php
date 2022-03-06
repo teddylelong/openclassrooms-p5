@@ -22,7 +22,7 @@ class Login extends Controller
     public function loginForm(): void
     {
         if (AccessControl::isUserAdmin()) {
-            Http::redirect('/adminpanel/dashboard/');
+            Http::redirect('/login/dashboard/');
         }
         else {
             $pageTitle = "Connexion";
@@ -56,10 +56,26 @@ class Login extends Controller
 
         if($this->model->checkLogin($email, $password)) {
             Notification::set('success', "Bienvenue !");
-            Http::redirect('/adminpanel/dashboard/');
+            Http::redirect('/login/dashboard/');
         }
         else {
             Notification::set('error', "L'adresse email ou le mot de passe est incorrect.");
+            Http::redirect('/login/');
+        }
+    }
+
+    /**
+     * Display Admin Panel homepage (User admin role is required)
+     *
+     * @return void
+     */
+    public function dashboard(): void
+    {
+        if (AccessControl::isUserAdmin()) {
+            $pageTitle = "Dashboard";
+            Renderer::render('admin/dashboard', compact('pageTitle'), true);
+        }
+        else {
             Http::redirect('/login/');
         }
     }

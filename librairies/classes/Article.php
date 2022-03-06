@@ -15,6 +15,9 @@ class Article
     private $created_at;
     private $fk_user_id;
     private $updated_at;
+    private $firstname;
+
+    private const UNKNOW_USER = 'Anonyme';
 
     /**
      * @param int $id
@@ -118,20 +121,22 @@ class Article
     }
 
     /**
+     * @param string $firstname
+     */
+    public function setAuthorName(string $firstname): void
+    {
+        $this->firstname = $firstname;
+    }
+
+    /**
      * @return string
      */
     public function getAuthorName(): string
     {
-        // TODO : (mentor) Bonne façon de faire pour récupérer le nom de l'auteur et l'afficher ? DTO
-        if (!is_null($this->getAuthorId())) {
-            $userModel = new \Models\User();
-            $user = $userModel->find($this->getAuthorId());
-            if ($user) {
-                return $user->getFirstname();
-            }
-            return 'Anonyme';
+        if (is_null($this->firstname)) {
+            return self::UNKNOW_USER;
         }
-        return 'Anonyme';
+        return $this->firstname;
     }
 
     /**
@@ -148,6 +153,7 @@ class Article
      */
     public function getUpdatedAt(): ?string
     {
+        // TODO : Do this in view
         if (!$this->updated_at) {
             return null;
         }

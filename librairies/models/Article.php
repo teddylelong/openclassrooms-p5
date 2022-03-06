@@ -4,9 +4,43 @@ namespace Models;
 
 require_once 'vendor/autoload.php';
 
+use PDO;
+
 class Article extends Model
 {
     protected $table = 'articles';
+
+    /**
+     * Return an article from database for given ID
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function find(int $id)
+    {
+        $query = $this->pdo->prepare("SELECT articles.*, users.firstname FROM articles LEFT JOIN users ON articles.fk_user_id = users.pk_id WHERE articles.pk_id = :id");
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
+        $query->execute(['id' => $id]);
+        return $query->fetch();
+    }
+
+    /**
+     * Return all articles from database table
+     *
+     * @param string|null $order
+     * @return array
+     */
+    public function findAll(?string $order = ''): array
+    {
+        $sql = "SELECT articles.*, users.firstname FROM articles LEFT JOIN users ON articles.fk_user_id = users.pk_id";
+
+        if ($order) {
+            $sql .= ' ORDER BY ' . $order;
+        }
+        $query = $this->pdo->query($sql);
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
+        return $query->fetchAll();
+    }
 
     /**
      * Insert a new article in database

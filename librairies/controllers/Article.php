@@ -16,7 +16,6 @@ require_once 'vendor/autoload.php';
 class Article extends Controller
 {
     protected $modelName = Models\Article::class;
-    protected $className = Classes\Article::class;
 
     /**
      * Get all articles order by date and display it
@@ -26,7 +25,7 @@ class Article extends Controller
     public function index(): void
     {
         // 1. Récupération des articles
-        $articles = $this->model->findAll('created_at DESC');
+        $articles = $this->model->findAll('articles.created_at DESC');
 
         // 2. Affichage
         $pageTitle = "Accueil";
@@ -42,7 +41,7 @@ class Article extends Controller
     public function indexAdmin(): void
     {
         if (AccessControl::isUserAdmin()) {
-            $articles = $this->model->findAll('created_at DESC');
+            $articles = $this->model->findAll('articles.created_at DESC');
 
             $pageTitle = "Gérer les articles";
             Renderer::render('admin/articles/index', compact('pageTitle', 'articles'), true);

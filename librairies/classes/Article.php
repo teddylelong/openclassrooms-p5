@@ -153,13 +153,9 @@ class Article
      */
     public function getUpdatedAt(): ?string
     {
-        // TODO : Do this in view
-        if (!$this->updated_at) {
-            return null;
-        }
         if (is_string($this->updated_at)) {
             $dateTime = new DateTime($this->updated_at);
-            return '- Dernière modification le ' . $dateTime->format('d\/m\/Y \à H\hi');
+            return $dateTime->format('d\/m\/Y \à H\hi');
         }
         return $this->updated_at;
     }

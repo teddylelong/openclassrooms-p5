@@ -1,7 +1,11 @@
 <h1><?= $article->getTitle() ?></h1>
 
-<?php // TODO : condition sur updatedAt ?>
-<small>Écrit le <?= $article->getCreatedAt() ?> par <?= $article->getAuthorName() ?> <?= $article->getUpdatedAt() ?></small>
+<small>
+    Écrit le <?= $article->getCreatedAt() ?> par <?= $article->getAuthorName() ?>
+    <?php if($article->getUpdatedAt()) : ?>
+        - Mis à jour le <?= $article->getUpdatedAt() ?>
+    <?php endif ?>
+</small>
 
 <p><?= $article->getExcerpt() ?></p>
 

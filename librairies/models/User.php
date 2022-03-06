@@ -18,9 +18,15 @@ class User extends Model
      * @param int $is_admin
      * @return void
      */
-    public function insert(string $firstname, string $lastname, string $email, string $password, int $is_admin = 0): void
+    public function insert(\Classes\User $user): void
     {
         $query = $this->pdo->prepare("INSERT INTO $this->table SET firstname = :firstname, lastname = :lastname, email = :email, password = :password, is_admin = :is_admin");
-        $query->execute(compact('firstname', 'lastname', 'email', 'password', 'is_admin'));
+        $query->execute([
+            'firstname' => $user->getFirstname(),
+            'lastname'  => $user->getLastname(),
+            'email'     => $user->getEmail(),
+            'password'  => $user->getPassword(),
+            'is_admin'  => $user->getIsAdmin(),
+        ]);
     }
 }

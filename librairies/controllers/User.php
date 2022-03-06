@@ -12,7 +12,6 @@ require_once 'vendor/autoload.php';
 class User extends Controller
 {
     protected $modelName = \Models\User::class;
-    protected $className = \Classes\User::class;
 
     /**
      * Get all users, ordered by creation date, and display it (User admin role is required)
@@ -62,8 +61,17 @@ class User extends Controller
             // Vérification du champ password
             $password = null;
 
-            $passwordCondition = (!empty($_POST['password']) && strlen($_POST['password']) >= 8);
             $passwordConfirmation = ($_POST['password'] === $_POST['password_confirmation']);
+            if (!$passwordConfirmation) {
+                Notification::set('error', "Les mots de passe ne correspondent pas.");
+                Http::redirect('/user/create/');
+            }
+
+            $passwordCondition = (!empty($_POST['password']) && strlen($_POST['password']) >= 8);
+            if (!$passwordCondition) {
+                Notification::set('error', "Le mot de passe doit faire au moins 8 caractères.");
+                Http::redirect('/user/create/');
+            }
 
             if ($passwordCondition && $passwordConfirmation) {
                 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -84,7 +92,7 @@ class User extends Controller
                 Http::redirect('/user/create/');
             }
 
-            $user = $this->class;
+            $user = new \Classes\User();
             $user->setFirstname($firstname);
             $user->setLastname($lastname);
             $user->setEmail($email);
@@ -92,13 +100,7 @@ class User extends Controller
             $user->setIsAdmin($is_admin);
 
 
-            $this->model->insert(
-                $user->getFirstname(),
-                $user->getLastname(),
-                $user->getEmail(),
-                $user->getPassword(),
-                $user->getIsAdmin()
-            );
+            $this->model->insert($user);
 
             Notification::set('success', "Nouvel utilisateur créé avec succès !");
             Http::redirect('/user/index/');

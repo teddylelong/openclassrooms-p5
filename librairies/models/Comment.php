@@ -27,6 +27,7 @@ class Comment extends Model
 
     /**
      * Find all comments by approved status
+     * By default, return pending comments
      *
      * @param string $is_approuved
      * @return array
@@ -42,17 +43,19 @@ class Comment extends Model
     /**
      * Create a comment on a article
      *
-     * @param string $author
-     * @param string $content
-     * @param string $email
-     * @param string $article_id
-     * @param string $is_approved
+     * @param \Classes\Comment $comment
      * @return void
      */
-    public function insert(string $author, string $content, string $email, string $article_id, string $is_approved = 'pending'): void
+    public function insert(\Classes\Comment $comment): void
     {
         $query = $this->pdo->prepare('INSERT INTO comments SET author = :author, content = :content, email = :email, article_id = :article_id, is_approved = :is_approved');
-        $query->execute(compact('author', 'content', 'email', 'article_id', 'is_approved'));
+        $query->execute([
+            'author' => $comment->getAuthor(),
+            'content' => $comment->getContent(),
+            'email' => $comment->getEmail(),
+            'article_id' => $comment->getArticleId(),
+            'is_approved' => $comment->getIsApproved(),
+        ]);
     }
 
     /**

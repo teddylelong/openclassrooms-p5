@@ -20,7 +20,7 @@ class Comment extends Controller
      * @param bool $ifAdmin
      * @return array|void
      */
-    public function checkInsert(bool $ifAdmin = false)
+    public function checkInsert(bool $ifAdmin = false) : ?\Classes\Comment
     {
         $articleModel = new \Models\Article();
 
@@ -75,7 +75,7 @@ class Comment extends Controller
             Http::error404();
         }
 
-        $comment = $this->class;
+        $comment = new \Classes\Comment();
         $comment->setAuthor($author);
         $comment->setEmail($email);
         $comment->setContent($content);
@@ -98,13 +98,7 @@ class Comment extends Controller
         $comment = $this->checkInsert();
 
         // Insertion du commentaire en BDD
-        $this->model->insert(
-            $comment->getAuthor(),
-            $comment->getContent(),
-            $comment->getEmail(),
-            $comment->getArticleId(),
-            $comment->getIsApproved()
-        );
+        $this->model->insert($comment);
 
         // Redirection vers l'article
         Notification::set('success', "Merci pour votre commentaire ! Il est en attente de modération et sera traité dans les plus brefs délais.");
@@ -124,13 +118,7 @@ class Comment extends Controller
             $comment = $this->checkInsert(true);
 
             // Insertion du commentaire en BDD
-            $this->model->insert(
-                $comment->getAuthor(),
-                $comment->getContent(),
-                $comment->getEmail(),
-                $comment->getArticleId(),
-                $comment->getIsApproved()
-            );
+            $this->model->insert($comment);
 
             // Redirection vers l'article
             Notification::set('success', "Le commentaire a été publié avec succès.");
@@ -252,9 +240,8 @@ class Comment extends Controller
             $this->model->delete($id);
 
             // Redirection vers l'article
-            $article_id = $commentaire->getArticleId();
             Notification::set('success', "Le commentaire a été supprimé avec succès.");
-            Http::redirect('/article/showadmin/' . $article_id . '/');
+            Http::redirect('/article/showadmin/' . $commentaire->getArticleId() . '/');
         }
         else {
             Notification::set('error', "Vous n'avez pas les autorisations requises pour accéder à cette page.");

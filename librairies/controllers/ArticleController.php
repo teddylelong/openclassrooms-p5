@@ -4,19 +4,27 @@ namespace Controllers;
 
 use AccessControl;
 use Http;
+use Models\CommentModel;
 use Notification;
 use Renderer;
-use Models;
+use Models\ArticleModel;
+use Models\UserModel;
 use DateTime;
 use Classes\Article;
 
 require_once 'vendor/autoload.php';
 
-// Todo : Rename ArticleController
 class ArticleController extends Controller
 {
     // Todo : créer constructeur Controller + fonctions par controller
-    protected $modelName = Models\Article::class;
+    protected ArticleModel $articleModel;
+    protected CommentModel $commentModel;
+
+    public function __construct()
+    {
+        $this->articleModel = new ArticleModel();
+        $this->commentModel = new CommentModel();
+    }
 
     /**
      * Get last articles order by date and display it on homepage
@@ -26,7 +34,7 @@ class ArticleController extends Controller
     public function home(): void
     {
         // 1. Récupération des articles
-        $articles = $this->model->findAll('articles.created_at DESC LIMIT 0, 4');
+        $articles = $this->articleModel->findAll('articles.created_at DESC LIMIT 0, 4');
 
         // 2. Affichage
         $pageTitle = "Accueil";
@@ -41,7 +49,7 @@ class ArticleController extends Controller
     public function index(): void
     {
         // 1. Récupération des articles
-        $articles = $this->model->findAll('articles.created_at DESC');
+        $articles = $this->articleModel->findAll('articles.created_at DESC');
 
         // 2. Affichage
         $pageTitle = "Le Blog";
@@ -57,7 +65,7 @@ class ArticleController extends Controller
     public function indexAdmin(): void
     {
         if (AccessControl::isUserAdmin()) {
-            $articles = $this->model->findAll('articles.created_at DESC');
+            $articles = $this->articleModel->findAll('articles.created_at DESC');
 
             $pageTitle = "Gérer les articles";
             Renderer::render('admin/articles/index', compact('pageTitle', 'articles'), true);
@@ -101,13 +109,13 @@ class ArticleController extends Controller
                 Http::error404();
             }
 
-            $article = $this->model->find($article_id);
+            $article = $this->articleModel->find($article_id);
 
             if (!$article) {
                 Http::error404();
             }
 
-            $users = (new Models\User())->findAll();
+            $users = (new UserModel())->findAll();
 
             $pageTitle = "Modifier un article";
             Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle', 'users'), true);
@@ -172,7 +180,7 @@ class ArticleController extends Controller
                 ->setAuthorId($authorId);
 
             // Insertion de l'article dans la base de données
-            $this->model->update($article);
+            $this->articleModel->update($article);
 
             // Redirection vers la liste des articles
             Notification::set('success', "Les modifications de l'article ont bien été enregistrées.");
@@ -232,7 +240,7 @@ class ArticleController extends Controller
                 ->setAuthorId($fk_user_id);
 
             // Insertion de l'article dans la base de données
-            $this->model->insert($article);
+            $this->articleModel->insert($article);
 
             // Redirection vers la liste des articles
             Notification::set('success', "Article ajouté avec succès !");
@@ -250,8 +258,6 @@ class ArticleController extends Controller
      */
     public function show(): void
     {
-        $commentModel = new \Models\Comment();
-
         // 1. Récupération du param "id" et vérification de celui-ci
         $article_id = null;
 
@@ -266,14 +272,14 @@ class ArticleController extends Controller
         }
 
         // 3. Récupération de l'article
-        $article = $this->model->find($article_id);
+        $article = $this->articleModel->find($article_id);
 
         if (!$article) {
             Http::error404();
         }
 
         // 4. Récupération des commentaires de l'article en question
-        $commentaires = $commentModel->findAllByArticle($article_id);
+        $commentaires = $this->commentModel->findAllByArticle($article_id);
 
         // 5. Affichage
         $pageTitle = $article->getTitle();
@@ -289,7 +295,6 @@ class ArticleController extends Controller
     public function showAdmin(): void
     {
         if (AccessControl::isUserAdmin()) {
-            $commentModel = new \Models\Comment();
 
             // 1. Récupération du param "id" et vérification de celui-ci
             $article_id = null;
@@ -304,10 +309,10 @@ class ArticleController extends Controller
             }
 
             // 3. Récupération de l'article
-            $article = $this->model->find($article_id);
+            $article = $this->articleModel->find($article_id);
 
             // 4. Récupération des commentaires de l'article en question
-            $commentaires = $commentModel->findAllByArticle($article_id);
+            $commentaires = $this->commentModel->findAllByArticle($article_id);
 
             // 5. Affichage
             $pageTitle = $article->getTitle();
@@ -335,14 +340,14 @@ class ArticleController extends Controller
             $id = $_GET['id'];
 
             // 2. Vérification de l'existence de l'article
-            $article = $this->model->find($id);
+            $article = $this->articleModel->find($id);
             if (!$article) {
                 Notification::set('error', "L'article est introuvable.");
                 Http::redirect('/article/indexadmin');
             }
 
             // 3. Suppression de l'article
-            $this->model->delete($id);
+            $this->articleModel->delete($id);
 
             // 4. Redirection vers la liste des articles
             Notification::set('success', "Suppression de l'article effectuée avec succès !");

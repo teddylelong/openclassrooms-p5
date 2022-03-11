@@ -4,11 +4,18 @@ namespace Models;
 
 require_once 'librairies/autoload.php';
 
-class Contact extends Model
+use Classes\Contact;
+
+class ContactModel extends Model
 {
     protected $table = 'contact';
 
-    public function insert(\Classes\Contact $contact): void
+    /**
+     * Insert a new contact request in database
+     * @param Contact $contact
+     * @return void
+     */
+    public function insert(Contact $contact): void
     {
         $query = $this->pdo->prepare('INSERT INTO contact SET firstname = :firstname, lastname = :lastname, email = :email, message = :message');
         $query->execute([

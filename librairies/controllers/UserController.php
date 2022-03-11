@@ -12,7 +12,7 @@ require_once 'vendor/autoload.php';
 
 class UserController extends Controller
 {
-    protected $modelName = \Models\User::class;
+    protected $modelName = \Models\UserModel::class;
 
     /**
      * Get all users, ordered by creation date, and display it (User admin role is required)

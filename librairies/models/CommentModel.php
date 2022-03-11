@@ -3,10 +3,11 @@
 namespace Models;
 
 use PDO;
+use Classes\Comment;
 
 require_once 'vendor/autoload.php';
 
-class Comment extends Model
+class CommentModel extends Model
 {
     protected $table = 'comments';
 
@@ -21,7 +22,7 @@ class Comment extends Model
     public function findAllByArticle(int $article_id, string $is_approved = 'approved'): array
     {
         $query = $this->pdo->prepare("SELECT * FROM comments WHERE article_id = :article_id AND is_approved = :is_approved");
-        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, Comment::class);
         $query->execute(compact('article_id', 'is_approved'));
         return $query->fetchAll();
     }
@@ -36,7 +37,7 @@ class Comment extends Model
     public function findByApproved($is_approuved = 'pending'): array
     {
         $query = $this->pdo->prepare("SELECT * FROM comments WHERE is_approved = :is_approved");
-        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, Comment::class);
         $query->execute(['is_approved' => $is_approuved]);
         return $query->fetchAll();
     }
@@ -44,10 +45,10 @@ class Comment extends Model
     /**
      * Create a comment on a article
      *
-     * @param \Classes\Comment $comment
+     * @param Comment $comment
      * @return void
      */
-    public function insert(\Classes\Comment $comment): void
+    public function insert(Comment $comment): void
     {
         $query = $this->pdo->prepare('INSERT INTO comments SET author = :author, content = :content, email = :email, article_id = :article_id, is_approved = :is_approved');
         $query->execute([

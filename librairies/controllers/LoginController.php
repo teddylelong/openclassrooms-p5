@@ -11,7 +11,7 @@ require_once 'vendor/autoload.php';
 
 class LoginController extends Controller
 {
-    protected $modelName = \Models\Login::class;
+    protected $modelName = \Models\LoginModel::class;
 
     /**
      * Display the login form. If a user is already logged-in and has admin role, redirect automatically to admin panel.

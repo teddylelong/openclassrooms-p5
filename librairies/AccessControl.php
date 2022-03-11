@@ -1,10 +1,11 @@
 <?php
 
-use Models\User;
+use Models\UserModel;
 
 class AccessControl
 {
     private const DENIED_MSG = "Vous n'avez pas les autorisations requises pour accéder à cette page.";
+
     /**
      * Check if current $_SESSION exist and matches with an existing admin user
      *
@@ -17,7 +18,7 @@ class AccessControl
 
             $id = $_SESSION['user_id'];
 
-            $userModel = new User();
+            $userModel = new UserModel();
             $user = $userModel->find($id);
 
             if ($user->getIsAdmin() == true) {

@@ -7,15 +7,22 @@ use Http;
 use Notification;
 use Renderer;
 use Classes\Comment;
-use Models\Article as ArticleModel;
-use Models\User as UserModel;
+use Models\CommentModel;
+use Models\ArticleModel;
+use Models\UserModel;
 
 require_once 'vendor/autoload.php';
 
 class CommentController extends Controller
 {
-    protected $modelName = \Models\Comment::class;
+    private CommentModel $commentModel;
+    private ArticleModel $articleModel;
 
+    public function __construct()
+    {
+        $this->commentModel = new CommentModel();
+        $this->articleModel = new ArticleModel();
+    }
     /**
      * Check a comment before insert
      *
@@ -24,8 +31,6 @@ class CommentController extends Controller
      */
     public function checkInsert(bool $ifAdmin = false) : ?Comment
     {
-        $articleModel = new ArticleModel();
-
         // Vérification du champ "Pseudo"
         $author = null;
         if (!empty($_POST['author'])) {
@@ -70,7 +75,7 @@ class CommentController extends Controller
             Http::redirect('/article/show/'.$article_id.'/');
         }
 
-        $article = $articleModel->find($article_id);
+        $article = $this->articleModel->find($article_id);
 
         // Vérification de l'existence de l'article
         if (!$article) {
@@ -100,7 +105,7 @@ class CommentController extends Controller
         $comment = $this->checkInsert();
 
         // Insertion du commentaire en BDD
-        $this->model->insert($comment);
+        $this->commentModel->insert($comment);
 
         // Redirection vers l'article
         Notification::set('success', "Merci pour votre commentaire ! Il est en attente de modération et sera traité dans les plus brefs délais.");
@@ -120,7 +125,7 @@ class CommentController extends Controller
             $comment = $this->checkInsert(true);
 
             // Insertion du commentaire en BDD
-            $this->model->insert($comment);
+            $this->commentModel->insert($comment);
 
             // Redirection vers l'article
             Notification::set('success', "Le commentaire a été publié avec succès.");
@@ -140,7 +145,7 @@ class CommentController extends Controller
     public function indexByApprovement(string $is_approved = 'pending'): void
     {
         if (AccessControl::isUserAdmin()) {
-            $comments = $this->model->findByApproved($is_approved);
+            $comments = $this->commentModel->findByApproved($is_approved);
 
             $pageTitle = "Commentaires en attente de modération";
             Renderer::render('admin/comments/approvement',compact('comments', 'pageTitle'),true);
@@ -167,7 +172,7 @@ class CommentController extends Controller
         }
 
         // Vérification de l'existence du commentaire
-        $comment = $this->model->find($id);
+        $comment = $this->commentModel->find($id);
         if (!$comment) {
             Notification::set('error', "Le commentaire est introuvable. Veuillez réessayer.");
             Http::redirect('admin/comment/indexbyapprovement');
@@ -184,7 +189,7 @@ class CommentController extends Controller
     {
         if (AccessControl::isUserAdmin()) {
             $id = $this->checkApprovement();
-            $this->model->updateApprovement($id, Comment::APPROVED);
+            $this->commentModel->updateApprovement($id, Comment::APPROVED);
             Notification::set('success', "Le commentaire à été approuvé. Il est désormais visible publiquement.");
             Http::redirect('/comment/indexbyapprovement/');
         }
@@ -202,7 +207,7 @@ class CommentController extends Controller
     {
         if (AccessControl::isUserAdmin()) {
             $id = $this->checkApprovement();
-            $this->model->updateApprovement($id, Comment::DISAPPROVED);
+            $this->commentModel->updateApprovement($id, Comment::DISAPPROVED);
             Notification::set('success', "Le commentaire a été refusé. Il ne sera pas visible sur le site.");
             Http::redirect('/comment/indexbyapprovement/');
         }
@@ -235,7 +240,7 @@ class CommentController extends Controller
             }
 
             // Suppression du commentaire
-            $this->model->delete($id);
+            $this->commentModel->delete($id);
 
             // Redirection vers l'article
             Notification::set('success', "Le commentaire a été supprimé avec succès.");

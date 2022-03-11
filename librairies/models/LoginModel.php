@@ -5,8 +5,9 @@ namespace Models;
 require_once "vendor/autoload.php";
 
 use PDO;
+use Classes\User;
 
-class Login extends Model
+class LoginModel extends Model
 {
     protected $table = 'users';
     /**
@@ -20,7 +21,7 @@ class Login extends Model
     {
         $query = $this->pdo->prepare("SELECT pk_id, password FROM users WHERE email = :email");
         $query->execute(['email' => $email]);
-        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, User::class);
         $user = $query->fetch();
 
         if (password_verify($password, $user['password'])) {

@@ -4,9 +4,10 @@ namespace Models;
 
 require_once 'vendor/autoload.php';
 
+use Classes\Article;
 use PDO;
 
-class Article extends Model
+class ArticleModel extends Model
 {
     protected $table = 'articles';
 
@@ -14,12 +15,12 @@ class Article extends Model
      * Return an article from database for given ID
      *
      * @param int $id
-     * @return mixed
+     * @return Article
      */
-    public function find(int $id)
+    public function find(int $id): Article
     {
         $query = $this->pdo->prepare("SELECT articles.*, users.firstname, users.lastname FROM articles LEFT JOIN users ON articles.fk_user_id = users.pk_id WHERE articles.pk_id = :id");
-        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, Article::class);
         $query->execute(['id' => $id]);
         return $query->fetch();
     }
@@ -38,17 +39,17 @@ class Article extends Model
             $sql .= ' ORDER BY ' . $order;
         }
         $query = $this->pdo->query($sql);
-        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, Article::class);
         return $query->fetchAll();
     }
 
     /**
      * Insert a new article in database
      *
-     * @param \Classes\Article $article
+     * @param Article $article
      * @return void
      */
-    public function insert(\Classes\Article $article): void
+    public function insert(Article $article): void
     {
         $query = $this->pdo->prepare('INSERT INTO articles SET title = :title, excerpt = :excerpt, content = :content, fk_user_id = :fk_user_id');
         $query->execute([
@@ -62,10 +63,10 @@ class Article extends Model
     /**
      * Update an article from Database
      *
-     * @param \Classes\Article $article
+     * @param Article $article
      * @return void
      */
-    public function update(\Classes\Article $article): void
+    public function update(Article $article): void
     {
         $query = $this->pdo->prepare('UPDATE articles SET title = :title, excerpt = :excerpt, content = :content, fk_user_id = :fk_user_id WHERE pk_id = :pk_id');
         $query->execute([

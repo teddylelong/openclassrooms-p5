@@ -17,7 +17,7 @@ use PHPMailer\PHPMailer\SMTP;
 
 class ContactController extends Controller
 {
-    protected $modelName = \Models\Contact::class;
+    protected $modelName = \Models\ContactModel::class;
 
     public function check()
     {

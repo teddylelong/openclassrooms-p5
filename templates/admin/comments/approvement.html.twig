@@ -16,10 +16,10 @@
     <tbody>
     {% for comment in comments %}
         <tr>
-            <td>{{comment.getAuthor }}</td>
-            <td>{{comment.getEmail }}</td>
-            <td>{{comment.getContent }}</td>
-            <td>{{comment.getCreatedAt }}</td>
+            <td>{{ comment.getAuthor }}</td>
+            <td>{{ comment.getEmail }}</td>
+            <td>{{ comment.getContent }}</td>
+            <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hs') }}</td>
             <td><a href="/article/showadmin/{{ comment.getArticleId }}/">Voir</a></td>
             <td><a href="/comment/approve/{{ comment.getId }}/">Approuver</a> <a href="/comment/disapprove/{{ comment.getId }}/">Désapprouver</a></td>
         </tr>

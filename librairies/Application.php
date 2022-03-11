@@ -15,11 +15,11 @@ class Application
     public static function process()
     {
         // By default, call articles lists
-        $controllerName = 'article';
+        $controllerName = 'ArticleController';
         $task = 'home';
 
         if (!empty($_GET['controller'])) {
-            $controllerName = ucfirst($_GET['controller']);
+            $controllerName = ucfirst($_GET['controller'] . 'controller');
         }
 
         if (!empty($_GET['task'])) {

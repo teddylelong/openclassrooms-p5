@@ -6,13 +6,13 @@ use AccessControl;
 use Http;
 use Notification;
 use Renderer;
-use Classes\Comment as CommentClass;
+use Classes\Comment;
 use Models\Article as ArticleModel;
 use Models\User as UserModel;
 
 require_once 'vendor/autoload.php';
 
-class Comment extends Controller
+class CommentController extends Controller
 {
     protected $modelName = \Models\Comment::class;
 
@@ -20,9 +20,9 @@ class Comment extends Controller
      * Check a comment before insert
      *
      * @param bool $ifAdmin
-     * @return array|void
+     * @return Comment|null
      */
-    public function checkInsert(bool $ifAdmin = false) : ?CommentClass
+    public function checkInsert(bool $ifAdmin = false) : ?Comment
     {
         $articleModel = new ArticleModel();
 
@@ -77,14 +77,14 @@ class Comment extends Controller
             Http::error404();
         }
 
-        $comment = (new CommentClass())
+        $comment = (new Comment())
             ->setAuthor($author)
             ->setEmail($email)
             ->setContent($content)
             ->setArticleId($article_id)
-            ->setIsApproved(CommentClass::PENDING);
+            ->setIsApproved(Comment::PENDING);
         if ($ifAdmin) {
-            $comment->setIsApproved(CommentClass::APPROVED);
+            $comment->setIsApproved(Comment::APPROVED);
         }
 
         return $comment;
@@ -184,7 +184,7 @@ class Comment extends Controller
     {
         if (AccessControl::isUserAdmin()) {
             $id = $this->checkApprovement();
-            $this->model->updateApprovement($id, CommentClass::APPROVED);
+            $this->model->updateApprovement($id, Comment::APPROVED);
             Notification::set('success', "Le commentaire à été approuvé. Il est désormais visible publiquement.");
             Http::redirect('/comment/indexbyapprovement/');
         }
@@ -202,7 +202,7 @@ class Comment extends Controller
     {
         if (AccessControl::isUserAdmin()) {
             $id = $this->checkApprovement();
-            $this->model->updateApprovement($id, CommentClass::DISAPPROVED);
+            $this->model->updateApprovement($id, Comment::DISAPPROVED);
             Notification::set('success', "Le commentaire a été refusé. Il ne sera pas visible sur le site.");
             Http::redirect('/comment/indexbyapprovement/');
         }

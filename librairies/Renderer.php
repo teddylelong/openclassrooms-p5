@@ -16,7 +16,7 @@ class Renderer
      * @param bool $toAdminPage
      * @return void
      */
-    public function render(string $path, $var = [], bool $toAdminPage = false)
+    public static function render(string $path, $var = [], bool $toAdminPage = false)
     {
         // echo 'lol'; die();
         $template = self::loadTwig()->load("$path.html.twig");

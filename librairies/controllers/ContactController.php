@@ -8,13 +8,14 @@ require 'vendor/PHPMailer/PHPMailer/src/Exception.php';
 require 'vendor/PHPMailer/PHPMailer/src/PHPMailer.php';
 require 'vendor/PHPMailer/PHPMailer/src/SMTP.php';
 
+use Classes\Contact;
 use Notification;
 use Http;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-class Contact extends Controller
+class ContactController extends Controller
 {
     protected $modelName = \Models\Contact::class;
 
@@ -50,7 +51,7 @@ class Contact extends Controller
             Http::redirect('/#me-contacter');
         }
 
-        $contact = (new \Classes\Contact())
+        $contact = (new Contact())
             ->setFirstname($firstname)
             ->setLastname($lastname)
             ->setEmail($email)
@@ -66,7 +67,7 @@ class Contact extends Controller
         Http::redirect("/");
     }
 
-    public function send(\Classes\Contact $contact)
+    public function send(Contact $contact)
     {
         $mail = new PHPMailer(true);
 
@@ -95,7 +96,7 @@ class Contact extends Controller
             $mail->send();
 
         } catch (Exception $e) {
-            Notification::set('error', "Le message n'a pas pu être envoyé pour la raison suivante : {$mail->ErrorInfo}");
+            Notification::set('error', "Le message n'a pas pu être envoyé pour la raison suivante : $mail->ErrorInfo");
             Http::redirect("/");
         }
     }

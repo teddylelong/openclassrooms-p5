@@ -6,11 +6,11 @@ use AccessControl;
 use Http;
 use Notification;
 use Renderer;
-use Classes\User as UserClass;
+use Classes\User;
 
 require_once 'vendor/autoload.php';
 
-class User extends Controller
+class UserController extends Controller
 {
     protected $modelName = \Models\User::class;
 
@@ -92,7 +92,7 @@ class User extends Controller
                 Http::redirect('/user/create/');
             }
 
-            $user = (new UserClass())
+            $user = (new User())
                 ->setFirstname($firstname)
                 ->setLastname($lastname)
                 ->setEmail($email)

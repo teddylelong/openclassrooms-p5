@@ -9,7 +9,7 @@ use Renderer;
 
 require_once 'vendor/autoload.php';
 
-class Login extends Controller
+class LoginController extends Controller
 {
     protected $modelName = \Models\Login::class;
 

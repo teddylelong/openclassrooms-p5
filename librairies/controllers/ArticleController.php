@@ -8,12 +8,12 @@ use Notification;
 use Renderer;
 use Models;
 use DateTime;
-use Classes\Article as ArticleClass;
+use Classes\Article;
 
 require_once 'vendor/autoload.php';
 
 // Todo : Rename ArticleController
-class Article extends Controller
+class ArticleController extends Controller
 {
     // Todo : créer constructeur Controller + fonctions par controller
     protected $modelName = Models\Article::class;
@@ -164,7 +164,7 @@ class Article extends Controller
             }
 
             // On créé un nouvel objet \Classes\Article
-            $article = (new ArticleClass())
+            $article = (new Article())
                 ->setTitle($title)
                 ->setExcerpt($excerpt)
                 ->setContent($content)
@@ -224,7 +224,7 @@ class Article extends Controller
             }
 
             // On créé un nouvel objet \Classes\Article
-            $article = (new ArticleClass())
+            $article = (new Article())
                 ->setTitle($title)
                 ->setExcerpt($excerpt)
                 ->setContent($content)

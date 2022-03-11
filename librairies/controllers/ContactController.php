@@ -18,6 +18,11 @@ use PHPMailer\PHPMailer\SMTP;
 class ContactController extends Controller
 {
     protected $modelName = \Models\ContactModel::class;
+    private const HOST = 'xxx';
+    private const USERNAME = 'xxx';
+    private const PASSWORD = 'xxx';
+    private const PORT = 465;
+
 
     public function check()
     {
@@ -48,7 +53,7 @@ class ContactController extends Controller
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             Notification::set('error', "L'adresse email saisie n'est pas valide.");
-            Http::redirect('/#me-contacter');
+            Http::redirect('/');
         }
 
         $contact = (new Contact())
@@ -75,21 +80,21 @@ class ContactController extends Controller
             //Server settings
             $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
             $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = '***REMOVED***';                         //Set the SMTP server to send through
+            $mail->Host       = self::HOST;                             //Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = '***REMOVED***';                      //SMTP username
-            $mail->Password   = '***REMOVED***';                          //SMTP password
+            $mail->Username   = self::USERNAME;                         //SMTP username
+            $mail->Password   = self::PASSWORD;                         //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->Port       = self::PORT;                             //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
-            $mail->setFrom('***REMOVED***', 'webalgo.fr');
-            $mail->addAddress('***REMOVED***', 'Teddy Lelong');
+            $mail->setFrom('address@domain.com', 'xxx');
+            $mail->addAddress('address@domain.com', 'xxx');
             $mail->addReplyTo($contact->getEmail(), $contact->getFirstname() . ' ' . $contact->getLastname());
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = 'Demande de contact';
+            $mail->Subject = 'Formulaire de contact';
             $mail->Body    = $contact->getMessage();
             $mail->AltBody = $contact->getMessage();
 

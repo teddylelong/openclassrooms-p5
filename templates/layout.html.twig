@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon blog | {{ pageTitle }}</title>
+</head>
+
+<body class="website">
+    {% block body %}
+        <header>
+            {% block header %}
+            {% endblock header %}
+        </header>
+        <nav>
+            {% block navigation %}
+                <ul>
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="/article/index/">Le Blog</a></li>
+                    <li><a href="#">Me contacter</a></li>
+                </ul>
+            {% endblock navigation %}
+        </nav>
+
+        {{ notificationDisplay() }}
+
+            {% block content %}
+            {% endblock content %}
+
+        <footer>
+            {% block footer %}
+                <ul>
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="/article/index/">Le Blog</a></li>
+                    <li><a href="#">Me contacter</a></li>
+                </ul>
+                <p>&copy; {{ 'now'|date('Y') }} - Teddy Lelong</p>
+                <p><a href="/login/dashboard/">Administration</a></p>
+            {% endblock footer %}
+        </footer>
+
+    {% endblock body %}
+</body>
+
+</html>

@@ -23,9 +23,10 @@ class Comment
     /**
      * @param int $id
      */
-    public function setId(int $id): void
+    public function setId(int $id): self
     {
         $this->pk_id = $id;
+        return $this;
     }
 
     /**
@@ -39,9 +40,10 @@ class Comment
     /**
      * @param string $author
      */
-    public function setAuthor(string $author): void
+    public function setAuthor(string $author): self
     {
         $this->author = $author;
+        return $this;
     }
 
     /**
@@ -55,9 +57,10 @@ class Comment
     /**
      * @param string $email
      */
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
     }
 
     /**
@@ -71,9 +74,10 @@ class Comment
     /**
      * @param string $content
      */
-    public function setContent(string $content): void
+    public function setContent(string $content): self
     {
         $this->content = $content;
+        return $this;
     }
 
     /**
@@ -87,20 +91,20 @@ class Comment
     /**
      * @param mixed $created_at
      */
-    public function setCreatedAt(?DateTime $created_at): void
+    public function setCreatedAt(?DateTime $created_at): self
     {
         $created_at->format('Y-m-d H:i:s');
         $this->created_at = $created_at;
+        return $this;
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): ?DateTime
     {
         if (is_string($this->created_at)) {
-            $dateTime = new DateTime($this->created_at);
-            return $dateTime->format('d\/m\/Y \à H\hi');
+            return new DateTime($this->created_at);
         }
         return $this->created_at;
     }
@@ -108,9 +112,10 @@ class Comment
     /**
      * @param string $is_approved
      */
-    public function setIsApproved(string $is_approved): void
+    public function setIsApproved(string $is_approved): self
     {
         $this->is_approved = $is_approved;
+        return $this;
     }
 
     /**
@@ -124,9 +129,10 @@ class Comment
     /**
      * @param int $article_id
      */
-    public function setArticleId(int $article_id): void
+    public function setArticleId(int $article_id): self
     {
         $this->article_id = $article_id;
+        return $this;
     }
 
     /**

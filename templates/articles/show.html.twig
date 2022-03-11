@@ -1,0 +1,46 @@
+{% extends 'layout.html.twig' %}
+{% block content %}
+
+<h1>{{ article.getTitle }}</h1>
+
+<small>
+    Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hs')  }} par {{ article.getAuthorName }}
+
+    {% if article.getUpdatedAt %}
+        - Mis à jour le {{ article.getUpdatedAt|date('d\/m\/Y \à H\hs')  }}
+    {% endif %}
+</small>
+
+<p>{{ article.getExcerpt }}</p>
+
+<hr>
+
+{{ article.getContent }}
+
+{% if commentaires|length is same as(0) %}
+
+    <h2>Il n'y a pas encore de commentaires pour cet article... Soyez le premier !</h2>
+
+{% else %}
+    <h2>Il y a déjà {{ commentaires|length }} réactions : </h2>
+
+    {% for commentaire in commentaires %}
+        <h3>Commentaire de {{ commentaire.getAuthor }}</h3>
+        <small>Le {{ commentaire.getCreatedAt|date('d\/m\/Y \à H\\hs')  }}</small>
+        <blockquote>
+            {{ commentaire.getContent }}
+        </blockquote>
+    {% endfor %}
+
+{% endif %}
+
+
+<form action="/comment/insert/" method="POST">
+    <h3>Déposez votre commentaire ci-dessous</h3>
+    <input type="text" name="author" placeholder="Votre pseudo !">
+    <input type="email" name="email" placeholder="Votre email !">
+    <textarea name="content" id="" cols="30" rows="10" placeholder="Votre commentaire ..."></textarea>
+    <input type="hidden" name="article_id" value="{{ article.getId }}">
+    <button>Commenter !</button>
+</form>
+{% endblock content %}

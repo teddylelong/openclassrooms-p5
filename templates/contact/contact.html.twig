@@ -1,0 +1,21 @@
+{% block contact %}
+<h1 id="me-contacter">Me contacter</h1>
+
+<p>Un projet à me proposer, une demande d'informations ? N'hésitez pas à me contacter par email en renseignant le formulaire ci-dessous !</p>
+
+<form action="/contact/check/" method="POST">
+    <label for="firstname">Votre prénom</label>
+    <input type="text" name="firstname" id="firstname"/>
+
+    <label for="lastname">Votre nom</label>
+    <input type="text" name="lastname" id="lastname"/>
+
+    <label for="email">Votre adresse email</label>
+    <input type="email" name="email" id="email"/>
+
+    <label for="message">Votre message</label>
+    <textarea name="message" id="message"></textarea>
+
+    <input type="submit" value="Envoyer">
+</form>
+{% endblock contact %}

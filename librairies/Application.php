@@ -8,15 +8,15 @@ class Application
      * URL are rewritten by .htaccess file at app root.
      *
      * Usage :    https://domain.com/controller/task/{optionnal_parameter}
-     *              https://domain.com/article/show/145
+     *            Ex : https://domain.com/article/show/145
      *
      * @return void
      */
     public static function process()
     {
         // By default, call articles lists
-        $controllerName = 'Article';
-        $task = 'index';
+        $controllerName = 'article';
+        $task = 'home';
 
         if (!empty($_GET['controller'])) {
             $controllerName = ucfirst($_GET['controller']);
@@ -26,10 +26,12 @@ class Application
             $task = $_GET['task'];
         }
 
-        $controllerPath = "\Controllers\\" . $controllerName;
+        $controllerPath = "\controllers\\" . $controllerName;
 
         // Check if this controller & method exists
         if (!method_exists($controllerPath, $task)) {
+            // /!\ Si je vire cette ligne, erreur :
+            // new Controllers\Article();
             Http::error404();
         }
 

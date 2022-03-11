@@ -12,9 +12,26 @@ use Classes\Article as ArticleClass;
 
 require_once 'vendor/autoload.php';
 
+// Todo : Rename ArticleController
 class Article extends Controller
 {
+    // Todo : créer constructeur Controller + fonctions par controller
     protected $modelName = Models\Article::class;
+
+    /**
+     * Get last articles order by date and display it on homepage
+     *
+     * @return void
+     */
+    public function home(): void
+    {
+        // 1. Récupération des articles
+        $articles = $this->model->findAll('articles.created_at DESC LIMIT 0, 4');
+
+        // 2. Affichage
+        $pageTitle = "Accueil";
+        Renderer::render('articles/home', compact('pageTitle', 'articles'));
+    }
 
     /**
      * Get all articles order by date and display it
@@ -27,7 +44,7 @@ class Article extends Controller
         $articles = $this->model->findAll('articles.created_at DESC');
 
         // 2. Affichage
-        $pageTitle = "Accueil";
+        $pageTitle = "Le Blog";
         Renderer::render('articles/index', compact('pageTitle', 'articles'));
     }
 
@@ -147,12 +164,12 @@ class Article extends Controller
             }
 
             // On créé un nouvel objet \Classes\Article
-            $article = new ArticleClass();
-            $article->setTitle($title);
-            $article->setExcerpt($excerpt);
-            $article->setContent($content);
-            $article->setId($pk_id);
-            $article->setAuthorId($authorId);
+            $article = (new ArticleClass())
+                ->setTitle($title)
+                ->setExcerpt($excerpt)
+                ->setContent($content)
+                ->setId($pk_id)
+                ->setAuthorId($authorId);
 
             // Insertion de l'article dans la base de données
             $this->model->update($article);
@@ -207,20 +224,12 @@ class Article extends Controller
             }
 
             // On créé un nouvel objet \Classes\Article
-            $article = new ArticleClass();
-            $article->setTitle($title);
-            $article->setExcerpt($excerpt);
-            $article->setContent($content);
-            $article->setCreatedAt(new DateTime('NOW'));
-            $article->setAuthorId($fk_user_id);
-
-            // Ne fonctionne pas :
-            /*$article = (new Classes\Article())
+            $article = (new ArticleClass())
                 ->setTitle($title)
                 ->setExcerpt($excerpt)
                 ->setContent($content)
                 ->setCreatedAt(new DateTime('NOW'))
-                ->setAuthorId($fk_user_id);*/
+                ->setAuthorId($fk_user_id);
 
             // Insertion de l'article dans la base de données
             $this->model->insert($article);

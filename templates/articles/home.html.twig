@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Bienvenue !</h1>
+
+    <p>Je suis Teddy Lelong, développeur web PHP</p>
+
+
+    <h2>Découvrez mes derniers articles !</h2>
+
+    {% for article in articles %}
+
+        <h3>{{ article.getTitle }}</h3>
+        <small>Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hs') }} par {{ article.getAuthorName }}</small>
+        <p>{{ article.getExcerpt }}</p>
+        <a href="/article/show/{{ article.getId }}/">Lire la suite</a>
+
+    {% endfor %}
+
+    <p>
+        <a href="/article/index/">Voir tous les articles</a>
+    </p>
+
+
+    <hr/>
+
+{% include 'contact/contact.html.twig' %}
+
+{% endblock content %}

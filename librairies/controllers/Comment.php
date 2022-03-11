@@ -77,14 +77,14 @@ class Comment extends Controller
             Http::error404();
         }
 
-        $comment = new CommentClass();
-        $comment->setAuthor($author);
-        $comment->setEmail($email);
-        $comment->setContent($content);
-        $comment->setArticleId($article_id);
-        $comment->setIsApproved($comment::PENDING);
+        $comment = (new CommentClass())
+            ->setAuthor($author)
+            ->setEmail($email)
+            ->setContent($content)
+            ->setArticleId($article_id)
+            ->setIsApproved(CommentClass::PENDING);
         if ($ifAdmin) {
-            $comment->setIsApproved($comment::APPROVED);
+            $comment->setIsApproved(CommentClass::APPROVED);
         }
 
         return $comment;
@@ -184,7 +184,7 @@ class Comment extends Controller
     {
         if (AccessControl::isUserAdmin()) {
             $id = $this->checkApprovement();
-            $this->model->updateApprovement($id, 'approved');
+            $this->model->updateApprovement($id, CommentClass::APPROVED);
             Notification::set('success', "Le commentaire à été approuvé. Il est désormais visible publiquement.");
             Http::redirect('/comment/indexbyapprovement/');
         }
@@ -202,7 +202,7 @@ class Comment extends Controller
     {
         if (AccessControl::isUserAdmin()) {
             $id = $this->checkApprovement();
-            $this->model->updateApprovement($id, 'disapproved');
+            $this->model->updateApprovement($id, CommentClass::DISAPPROVED);
             Notification::set('success', "Le commentaire a été refusé. Il ne sera pas visible sur le site.");
             Http::redirect('/comment/indexbyapprovement/');
         }

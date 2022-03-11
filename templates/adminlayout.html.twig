@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | {{ pageTitle }}</title>
+</head>
+
+<body class="admin">
+    {% block body %}
+
+    <header>
+        {% block header %}
+            <h1>Interface d'administration</h1>
+        {% endblock header %}
+    </header>
+
+    <nav>
+        {% block navigation %}
+        {% endblock navigation %}
+    </nav>
+
+        {{ notificationDisplay() }}
+
+        {% block content %}
+        {% endblock content %}
+
+        <footer>
+            {% block footer %}
+                <p><a href="/login/dashboard/">Retour au dashboard</a></p>
+            {% endblock footer %}
+        </footer>
+
+    {% endblock body %}
+
+
+</body>
+
+</html>

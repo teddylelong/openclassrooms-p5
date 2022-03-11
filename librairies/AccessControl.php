@@ -10,6 +10,7 @@ class AccessControl
      *
      * @return bool
      */
+    // Todo : a instancier dans Controllers\Controller
     public static function isUserAdmin(): bool
     {
         if (isset($_SESSION['user_id'])) {

@@ -1,0 +1,45 @@
+{% extends 'adminlayout.html.twig' %}
+{% block content %}
+
+<h1>{{ article.getTitle }}</h1>
+
+<small>
+    Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hs')  }} par {{ article.getAuthorName }}
+
+    {% if article.getUpdatedAt %}
+        - Mis à jour le {{ article.getUpdatedAt|date('d\/m\/Y \à H\\hs')  }}
+    {% endif %}
+</small>
+
+<p>{{ article.getExcerpt }}</p>
+
+<hr>
+
+{{ article.getContent }}
+
+{% if commentaires|length is same as(0) %}
+
+    <h2>Il n'y a pas encore de commentaires pour cet article... Soyez le premier !</h2>
+
+{% else %}
+    <h2>Il y a déjà {{ commentaires|length }} réactions : </h2>
+
+    {% for commentaire in commentaires %}
+        <h3>Commentaire de {{ commentaire.getAuthor }}</h3>
+        <small>Le {{ commentaire.getCreatedAt|date('d\/m\/Y \à H\\hs')  }}</small>
+        <blockquote>
+            {{ commentaire.getContent }}
+        </blockquote>
+        <a href="/comment/delete/{{ commentaire.getId }}/" onclick="return window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
+    {% endfor %}
+
+{% endif %}
+
+<form action="/comment/insertadmin/" method="POST">
+    <h3>Déposez votre commentaire ci-dessous</h3>
+    <textarea name="content" id="" cols="30" rows="10" placeholder="Votre commentaire ..."></textarea>
+    <input type="hidden" name="article_id" value="{{ article.getId }}">
+    <button>Commenter !</button>
+</form>
+
+{% endblock content %}

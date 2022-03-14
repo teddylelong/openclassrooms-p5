@@ -25,7 +25,7 @@ class LoginController extends Controller
         }
         else {
             $pageTitle = "Connexion";
-            Renderer::render('admin/users/login', compact('pageTitle'), true);
+            Renderer::render('admin/users/login', compact('pageTitle'));
         }
 
     }
@@ -72,7 +72,7 @@ class LoginController extends Controller
     {
         if (AccessControl::isUserAdmin()) {
             $pageTitle = "Dashboard";
-            Renderer::render('admin/dashboard', compact('pageTitle'), true);
+            Renderer::render('admin/dashboard', compact('pageTitle'));
         }
         else {
             Http::redirect('/login/');

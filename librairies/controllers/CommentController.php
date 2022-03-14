@@ -148,7 +148,7 @@ class CommentController extends Controller
             $comments = $this->commentModel->findByApproved($is_approved);
 
             $pageTitle = "Commentaires en attente de modération";
-            Renderer::render('admin/comments/approvement',compact('comments', 'pageTitle'),true);
+            Renderer::render('admin/comments/approvement',compact('comments', 'pageTitle'));
         }
         else {
             AccessControl::denied();

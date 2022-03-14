@@ -8,7 +8,6 @@ use Twig\TwigFunction;
 
 class Renderer
 {
-    // Todo : delete $toAdminPage arg
     /**
      * Print a HTML template with $var injection
      *
@@ -17,7 +16,7 @@ class Renderer
      * @param bool $toAdminPage
      * @return void
      */
-    public static function render(string $path, $var = [], bool $toAdminPage = false)
+    public static function render(string $path, $var = [])
     {
         $template = self::loadTwig()->load("$path.html.twig");
         echo $template->display($var);

@@ -14,7 +14,7 @@ class Application
      */
     public static function process()
     {
-        // By default, call articles lists
+        // By default, call homepage
         $controllerName = 'ArticleController';
         $task = 'home';
 
@@ -31,7 +31,7 @@ class Application
         // Check if this controller & method exists
         if (!method_exists($controllerPath, $task)) {
             // /!\ Si je vire cette ligne, erreur :
-            // new Controllers\Article();
+            // new \Controllers\ArticleController();
             Http::error404();
         }
 

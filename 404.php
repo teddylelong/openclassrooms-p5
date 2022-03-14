@@ -1,4 +1,6 @@
 <?php
 require_once 'librairies/autoload.php';
-// new Controllers\Article();
+
+// /!\ Si je vire cette ligne, erreur :
+// new Controllers\ArticleController();
 Http::error404();

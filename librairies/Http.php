@@ -23,8 +23,7 @@ class Http
     {
         header('HTTP/1.1 404 Not Found');
         $pageTitle = "Erreur 404 - Page non-trouvée";
-        $render = new Renderer();
-        $render->render('errors/404', compact('pageTitle'));
+        Renderer::render('errors/404', compact('pageTitle'));
         exit;
     }
 }

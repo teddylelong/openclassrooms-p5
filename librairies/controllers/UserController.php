@@ -25,7 +25,7 @@ class UserController extends Controller
             $users = $this->model->findAll('created_at DESC');
 
             $pageTitle = "Liste des utilisateurs";
-            Renderer::render('admin/users/index', compact('pageTitle', 'users'), true);
+            Renderer::render('admin/users/index', compact('pageTitle', 'users'));
         }
         else {
             AccessControl::denied();
@@ -118,7 +118,7 @@ class UserController extends Controller
     {
         if (AccessControl::isUserAdmin()) {
             $pageTitle = "Créer un nouvel utilisateur";
-            Renderer::render('admin/users/create', compact('pageTitle'), true);
+            Renderer::render('admin/users/create', compact('pageTitle'));
         }
         else {
             AccessControl::denied();

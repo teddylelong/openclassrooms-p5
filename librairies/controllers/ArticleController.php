@@ -68,7 +68,7 @@ class ArticleController extends Controller
             $articles = $this->articleModel->findAll('articles.created_at DESC');
 
             $pageTitle = "Gérer les articles";
-            Renderer::render('admin/articles/index', compact('pageTitle', 'articles'), true);
+            Renderer::render('admin/articles/index', compact('pageTitle', 'articles'));
         }
         else {
             AccessControl::denied();
@@ -84,7 +84,7 @@ class ArticleController extends Controller
     {
         if (AccessControl::isUserAdmin()) {
             $pageTitle = "Rédiger un article";
-            Renderer::render('admin/articles/create', compact('pageTitle'), true);
+            Renderer::render('admin/articles/create', compact('pageTitle'));
         }
         else {
             AccessControl::denied();
@@ -118,7 +118,7 @@ class ArticleController extends Controller
             $users = (new UserModel())->findAll();
 
             $pageTitle = "Modifier un article";
-            Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle', 'users'), true);
+            Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle', 'users'));
         }
         else {
             AccessControl::denied();
@@ -316,7 +316,7 @@ class ArticleController extends Controller
 
             // 5. Affichage
             $pageTitle = $article->getTitle();
-            Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'), true);
+            Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
         }
         else {
             AccessControl::denied();

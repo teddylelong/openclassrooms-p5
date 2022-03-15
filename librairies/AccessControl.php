@@ -9,22 +9,36 @@ class AccessControl
     /**
      * Check if current $_SESSION exist and matches with an existing admin user
      *
-     * @return bool
+     * @return mixed
      */
     // Todo : a instancier dans Controllers\Controller
-    public static function isUserAdmin(): bool
+    public static function adminRightsNeeded()
     {
         if (isset($_SESSION['user_id'])) {
 
             $id = $_SESSION['user_id'];
 
-            $userModel = new UserModel();
-            $user = $userModel->find($id);
-
-            if ($user->getIsAdmin() == true) {
+            if (self::isUserAdmin($id)) {
                 return true;
             }
+            self::denied();
         }
+        self::denied();
+    }
+
+    public static function isUserAdmin(int $id): bool
+    {
+        $userModel = new UserModel();
+        $user = $userModel->find($id);
+
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->getIsAdmin() == true) {
+            return true;
+        }
+
         return false;
     }
 

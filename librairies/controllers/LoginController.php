@@ -4,6 +4,7 @@ namespace Controllers;
 
 use AccessControl;
 use Http;
+use Models\LoginModel;
 use Notification;
 use Renderer;
 
@@ -11,7 +12,13 @@ require_once 'vendor/autoload.php';
 
 class LoginController extends Controller
 {
-    protected $modelName = \Models\LoginModel::class;
+    protected LoginModel $loginModel;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->loginModel = new LoginModel();
+    }
 
     /**
      * Display the login form. If a user is already logged-in and has admin role, redirect automatically to admin panel.
@@ -20,14 +27,15 @@ class LoginController extends Controller
      */
     public function loginForm(): void
     {
-        if (AccessControl::isUserAdmin()) {
-            Http::redirect('/login/dashboard/');
-        }
-        else {
-            $pageTitle = "Connexion";
-            Renderer::render('admin/users/login', compact('pageTitle'));
-        }
+        if (isset($_SESSION['user_id'])) {
+            $id = $_SESSION['user_id'];
 
+            if (AccessControl::isUserAdmin($id)) {
+                Http::redirect('/login/dashboard/');
+            }
+        }
+        $pageTitle = "Connexion";
+        Renderer::render('admin/users/login', compact('pageTitle'));
     }
 
     /**
@@ -53,7 +61,7 @@ class LoginController extends Controller
             Http::redirect('/login/');
         }
 
-        if($this->model->checkLogin($email, $password)) {
+        if($this->loginModel->checkLogin($email, $password)) {
             Notification::set('success', "Bienvenue !");
             Http::redirect('/login/dashboard/');
         }
@@ -70,14 +78,12 @@ class LoginController extends Controller
      */
     public function dashboard(): void
     {
-        if (AccessControl::isUserAdmin()) {
-            $pageTitle = "Dashboard";
-            Renderer::render('admin/dashboard', compact('pageTitle'));
-        }
-        else {
-            Http::redirect('/login/');
-        }
+        AccessControl::adminRightsNeeded();
+
+        $pageTitle = "Dashboard";
+        Renderer::render('admin/dashboard', compact('pageTitle'));
     }
+
 
     /**
      * Destroy the login $_SESSION, disconnect user and redirect to login form

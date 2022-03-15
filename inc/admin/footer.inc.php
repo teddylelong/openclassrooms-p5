@@ -1,1 +1,0 @@
-<p><a href="/login/dashboard/">Retour au dashboard</a></p>

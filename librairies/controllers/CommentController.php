@@ -120,20 +120,16 @@ class CommentController extends Controller
      */
     public function insertAdmin()
     {
-        if (AccessControl::isUserAdmin()) {
+        AccessControl::adminRightsNeeded();
 
-            $comment = $this->checkInsert(true);
+        $comment = $this->checkInsert(true);
 
-            // Insertion du commentaire en BDD
-            $this->commentModel->insert($comment);
+        // Insertion du commentaire en BDD
+        $this->commentModel->insert($comment);
 
-            // Redirection vers l'article
-            Notification::set('success', "Le commentaire a été publié avec succès.");
-            Http::redirect('/article/showadmin/' . $comment->getArticleId() . '/');
-        }
-        else {
-            AccessControl::denied();
-        }
+        // Redirection vers l'article
+        Notification::set('success', "Le commentaire a été publié avec succès.");
+        Http::redirect('/article/showadmin/' . $comment->getArticleId() . '/');
     }
 
     /**
@@ -144,15 +140,12 @@ class CommentController extends Controller
      */
     public function indexByApprovement(string $is_approved = 'pending'): void
     {
-        if (AccessControl::isUserAdmin()) {
-            $comments = $this->commentModel->findByApproved($is_approved);
+        AccessControl::adminRightsNeeded();
 
-            $pageTitle = "Commentaires en attente de modération";
-            Renderer::render('admin/comments/approvement',compact('comments', 'pageTitle'));
-        }
-        else {
-            AccessControl::denied();
-        }
+        $comments = $this->commentModel->findByApproved($is_approved);
+
+        $pageTitle = "Commentaires en attente de modération";
+        Renderer::render('admin/comments/approvement',compact('comments', 'pageTitle'));
     }
 
     /**
@@ -187,15 +180,12 @@ class CommentController extends Controller
      */
     public function approve(): void
     {
-        if (AccessControl::isUserAdmin()) {
-            $id = $this->checkApprovement();
-            $this->commentModel->updateApprovement($id, Comment::APPROVED);
-            Notification::set('success', "Le commentaire à été approuvé. Il est désormais visible publiquement.");
-            Http::redirect('/comment/indexbyapprovement/');
-        }
-        else {
-            AccessControl::denied();
-        }
+        AccessControl::adminRightsNeeded();
+
+        $id = $this->checkApprovement();
+        $this->commentModel->updateApprovement($id, Comment::APPROVED);
+        Notification::set('success', "Le commentaire à été approuvé. Il est désormais visible publiquement.");
+        Http::redirect('/comment/indexbyapprovement/');
     }
 
     /**
@@ -205,15 +195,12 @@ class CommentController extends Controller
      */
     public function disapprove(): void
     {
-        if (AccessControl::isUserAdmin()) {
-            $id = $this->checkApprovement();
-            $this->commentModel->updateApprovement($id, Comment::DISAPPROVED);
-            Notification::set('success', "Le commentaire a été refusé. Il ne sera pas visible sur le site.");
-            Http::redirect('/comment/indexbyapprovement/');
-        }
-        else {
-            AccessControl::denied();
-        }
+        AccessControl::adminRightsNeeded();
+
+        $id = $this->checkApprovement();
+        $this->commentModel->updateApprovement($id, Comment::DISAPPROVED);
+        Notification::set('success', "Le commentaire a été refusé. Il ne sera pas visible sur le site.");
+        Http::redirect('/comment/indexbyapprovement/');
     }
 
     /**
@@ -223,31 +210,28 @@ class CommentController extends Controller
      */
     public function delete()
     {
-        if (AccessControl::isUserAdmin()) {
-            // Vérification de l'ID en $_GET
-            if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
-                Notification::set('error', "L'identifiant du commentaire n'est pas valide.");
-                Http::redirect('/article/indexadmin/');
-            }
+        AccessControl::adminRightsNeeded();
 
-            $id = $_GET['id'];
-
-            // Vérification de l'existence du commentaire
-            $commentaire = $this->model->find($id);
-            if (!$commentaire) {
-                Notification::set('error', "Le commentaire est introuvable.");
-                Http::redirect('/article/indexadmin/');
-            }
-
-            // Suppression du commentaire
-            $this->commentModel->delete($id);
-
-            // Redirection vers l'article
-            Notification::set('success', "Le commentaire a été supprimé avec succès.");
-            Http::redirect('/article/showadmin/' . $commentaire->getArticleId() . '/');
+        // Vérification de l'ID en $_GET
+        if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
+            Notification::set('error', "L'identifiant du commentaire n'est pas valide.");
+            Http::redirect('/article/indexadmin/');
         }
-        else {
-            AccessControl::denied();
+
+        $id = $_GET['id'];
+
+        // Vérification de l'existence du commentaire
+        $commentaire = $this->model->find($id);
+        if (!$commentaire) {
+            Notification::set('error', "Le commentaire est introuvable.");
+            Http::redirect('/article/indexadmin/');
         }
+
+        // Suppression du commentaire
+        $this->commentModel->delete($id);
+
+        // Redirection vers l'article
+        Notification::set('success', "Le commentaire a été supprimé avec succès.");
+        Http::redirect('/article/showadmin/' . $commentaire->getArticleId() . '/');
     }
 }

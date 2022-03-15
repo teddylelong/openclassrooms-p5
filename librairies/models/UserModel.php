@@ -67,11 +67,11 @@ class UserModel extends Model
      * Return User object on success, false on failure
      *
      * @param string $email
-     * @return User|mixed
+     * @return User|false
      */
     public function findByEmail(string $email)
     {
-        // Todo : add return type
+        // Todo : how to add this return types ?
         $query = $this->pdo->prepare("SELECT * FROM users WHERE email = :email");
         $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, User::class);
         $query->execute(['email' => $email]);

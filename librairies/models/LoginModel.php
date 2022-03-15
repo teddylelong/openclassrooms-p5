@@ -24,8 +24,12 @@ class LoginModel extends Model
         $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, User::class);
         $user = $query->fetch();
 
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['pk_id'];
+        if (!$user) {
+            return false;
+        }
+
+        if (password_verify($password, $user->getPassword())) {
+            $_SESSION['user_id'] = $user->getId();
             return true;
         }
 

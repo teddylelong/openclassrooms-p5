@@ -16,12 +16,12 @@ require_once 'vendor/autoload.php';
 
 class ArticleController extends Controller
 {
-    // Todo : créer constructeur Controller + fonctions par controller
     protected ArticleModel $articleModel;
     protected CommentModel $commentModel;
 
     public function __construct()
     {
+        parent::__construct();
         $this->articleModel = new ArticleModel();
         $this->commentModel = new CommentModel();
     }
@@ -64,15 +64,12 @@ class ArticleController extends Controller
      */
     public function indexAdmin(): void
     {
-        if (AccessControl::isUserAdmin()) {
-            $articles = $this->articleModel->findAll('articles.created_at DESC');
+        AccessControl::adminRightsNeeded();
 
-            $pageTitle = "Gérer les articles";
-            Renderer::render('admin/articles/index', compact('pageTitle', 'articles'));
-        }
-        else {
-            AccessControl::denied();
-        }
+        $articles = $this->articleModel->findAll('articles.created_at DESC');
+
+        $pageTitle = "Gérer les articles";
+        Renderer::render('admin/articles/index', compact('pageTitle', 'articles'));
     }
 
     /**
@@ -82,13 +79,10 @@ class ArticleController extends Controller
      */
     public function create(): void
     {
-        if (AccessControl::isUserAdmin()) {
-            $pageTitle = "Rédiger un article";
-            Renderer::render('admin/articles/create', compact('pageTitle'));
-        }
-        else {
-            AccessControl::denied();
-        }
+        AccessControl::adminRightsNeeded();
+
+        $pageTitle = "Rédiger un article";
+        Renderer::render('admin/articles/create', compact('pageTitle'));
     }
 
     /**
@@ -98,31 +92,28 @@ class ArticleController extends Controller
      */
     public function modify(): void
     {
-        if (AccessControl::isUserAdmin()) {
-            $article_id = null;
+        AccessControl::adminRightsNeeded();
 
-            if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-                $article_id = $_GET['id'];
-            }
+        $article_id = null;
 
-            if (!$article_id) {
-                Http::error404();
-            }
-
-            $article = $this->articleModel->find($article_id);
-
-            if (!$article) {
-                Http::error404();
-            }
-
-            $users = (new UserModel())->findAll();
-
-            $pageTitle = "Modifier un article";
-            Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle', 'users'));
+        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+            $article_id = $_GET['id'];
         }
-        else {
-            AccessControl::denied();
+
+        if (!$article_id) {
+            Http::error404();
         }
+
+        $article = $this->articleModel->find($article_id);
+
+        if (!$article) {
+            Http::error404();
+        }
+
+        $users = (new UserModel())->findAll();
+
+        $pageTitle = "Modifier un article";
+        Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle', 'users'));
     }
 
     /**
@@ -133,63 +124,58 @@ class ArticleController extends Controller
      */
     public function update(): void
     {
-        if (AccessControl::isUserAdmin()) {
+        AccessControl::adminRightsNeeded();
 
-            // Vérification du champ titre
-            $title = null;
-            if (!empty($_POST['title'])) {
-                $title = $_POST['title'];
-            }
-
-            // Vérification du champ Extrait
-            $excerpt = null;
-            if (!empty($_POST['excerpt'])) {
-                $excerpt = $_POST['excerpt'];
-            }
-
-            // Vérification du champ Contenu
-            $content = null;
-            if (!empty($_POST['content'])) {
-                $content = $_POST['content'];
-            }
-
-            // Verification du champ ID article
-            $pk_id = null;
-            if (!empty($_POST['id']) && ctype_digit($_POST['id'])) {
-                $pk_id = $_POST['id'];
-            }
-
-            // Verification du champ auteur
-            $authorId = null;
-            if (!empty($_POST['author']) && ctype_digit($_POST['author'])) {
-                $authorId = $_POST['author'];
-            }
-
-            // Vérification globale
-            if (!$title || !$excerpt || !$content || !$authorId) {
-                Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
-                Http::redirect('/article/showadmin/'.$pk_id.'/');
-            }
-
-            // On créé un nouvel objet \Classes\Article
-            $article = (new Article())
-                ->setTitle($title)
-                ->setExcerpt($excerpt)
-                ->setContent($content)
-                ->setId($pk_id)
-                ->setAuthorId($authorId);
-
-            // Insertion de l'article dans la base de données
-            $this->articleModel->update($article);
-
-            // Redirection vers la liste des articles
-            Notification::set('success', "Les modifications de l'article ont bien été enregistrées.");
-            Http::redirect("/article/indexadmin/");
-        }
-        else {
-            AccessControl::denied();
+        // Vérification du champ titre
+        $title = null;
+        if (!empty($_POST['title'])) {
+            $title = $_POST['title'];
         }
 
+        // Vérification du champ Extrait
+        $excerpt = null;
+        if (!empty($_POST['excerpt'])) {
+            $excerpt = $_POST['excerpt'];
+        }
+
+        // Vérification du champ Contenu
+        $content = null;
+        if (!empty($_POST['content'])) {
+            $content = $_POST['content'];
+        }
+
+        // Verification du champ ID article
+        $pk_id = null;
+        if (!empty($_POST['id']) && ctype_digit($_POST['id'])) {
+            $pk_id = $_POST['id'];
+        }
+
+        // Verification du champ auteur
+        $authorId = null;
+        if (!empty($_POST['author']) && ctype_digit($_POST['author'])) {
+            $authorId = $_POST['author'];
+        }
+
+        // Vérification globale
+        if (!$title || !$excerpt || !$content || !$authorId) {
+            Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
+            Http::redirect('/article/showadmin/'.$pk_id.'/');
+        }
+
+        // On créé un nouvel objet \Classes\Article
+        $article = (new Article())
+            ->setTitle($title)
+            ->setExcerpt($excerpt)
+            ->setContent($content)
+            ->setId($pk_id)
+            ->setAuthorId($authorId);
+
+        // Insertion de l'article dans la base de données
+        $this->articleModel->update($article);
+
+        // Redirection vers la liste des articles
+        Notification::set('success', "Les modifications de l'article ont bien été enregistrées.");
+        Http::redirect("/article/indexadmin/");
     }
 
     /**
@@ -200,55 +186,52 @@ class ArticleController extends Controller
      */
     public function insert(): void
     {
-        if (AccessControl::isUserAdmin()) {
-            // Vérification du champ titre
-            $title = null;
-            if (!empty($_POST['title'])) {
-                $title = $_POST['title'];
-            }
+        AccessControl::adminRightsNeeded();
 
-            // Vérification du champ Extrait
-            $excerpt = null;
-            if (!empty($_POST['excerpt'])) {
-                $excerpt = $_POST['excerpt'];
-            }
-
-            // Vérification du champ Contenu
-            $content = null;
-            if (!empty($_POST['content'])) {
-                $content = $_POST['content'];
-            }
-
-            // Vérification du user ID
-            $fk_user_id = null;
-            if (!empty($_SESSION['user_id'])) {
-                $fk_user_id = $_SESSION['user_id'];
-            }
-
-            // Vérification globale
-            if (!$title || !$excerpt || !$content || !$fk_user_id) {
-                Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
-                Http::redirect('/article/create/');
-            }
-
-            // On créé un nouvel objet \Classes\Article
-            $article = (new Article())
-                ->setTitle($title)
-                ->setExcerpt($excerpt)
-                ->setContent($content)
-                ->setCreatedAt(new DateTime('NOW'))
-                ->setAuthorId($fk_user_id);
-
-            // Insertion de l'article dans la base de données
-            $this->articleModel->insert($article);
-
-            // Redirection vers la liste des articles
-            Notification::set('success', "Article ajouté avec succès !");
-            Http::redirect("/article/indexadmin/");
+        // Vérification du champ titre
+        $title = null;
+        if (!empty($_POST['title'])) {
+            $title = $_POST['title'];
         }
-        else {
-            AccessControl::denied();
+
+        // Vérification du champ Extrait
+        $excerpt = null;
+        if (!empty($_POST['excerpt'])) {
+            $excerpt = $_POST['excerpt'];
         }
+
+        // Vérification du champ Contenu
+        $content = null;
+        if (!empty($_POST['content'])) {
+            $content = $_POST['content'];
+        }
+
+        // Vérification du user ID
+        $fk_user_id = null;
+        if (!empty($_SESSION['user_id'])) {
+            $fk_user_id = $_SESSION['user_id'];
+        }
+
+        // Vérification globale
+        if (!$title || !$excerpt || !$content || !$fk_user_id) {
+            Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
+            Http::redirect('/article/create/');
+        }
+
+        // On créé un nouvel objet \Classes\Article
+        $article = (new Article())
+            ->setTitle($title)
+            ->setExcerpt($excerpt)
+            ->setContent($content)
+            ->setCreatedAt(new DateTime('NOW'))
+            ->setAuthorId($fk_user_id);
+
+        // Insertion de l'article dans la base de données
+        $this->articleModel->insert($article);
+
+        // Redirection vers la liste des articles
+        Notification::set('success', "Article ajouté avec succès !");
+        Http::redirect("/article/indexadmin/");
     }
 
     /**
@@ -294,33 +277,29 @@ class ArticleController extends Controller
      */
     public function showAdmin(): void
     {
-        if (AccessControl::isUserAdmin()) {
+        AccessControl::adminRightsNeeded();
 
-            // 1. Récupération du param "id" et vérification de celui-ci
-            $article_id = null;
+        // 1. Récupération du param "id" et vérification de celui-ci
+        $article_id = null;
 
-            // 2. Vérification du $_GET
-            if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-                $article_id = $_GET['id'];
-            }
-
-            if (!$article_id) {
-                Http::error404();
-            }
-
-            // 3. Récupération de l'article
-            $article = $this->articleModel->find($article_id);
-
-            // 4. Récupération des commentaires de l'article en question
-            $commentaires = $this->commentModel->findAllByArticle($article_id);
-
-            // 5. Affichage
-            $pageTitle = $article->getTitle();
-            Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
+        // 2. Vérification du $_GET
+        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+            $article_id = $_GET['id'];
         }
-        else {
-            AccessControl::denied();
+
+        if (!$article_id) {
+            Http::error404();
         }
+
+        // 3. Récupération de l'article
+        $article = $this->articleModel->find($article_id);
+
+        // 4. Récupération des commentaires de l'article en question
+        $commentaires = $this->commentModel->findAllByArticle($article_id);
+
+        // 5. Affichage
+        $pageTitle = $article->getTitle();
+        Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
     }
 
     /**
@@ -330,31 +309,28 @@ class ArticleController extends Controller
      */
     public function delete(): void
     {
-        if (AccessControl::isUserAdmin()) {
-            // 1. Vérification du $_GET
-            if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
-                Notification::set('error', "L'identifiant de l'article n'est pas valide.");
-                Http::redirect('/article/indexadmin/');
-            }
+        AccessControl::adminRightsNeeded();
 
-            $id = $_GET['id'];
-
-            // 2. Vérification de l'existence de l'article
-            $article = $this->articleModel->find($id);
-            if (!$article) {
-                Notification::set('error', "L'article est introuvable.");
-                Http::redirect('/article/indexadmin');
-            }
-
-            // 3. Suppression de l'article
-            $this->articleModel->delete($id);
-
-            // 4. Redirection vers la liste des articles
-            Notification::set('success', "Suppression de l'article effectuée avec succès !");
+        // 1. Vérification du $_GET
+        if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
+            Notification::set('error', "L'identifiant de l'article n'est pas valide.");
             Http::redirect('/article/indexadmin/');
         }
-        else {
-            AccessControl::denied();
+
+        $id = $_GET['id'];
+
+        // 2. Vérification de l'existence de l'article
+        $article = $this->articleModel->find($id);
+        if (!$article) {
+            Notification::set('error', "L'article est introuvable.");
+            Http::redirect('/article/indexadmin');
         }
+
+        // 3. Suppression de l'article
+        $this->articleModel->delete($id);
+
+        // 4. Redirection vers la liste des articles
+        Notification::set('success', "Suppression de l'article effectuée avec succès !");
+        Http::redirect('/article/indexadmin/');
     }
 }

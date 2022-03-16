@@ -26,6 +26,13 @@ class AccessControl
         self::denied();
     }
 
+    /**
+     * Check if user is admin or not.
+     * Return true on success, false on failure
+     *
+     * @param int $id
+     * @return bool
+     */
     public static function isUserAdmin(int $id): bool
     {
         $userModel = new UserModel();
@@ -42,6 +49,11 @@ class AccessControl
         return false;
     }
 
+    /**
+     * Redirect user to login page and display a message.
+     *
+     * @return void
+     */
     public static function denied() {
         Notification::set('error', self::DENIED_MSG);
         Http::redirect('/login/');

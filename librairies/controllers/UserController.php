@@ -45,25 +45,22 @@ class UserController extends Controller
     {
         AccessControl::adminRightsNeeded();
 
-        // Vérification du champ prénom
+        // Check form data
         $firstname = null;
         if (!empty($_POST['firstname'])) {
             $firstname = $_POST['firstname'];
         }
 
-        // Vérification du champ nom
         $lastname = null;
         if (!empty($_POST['lastname'])) {
             $lastname = $_POST['lastname'];
         }
 
-        // Verification du champ email
         $email = null;
         if (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $email = $_POST['email'];
         }
 
-        // Vérification du champ password
         $password = null;
         $passwordConfirmation = ($_POST['password'] === $_POST['password_confirmation']);
         if (!$passwordConfirmation) {
@@ -81,7 +78,6 @@ class UserController extends Controller
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         }
 
-        // Verification du champ is_admin
         $is_admin = null;
         if ($_POST['is_admin'] === '1' || $_POST['is_admin'] === '0') {
             $is_admin = $_POST['is_admin'];
@@ -92,6 +88,7 @@ class UserController extends Controller
             Http::redirect('/user/create/');
         }
 
+        // Check if email is already used by other account
         if ($this->userModel->findByEmail($email)) {
             Notification::set('error', "L'adresse email utilisée existe déjà.");
             Http::redirect('/user/create/');
@@ -132,13 +129,13 @@ class UserController extends Controller
     {
         AccessControl::adminRightsNeeded();
 
-        // 1. Vérification du $_GET
+        // Check $_GET params
         if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
             Notification::set('error', "L'identifiant de l'utilisateur n'est pas valide.");
             Http::redirect('/user/index/');
         }
 
-        // 2. On vérifie que l'utilisateur ne se supprime pas lui-même...
+        // Check if user is not deleting himself
         if ($_GET['id'] == $_SESSION['user_id']) {
             Notification::set('error', "Vous ne pouvez pas vous supprimer vous-même...");
             Http::redirect('/user/index/');
@@ -146,17 +143,14 @@ class UserController extends Controller
 
         $id = $_GET['id'];
 
-        // 2. Vérification de l'existence de l'utilisateur
         $user = $this->userModel->find($id);
         if (!$user) {
             Notification::set('error', "L'utilisateur est introuvable.");
             Http::redirect('/user/index/');
         }
 
-        // 3. Suppression de l'utilisateur
         $this->userModel->delete($id);
 
-        // 4. Redirection vers la page d'accueil
         Notification::set('success', "L'utilisateur a été supprimé avec succès.");
         Http::redirect('/user/index/');
     }

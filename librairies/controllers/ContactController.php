@@ -17,11 +17,10 @@ use PHPMailer\PHPMailer\SMTP;
 
 class ContactController extends Controller
 {
-    protected $modelName = \Models\ContactModel::class;
-    private const HOST = 'xxx';
-    private const USERNAME = 'xxx';
-    private const PASSWORD = 'xxx';
-    private const PORT = 465;
+    private const HOST      = 'xxx';
+    private const USERNAME  = 'xxx';
+    private const PASSWORD  = 'xxx';
+    private const PORT      = 465;
 
 
     public function check()

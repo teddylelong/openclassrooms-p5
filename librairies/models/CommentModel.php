@@ -52,10 +52,10 @@ class CommentModel extends Model
     {
         $query = $this->pdo->prepare('INSERT INTO comments SET author = :author, content = :content, email = :email, article_id = :article_id, is_approved = :is_approved');
         $query->execute([
-            'author' => $comment->getAuthor(),
-            'content' => $comment->getContent(),
-            'email' => $comment->getEmail(),
-            'article_id' => $comment->getArticleId(),
+            'author'      => $comment->getAuthor(),
+            'content'     => $comment->getContent(),
+            'email'       => $comment->getEmail(),
+            'article_id'  => $comment->getArticleId(),
             'is_approved' => $comment->getIsApproved(),
         ]);
     }

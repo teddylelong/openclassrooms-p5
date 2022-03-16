@@ -46,6 +46,7 @@ class LoginController extends Controller
      */
     public function process(): void
     {
+        // check form data
         $email = null;
         if (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $email = $_POST['email'];
@@ -93,8 +94,8 @@ class LoginController extends Controller
     public function logout(): void
     {
         unset($_SESSION['user_id']);
+
         Notification::set('success', "Déconnexion effectuée avec succès. À bientôt !");
         Http::redirect('/login/');
-        exit;
     }
 }

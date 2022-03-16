@@ -20,9 +20,9 @@ class ContactModel extends Model
         $query = $this->pdo->prepare('INSERT INTO contact SET firstname = :firstname, lastname = :lastname, email = :email, message = :message');
         $query->execute([
             'firstname' => $contact->getFirstname(),
-            'lastname' => $contact->getLastname(),
-            'email' => $contact->getEmail(),
-            'message' => $contact->getMessage()
+            'lastname'  => $contact->getLastname(),
+            'email'     => $contact->getEmail(),
+            'message'   => $contact->getMessage()
         ]);
     }
 }

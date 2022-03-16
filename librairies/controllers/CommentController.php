@@ -31,20 +31,17 @@ class CommentController extends Controller
      */
     public function checkInsert(bool $ifAdmin = false) : ?Comment
     {
-        // Vérification du champ "Pseudo"
+        // Check form data
         $author = null;
         if (!empty($_POST['author'])) {
             $author = htmlspecialchars($_POST['author']);
         }
 
-        // Vérification du champ "Email"
         $email = null;
         if (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            // Sécurisation de l'affichage de l'email
             $email = htmlspecialchars($_POST['email']);
         }
 
-        // Si l'utilisateur est admin, on rempli les champs automatiquement
         if ($ifAdmin) {
             $userModel = new UserModel();
             $user = $userModel->find($_SESSION['user_id']);
@@ -53,20 +50,16 @@ class CommentController extends Controller
             $email = $user->getEmail();
         }
 
-        // Vérification du champ "Contenu"
         $content = null;
         if (!empty($_POST['content'])) {
-            // Sécurisation de l'affichage du contenu
             $content = htmlspecialchars($_POST['content']);
         }
 
-        // Vérification du champ "ID"
         $article_id = null;
         if (!empty($_POST['article_id']) && ctype_digit($_POST['article_id'])) {
             $article_id = $_POST['article_id'];
         }
 
-        // Vérification globale du formulaire
         if (!$author || !$email || !$article_id || !$content) {
             Notification::set('error', "Tous les champs doivent être remplis.");
             if ($ifAdmin) {
@@ -77,7 +70,6 @@ class CommentController extends Controller
 
         $article = $this->articleModel->find($article_id);
 
-        // Vérification de l'existence de l'article
         if (!$article) {
             Http::error404();
         }
@@ -104,10 +96,8 @@ class CommentController extends Controller
     {
         $comment = $this->checkInsert();
 
-        // Insertion du commentaire en BDD
         $this->commentModel->insert($comment);
 
-        // Redirection vers l'article
         Notification::set('success', "Merci pour votre commentaire ! Il est en attente de modération et sera traité dans les plus brefs délais.");
         Http::redirect('/article/show/' . $comment->getArticleId() . '/');
     }
@@ -124,10 +114,8 @@ class CommentController extends Controller
 
         $comment = $this->checkInsert(true);
 
-        // Insertion du commentaire en BDD
         $this->commentModel->insert($comment);
 
-        // Redirection vers l'article
         Notification::set('success', "Le commentaire a été publié avec succès.");
         Http::redirect('/article/showadmin/' . $comment->getArticleId() . '/');
     }
@@ -155,7 +143,6 @@ class CommentController extends Controller
      */
     public function checkApprovement(): int
     {
-        // Vérification de l'ID en $_GET
         $id = null;
         if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
             $id = $_GET['id'];
@@ -164,7 +151,6 @@ class CommentController extends Controller
             Notification::set('error', "L'identifiant du commentaire n'est pas valide.");
         }
 
-        // Vérification de l'existence du commentaire
         $comment = $this->commentModel->find($id);
         if (!$comment) {
             Notification::set('error', "Le commentaire est introuvable. Veuillez réessayer.");
@@ -212,7 +198,6 @@ class CommentController extends Controller
     {
         AccessControl::adminRightsNeeded();
 
-        // Vérification de l'ID en $_GET
         if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
             Notification::set('error', "L'identifiant du commentaire n'est pas valide.");
             Http::redirect('/article/indexadmin/');
@@ -220,17 +205,14 @@ class CommentController extends Controller
 
         $id = $_GET['id'];
 
-        // Vérification de l'existence du commentaire
         $commentaire = $this->model->find($id);
         if (!$commentaire) {
             Notification::set('error', "Le commentaire est introuvable.");
             Http::redirect('/article/indexadmin/');
         }
 
-        // Suppression du commentaire
         $this->commentModel->delete($id);
 
-        // Redirection vers l'article
         Notification::set('success', "Le commentaire a été supprimé avec succès.");
         Http::redirect('/article/showadmin/' . $commentaire->getArticleId() . '/');
     }

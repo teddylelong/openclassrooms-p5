@@ -12,6 +12,10 @@
     <header>
         {% block header %}
             <h1>Interface d'administration</h1>
+
+            {% if session.username %}
+                Utilisateur connecté : {{ session.username }} <a href="/logout/">(Déconnexion)</a>
+            {% endif %}
         {% endblock header %}
     </header>
 

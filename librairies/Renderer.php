@@ -34,6 +34,8 @@ class Renderer
         $twig->addFunction(
             new TwigFunction('notificationDisplay', function() { return Notification::display(); })
         );
+        $twig->addGlobal('session', $_SESSION);
+
         return $twig;
     }
 }

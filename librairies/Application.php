@@ -30,8 +30,6 @@ class Application
 
         // Check if this controller & method exists
         if (!method_exists($controllerPath, $task)) {
-            // /!\ Si je vire cette ligne, erreur :
-            // new \Controllers\ArticleController();
             Http::error404();
         }
 

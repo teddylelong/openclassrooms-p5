@@ -88,8 +88,8 @@ class ArticleController extends Controller
     {
         AccessControl::adminRightsNeeded();
 
+        //Check $_GET params
         $article_id = null;
-
         if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
             $article_id = $_GET['id'];
         }

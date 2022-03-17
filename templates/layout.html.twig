@@ -10,6 +10,9 @@
     {% block body %}
         <header>
             {% block header %}
+                {% if session.username %}
+                    Utilisateur connecté : {{ session.username }} <a href="/logout/">(Déconnexion)</a>
+                {% endif %}
             {% endblock header %}
         </header>
         <nav>
@@ -37,7 +40,7 @@
                     <li><a href="#">Me contacter</a></li>
                 </ul>
                 <p>&copy; {{ 'now'|date('Y') }} - Teddy Lelong</p>
-                <p><a href="/login/dashboard/">Administration</a></p>
+                <p><a href="/login/">Administration</a></p>
             {% endblock footer %}
         </footer>
 

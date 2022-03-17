@@ -17,7 +17,7 @@ class LoginModel extends Model
      */
     public function checkLogin(string $email, string $password): bool
     {
-        $query = $this->pdo->prepare("SELECT pk_id, password FROM users WHERE email = :email");
+        $query = $this->pdo->prepare("SELECT pk_id, firstname, password FROM users WHERE email = :email");
         $query->execute(['email' => $email]);
         $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, User::class);
         $user = $query->fetch();
@@ -28,6 +28,7 @@ class LoginModel extends Model
 
         if (password_verify($password, $user->getPassword())) {
             $_SESSION['user_id'] = $user->getId();
+            $_SESSION['username'] = $user->getFirstname();
             return true;
         }
 

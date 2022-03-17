@@ -61,7 +61,7 @@ class LoginController extends Controller
         }
 
         if($this->loginModel->checkLogin($email, $password)) {
-            Notification::set('success', "Bienvenue !");
+            Notification::set('success', "Bienvenue, {$_SESSION['username']} !");
             Http::redirect('/login/dashboard/');
         }
         else {
@@ -91,7 +91,10 @@ class LoginController extends Controller
      */
     public function logout(): void
     {
-        unset($_SESSION['user_id']);
+        unset(
+            $_SESSION['user_id'],
+            $_SESSION['username']
+        );
 
         Notification::set('success', "Déconnexion effectuée avec succès. À bientôt !");
         Http::redirect('/login/');

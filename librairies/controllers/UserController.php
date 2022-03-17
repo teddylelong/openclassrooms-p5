@@ -9,8 +9,6 @@ use Notification;
 use Renderer;
 use Classes\User;
 
-require_once 'vendor/autoload.php';
-
 class UserController extends Controller
 {
     protected UserModel $userModel;

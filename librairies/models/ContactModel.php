@@ -2,8 +2,6 @@
 
 namespace Models;
 
-require_once 'librairies/autoload.php';
-
 use Classes\Contact;
 
 class ContactModel extends Model

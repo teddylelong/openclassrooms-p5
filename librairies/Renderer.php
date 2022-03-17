@@ -1,7 +1,5 @@
 <?php
 
-require_once 'librairies/autoload.php';
-
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
@@ -13,8 +11,6 @@ class Renderer
      *
      * @param string $path
      * @param array $var
-     * @param bool $toAdminPage
-     * @return void
      */
     public static function render(string $path, $var = [])
     {
@@ -27,9 +23,9 @@ class Renderer
      *
      * @return Environment
      */
-    public function loadTwig()
+    public static function loadTwig()
     {
-        $loader = new FilesystemLoader('templates');
+        $loader = new FilesystemLoader('templates'); // Line 32 is here
 
         $twig = new Environment($loader, [
             'auto_reload' => true,

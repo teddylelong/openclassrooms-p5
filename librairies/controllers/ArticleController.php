@@ -12,8 +12,6 @@ use Models\UserModel;
 use DateTime;
 use Classes\Article;
 
-require_once 'vendor/autoload.php';
-
 class ArticleController extends Controller
 {
     protected ArticleModel $articleModel;

@@ -8,8 +8,6 @@ use Models\LoginModel;
 use Notification;
 use Renderer;
 
-require_once 'vendor/autoload.php';
-
 class LoginController extends Controller
 {
     protected LoginModel $loginModel;

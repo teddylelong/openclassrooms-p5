@@ -2,8 +2,6 @@
 
 namespace Classes;
 
-require_once 'vendor/autoload.php';
-
 use DateTime;
 
 class User

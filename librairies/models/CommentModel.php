@@ -5,8 +5,6 @@ namespace Models;
 use PDO;
 use Classes\Comment;
 
-require_once 'vendor/autoload.php';
-
 class CommentModel extends Model
 {
     protected $table = 'comments';

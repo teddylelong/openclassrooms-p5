@@ -11,8 +11,6 @@ use Models\CommentModel;
 use Models\ArticleModel;
 use Models\UserModel;
 
-require_once 'vendor/autoload.php';
-
 class CommentController extends Controller
 {
     private CommentModel $commentModel;

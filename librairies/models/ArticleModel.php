@@ -2,8 +2,6 @@
 
 namespace Models;
 
-require_once 'vendor/autoload.php';
-
 use Classes\Article;
 use PDO;
 

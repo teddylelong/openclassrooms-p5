@@ -3,6 +3,7 @@
 namespace Classes;
 
 use DateTime;
+use Parsedown;
 
 class Article
 {
@@ -61,11 +62,22 @@ class Article
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getExcerpt(): ?string
     {
         return $this->excerpt;
+    }
+
+    /**
+     * Get markdown formatted excerpt
+     *
+     * @return string|null
+     */
+    public function getMarkdownExcerpt(): ?string
+    {
+        $parsedown = new Parsedown();
+        return $parsedown->text($this->excerpt);
     }
 
     /**
@@ -83,6 +95,17 @@ class Article
     public function getContent(): ?string
     {
         return $this->content;
+    }
+
+    /**
+     * Get markdown formatted content
+     *
+     * @return string|null
+     */
+    public function getMarkdownContent(): ?string
+    {
+        $parsedown = new Parsedown();
+        return $parsedown->text($this->content);
     }
 
     /**

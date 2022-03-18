@@ -17,12 +17,21 @@
         </header>
         <nav>
             {% block navigation %}
-                <ul>
-                    <li><a href="/">Accueil</a></li>
-                    <li><a href="#">À propos</a></li>
-                    <li><a href="/article/index/">Le Blog</a></li>
-                    <li><a href="#">Me contacter</a></li>
-                </ul>
+                <nav class="nav">
+                    <div class="nav-left">
+                        <a class="nav-item" href="/">LOGO</a>
+                    </div>
+
+                    <label for="menu-toggle" class="nav-toggle">&equiv;</label>
+                    <input type="checkbox" id="menu-toggle" class="is-hidden"/>
+
+                    <div class="nav-right nav-menu">
+                        <a class="nav-item" href="/">Accueil</a>
+                        <a class="nav-item" href="#">À propos</a>
+                        <a class="nav-item" href="/article/index/">Le Blog</a>
+                        <a class="nav-item" href="#">Me contacter</a>
+                    </div>
+                </nav>
             {% endblock navigation %}
         </nav>
 

@@ -8,7 +8,7 @@
 
         <h2>{{ article.getTitle }}</h2>
         <small>Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hs') }} par {{ article.getAuthorName }}</small>
-        <p>{{ article.getExcerpt }}</p>
+        <p>{{ article.getMarkdownExcerpt }}</p>
         <a href="/article/show/{{ article.getId }}/">Lire la suite</a>
 
     {% endfor %}

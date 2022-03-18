@@ -29,7 +29,7 @@ class Renderer
 
         $twig = new Environment($loader, [
             'auto_reload' => true,
-            'autoescape' => 'html'
+            'autoescape' => false
         ]);
         $twig->addFunction(
             new TwigFunction('notificationDisplay', function() { return Notification::display(); })

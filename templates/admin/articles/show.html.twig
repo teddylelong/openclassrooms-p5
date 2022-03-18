@@ -11,11 +11,11 @@
     {% endif %}
 </small>
 
-<p>{{ article.getExcerpt }}</p>
+<p>{{ article.getMarkdownExcerpt }}</p>
 
 <hr>
 
-{{ article.getContent }}
+{{ article.getMarkdownContent }}
 
 {% if commentaires|length is same as(0) %}
 

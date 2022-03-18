@@ -7,15 +7,15 @@
     Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hs')  }} par {{ article.getAuthorName }}
 
     {% if article.getUpdatedAt %}
-        - Mis à jour le {{ article.getUpdatedAt|date('d\/m\/Y \à H\hs')  }}
+        - Mis à jour le {{ article.getUpdatedAt|date('d\/m\/Y \à H\\hs')  }}
     {% endif %}
 </small>
 
-<p>{{ article.getExcerpt }}</p>
+<p>{{ article.getMarkdownExcerpt }}</p>
 
 <hr>
 
-{{ article.getContent }}
+{{ article.getMarkdownContent }}
 
 {% if commentaires|length is same as(0) %}
 

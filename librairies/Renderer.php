@@ -31,9 +31,20 @@ class Renderer
             'auto_reload' => true,
             'autoescape' => false
         ]);
+
+        // Twig functions
         $twig->addFunction(
             new TwigFunction('notificationDisplay', function() { return Notification::display(); })
         );
+
+        $twig->addFunction(
+            new TwigFunction('echoActiveClass', function($requestUri) {
+                if ($_SERVER['REQUEST_URI'] == $requestUri)
+                    echo 'active';
+            })
+        );
+
+        // Twig globals vars
         $twig->addGlobal('session', $_SESSION);
 
         return $twig;

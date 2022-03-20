@@ -1,21 +1,26 @@
 {% block contact %}
-<h1 id="me-contacter">Me contacter</h1>
+<h2 id="me-contacter" class="h4">Me contacter</h2>
 
-<p>Un projet à me proposer, une demande d'informations ? N'hésitez pas à me contacter par email en renseignant le formulaire ci-dessous !</p>
+<div id="contact" class="col-12 col-md-6">
 
-<form action="/contact/check/" method="POST">
-    <label for="firstname">Votre prénom</label>
-    <input type="text" name="firstname" id="firstname"/>
+    <p>Un projet à me proposer, une demande d'informations ? N'hésitez pas à me contacter par email en renseignant le formulaire ci-dessous !</p>
 
-    <label for="lastname">Votre nom</label>
-    <input type="text" name="lastname" id="lastname"/>
+    <form class="" action="/contact/check/" method="POST">
+        <label class="form-label mt-2" for="firstname">Votre prénom</label>
+        <input class="form-control" type="text" name="firstname" id="firstname" placeholder="Saisissez votre prénom"/>
 
-    <label for="email">Votre adresse email</label>
-    <input type="email" name="email" id="email"/>
+        <label class="form-label mt-2" for="lastname">Votre nom</label>
+        <input class="form-control" type="text" name="lastname" id="lastname" placeholder="Saisissez votre nom"/>
 
-    <label for="message">Votre message</label>
-    <textarea name="message" id="message"></textarea>
+        <label class="form-label mt-2" for="email">Votre adresse email</label>
+        <input class="form-control" type="email" name="email" id="email" placeholder="votre-adresse@domaine.com"/>
 
-    <input type="submit" value="Envoyer">
-</form>
+        <label class="form-label mt-2" for="message">Votre message</label>
+        <textarea class="form-control" name="message" id="message" placeholder="Saisissez votre message" style="height: 160px"></textarea>
+
+        <div class="d-grid gap-2">
+            <input class="btn btn-primary mt-3" type="submit" value="Envoyer">
+        </div>
+    </form>
+</div>
 {% endblock contact %}

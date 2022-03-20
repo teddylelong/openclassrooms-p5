@@ -3,21 +3,36 @@
 a {
   text-decoration: none;
 }
-
 body {
   background-color: $primary;
 }
-
 #site-background {
-  background-color: #fff;
+  background-color: #efefef;
 }
 
+/* Buttons */
+
+.btn-primary,
+.btn-primary:hover{
+  color: #ffffff;
+}
+.btn-outline-primary:hover {
+  color: #ffffff;
+}
+
+
 /* Site Top-Header */
+
 .site-top-header {
   background-color: #1c1f23;
 }
 
+
 /* Main content */
+
+#main-content {
+  background-color: #ffffff;
+}
 
 
 /* Footer */

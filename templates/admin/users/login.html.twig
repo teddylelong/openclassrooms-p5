@@ -3,15 +3,19 @@
 
 <h1>Connexion</h1>
 
-<form action="/login/process/" method="POST">
-    <label for="email">Adresse e-mail :</label>
-    <input type="email" name="email" id="email">
+    <div class="row g-3 align-items-center">
+        <form class="col-6" action="/login/process/" method="POST">
+            <label class="form-label mt-2" for="email">Adresse e-mail :</label>
+            <input class="form-control" type="email" name="email" id="email">
 
-    <label for="password">Mot de passe :</label>
-    <input type="password" name="password" id="password">
+            <label class="form-label mt-2" for="password">Mot de passe :</label>
+            <input class="form-control" type="password" name="password" id="password">
 
-    <input type="submit" value="Se connecter">
-</form>
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary mt-3" type="submit">Se connecter</button>
+                <a class="btn btn-outline-primary" href="/">Retour sur le site</a>
+            </div>
+        </form>
+    </div>
 
-<p><a href="/">Retour sur le site</a></p>
 {% endblock content %}

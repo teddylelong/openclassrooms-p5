@@ -10,7 +10,7 @@
 <body class="admin">
     {% block body %}
 
-        <!-- Top Header -->
+        <!-- Top header -->
         {% include 'template-parts/admin/admin-top-header.part.twig' %}
 
         <!-- Header -->
@@ -19,15 +19,21 @@
         <!-- Nav menu -->
         {% include'template-parts/admin/admin-nav.part.twig' %}
 
-            {{ notificationDisplay() }}
+        <!-- Main content -->
+        <div id="site-background" class="container-fluid">
+            <main id="main-content" class="container p-2">
+                {{ notificationDisplay() }}
 
-        {% block content %}
-        {% endblock content %}
+                {% block content %}
+                {% endblock content %}
+            </main>
+        </div>
 
         <!-- Footer -->
         {% include 'template-parts/admin/admin-footer.part.twig' %}
 
     {% endblock body %}
 
+    <script src="/assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

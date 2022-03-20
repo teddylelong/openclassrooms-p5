@@ -12023,13 +12023,27 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+a {
+  text-decoration: none;
+}
+
+body {
+  background-color: #5094CA;
+}
+
+#site-background {
+  background-color: #fff;
+}
+
 /* Site Top-Header */
 .site-top-header {
   background-color: #1c1f23;
 }
 
-a {
-  text-decoration: none;
+/* Main content */
+/* Footer */
+#website-footer a:hover {
+  text-decoration: underline;
 }
 
 /*# sourceMappingURL=main.css.map */

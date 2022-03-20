@@ -8,25 +8,29 @@
 </head>
 
 <body class="website">
-
     {% block body %}
 
-    <!-- Top Header -->
-    {% include 'template-parts/website-top-header.part.twig' %}
+        <!-- Top Header -->
+        {% include 'template-parts/website-top-header.part.twig' %}
 
-    <!-- Header + Nav -->
-    {% include'template-parts/website-header.part.twig' %}
+        <!-- Header + Nav -->
+        {% include'template-parts/website-header.part.twig' %}
 
-        {{ notificationDisplay() }}
+        <!-- Main content -->
+        <div id="site-background" class="container-fluid">
+            <main id="main-content" class="container p-2">
+                {{ notificationDisplay() }}
 
-    {% block content %}
-    {% endblock content %}
+                {% block content %}
+                {% endblock content %}
+            </main>
+        </div>
 
-    <!-- Footer -->
-    {% include 'template-parts/website-footer.part.twig' %}
+        <!-- Footer -->
+        {% include 'template-parts/website-footer.part.twig' %}
 
     {% endblock body %}
+
     <script src="/assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

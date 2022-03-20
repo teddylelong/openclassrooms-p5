@@ -1,9 +1,9 @@
-<header class="container-fluid bg-dark px-0">
+<header class="container-fluid bg-primary px-0">
     {% block header %}
-        <nav class="navbar navbar-expand-sm navbar-dark px-3">
+        <nav class="navbar container navbar-expand-md navbar-dark py-2">
             {% block navigation %}
                 <a href="/" class="navbar-brand">
-                    <img src="###" alt="Teddy Lelong">
+                    <img src="/assets/img/logo.png" height="100" alt="Teddy Lelong">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -11,10 +11,18 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <a class="nav-link {{ echoActiveClass('/') }}" href="/">Accueil</a>
-                        <a class="nav-link {{ echoActiveClass('/a-propos/') }}" href="#">À propos</a>
-                        <a class="nav-link {{ echoActiveClass('/article/index/') }}" href="/article/index/">Le Blog</a>
-                        <a class="nav-link {{ echoActiveClass('/me-contacter/') }}" href="#">Me contacter</a>
+                        <li class="nav-item px-2">
+                            <a class="nav-link {{ echoActiveClass('/') }}" href="/">Accueil</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link {{ echoActiveClass('/a-propos/') }}" href="#">À propos</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link {{ echoActiveClass('/article/index/') }}" href="/article/index/">Le Blog</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link {{ echoActiveClass('/me-contacter/') }}" href="#">Me contacter</a>
+                        </li>
                     </ul>
                 </div>
             {% endblock navigation %}

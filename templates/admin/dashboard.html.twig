@@ -2,31 +2,64 @@
 
 {% block content %}
 
-<h1>Dashboard</h1>
+    <div class="alert-primary p-3 rounded-2 mb-2">
+        Bonjour, {{ session.username }} ! Que souhaitez-vous faire aujourd'hui ?
+    </div>
 
-<nav>
-    <h2>Gestion des utilisateurs</h2>
-    <ul>
-        <li><a href="/user/create/">Créer un utilisateur</a></li>
-        <li><a href="/user/index/">Gérer les utilisateurs</a></li>
-    </ul>
+    <nav class="row row-cols-1 row-cols-md-2 g-2">
 
-    <h2>Gestion des articles</h2>
-    <ul>
-        <li><a href="/article/create/">Rédiger un article</a></li>
-        <li><a href="/article/indexadmin/">Gérer les articles</a></li>
-    </ul>
+        <div class="col">
+            <div class="card h-100 border-0">
+                <div class="card-body">
+                    <h2 class="card-title h5">Gestion des articles</h2>
+                    <h3 class="card-subtitle mb-2 text-muted h6">Rédigez un nouvel article ou gérez les articles existants</h3>
+                    <p class="card-text d-grid gap-2">
+                        <a class="btn btn-outline-primary text-start" href="/article/create/"><i class="bi bi-pencil"></i> Rédiger un article</a>
+                        <a class="btn btn-outline-primary text-start" href="/article/indexadmin/"><i class="bi bi-file-earmark-text"></i> Gérer les articles</a>
+                    </p>
+                </div>
+            </div>
+        </div>
 
-    <h2>Gestion des commentaires</h2>
-    <ul>
-        <li><a href="/comment/indexbyapprovement/">En attente de modération</a></li>
-    </ul>
+        <div class="col">
+            <div class="card h-100 border-0">
+                <div class="card-body">
+                    <h2 class="card-title h5">Gestion des utilisateurs</h2>
+                    <h3 class="card-subtitle mb-2 text-muted h6">Ajoutez et gérer les utilisateurs du site-web</h3>
+                    <p class="card-text d-grid gap-2">
+                        <a class="btn btn-outline-primary text-start" href="/user/create/"><i class="bi bi-person-plus"></i> Créer un utilisateur</a>
+                        <a class="btn btn-outline-primary text-start" href="/user/index/"><i class="bi bi-people"></i> Gérer les utilisateurs</a>
+                    </p>
+                </div>
+            </div>
+        </div>
 
-    <h2>Site-web</h2>
-    <ul>
-        <li><a href="/">Retour sur le site</a></li>
-        <li><a href="/logout/">Déconnexion</a></li>
-    </ul>
-</nav>
+        <div class="col">
+            <div class="card h-100 border-0">
+                <div class="card-body">
+                    <h2 class="card-title h5">Gestion des commentaires</h2>
+                    <h3 class="card-subtitle mb-2 text-muted h6">Modérez les commentaires déposés sur le site</h3>
+                    <p class="card-text d-grid gap-2">
+                        <a class="btn btn-outline-primary text-start" href="/comment/indexbyapprovement/"><i class="bi bi-chat-left-text"></i> Commentaires en attente de modération</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 border-0">
+                <div class="card-body">
+                    <h2 class="card-title h5">Site web</h2>
+                    <h3 class="card-subtitle mb-2 text-muted h6">Retournez sur le site ou déconnectez-vous</h3>
+                    <p class="card-text d-grid gap-2">
+                        <a class="btn btn-outline-primary text-start" href="/"><i class="bi bi-house-door"></i> Retour sur le site</a>
+                        <a class="btn btn-outline-danger text-start" href="/logout/"><i class="bi bi-power"></i> Déconnexion</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </nav>
 
 {% endblock content %}
+

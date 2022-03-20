@@ -10,35 +10,24 @@
 <body class="admin">
     {% block body %}
 
-    <header>
-        {% block header %}
-            <h1>Interface d'administration</h1>
+        <!-- Top Header -->
+        {% include 'template-parts/admin/admin-top-header.part.twig' %}
 
-            {% if session.username %}
-                Utilisateur connecté : {{ session.username }} <a class="text-primary" href="/logout/">(Déconnexion)</a>
-            {% endif %}
-        {% endblock header %}
-    </header>
+        <!-- Header -->
+        {% include 'template-parts/admin/admin-header.part.twig' %}
 
-    <nav>
-        {% block navigation %}
-        {% endblock navigation %}
-    </nav>
+        <!-- Nav menu -->
+        {% include'template-parts/admin/admin-nav.part.twig' %}
 
-        {{ notificationDisplay() }}
+            {{ notificationDisplay() }}
 
         {% block content %}
         {% endblock content %}
 
-        <footer>
-            {% block footer %}
-                <p><a href="/login/">Retour au dashboard</a></p>
-            {% endblock footer %}
-        </footer>
+        <!-- Footer -->
+        {% include 'template-parts/admin/admin-footer.part.twig' %}
 
     {% endblock body %}
 
-
 </body>
-
 </html>

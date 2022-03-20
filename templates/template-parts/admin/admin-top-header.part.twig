@@ -1,0 +1,21 @@
+{% if session.username %}
+    <div class="site-top-header container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-9 p-2 text-primary">
+                <small>
+                    <a class="m-1 link-primary" href="/"><i class="bi bi-house-door"></i></i> Aller sur le site</a>  |
+                    <a class="m-1 link-primary" href="/article/create/"><i class="bi bi-pencil"></i> Écrire</a>
+                    <a class="m-1 link-primary" href="/article/indexadmin/"><i class="bi bi-file-earmark-text"></i> Gérer les articles</a> |
+                    <a class="m-1 link-primary" href="/comment/indexbyapprovement/"><i class="bi bi-chat-left-text"></i> Commentaires</a> |
+                    <a class="m-1 link-primary" href="/user/create/"><i class="bi bi-person-plus"></i> Créer un utilisateur</a>
+                    <a class="m-1 link-primary" href="/user/index/"><i class="bi bi-people"></i> Gérer les utilisateurs</a>
+                </small>
+            </div>
+            <div class="col-12 col-lg-3 p-1 text-end text-light">
+                <small>
+                    <span>{{ 'now'|date('d/m/Y') }}</span><span class="mx-3">Bonjour, {{ session.username }} !</span><a class="link-danger" href="/logout/"><i class="bi bi-power"></i> Déconnexion</a>
+                </small>
+            </div>
+        </div>
+    </div>
+{% endif %}

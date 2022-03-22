@@ -2,19 +2,61 @@
 
 {% block content %}
 
-<h1>Rédiger un article</h1>
+<div class="alert-primary p-3 rounded-2 mb-2">
+    <i class="bi bi-info-circle-fill"></i> Les articles utilisent l'éditeur markdown pour l'extrait et le contenu. Consultez l'aide ci-dessous pour plus d'informations.
+</div>
+
+<div class="accordion my-2" id="accordionFlushExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                <i class="bi bi-question-circle"></i>&nbsp;Aide de l'éditeur Markdown
+            </button>
+        </h2>
+        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <p>Texte en <code>**gras**</code></p>
+                <p>Texte en <code>__italique__</code></p>
+                <p>Texte en <code>~~barré~~</code></p>
+                <p>Lien vers un site web <code>[texte](https://site.com "Titre")</code></p>
+                <p>Titres : <br/>
+                    <code>
+                        # H1 <br/>
+                        ## H2 <br/>
+                        ### H3 <br/>
+                        etc.
+                    </code>
+                </p>
+                <p>Listes : <br/>
+                    <code>
+                        - Item <br/>
+                        - Item
+                    </code>
+                </p>
+                <p>
+                    <code>
+                        1. Item <br/>
+                        2. Item
+                    </code>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <form action="/article/insert/" method="POST">
-    <label for="title">Titre :</label>
-    <input type="text" name="title" id="title"/>
+    <label class="form-label mt-2" for="title">Titre :</label>
+    <input class="form-control" type="text" name="title" id="title" placeholder="Donnez un titre à cet article"/>
 
-    <label for="excerpt">Rédigez un extrait :</label>
-    <textarea name="excerpt" id="excerpt"></textarea>
+    <label class="form-label mt-2" for="excerpt">Rédigez un extrait :</label>
+    <textarea class="form-control" name="excerpt" id="excerpt" style="height: 100px" placeholder="Saisissez un court extrait : il sera affiché dans la liste des articles ainsi qu'au tout début de l'article"></textarea>
 
-    <label for="content">Contenu :</label>
-    <textarea name="content" id="content"></textarea>
+    <label class="form-label mt-2" for="content">Contenu :</label>
+    <textarea class="form-control" name="content" id="content" style="height: 200px" placeholder="Saisissez le texte de votre article"></textarea>
 
-    <input type="submit" value="Publier">
+    <div class="d-grid gap-2">
+        <input class="btn btn-primary mt-3" type="submit" value="Publier">
+    </div>
 </form>
 
 {% endblock content %}

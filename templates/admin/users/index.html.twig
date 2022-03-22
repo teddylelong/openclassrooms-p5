@@ -2,16 +2,16 @@
 
 {% block content %}
 
-<h1>Liste des utilisateurs :</h1>
-
-<table>
+<table class="table table-striped">
     <thead>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Email</th>
-        <th>Droits admin</th>
-        <th>Date d'inscription</th>
-        <th></th>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Email</th>
+            <th scope="col">Rôle</th>
+            <th scope="col">Date d'inscription</th>
+            <th scope="col"></th>
+        </tr>
     </thead>
     <tbody>
     {% for user in users %}
@@ -19,9 +19,9 @@
             <td>{{ user.getLastname }}</td>
             <td>{{ user.getFirstname }}</td>
             <td>{{ user.getEmail }}</td>
-            <td>{{ user.getIsAdmin }}</td>
+            <td>{{ user.getIsAdmin|replace({'1': 'Administrateur', '0': 'Membre'}) }}</td>
             <td>{{ user.getCreatedAt }}</td>
-            <td><a href="/user/delete/{{ user.getId }}/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur ?')">Supprimer</a></td>
+            <td><a class="link-danger" href="/user/delete/{{ user.getId }}/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur ?')">Supprimer</a></td>
         </tr>
     {% endfor %}
     </tbody>

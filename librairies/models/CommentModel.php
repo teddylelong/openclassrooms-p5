@@ -10,6 +10,20 @@ class CommentModel extends Model
     protected $table = 'comments';
 
     /**
+     * Return a comment from database for given ID
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function find(int $id)
+    {
+        $query = $this->pdo->prepare("SELECT * FROM $this->table WHERE pk_id = :id");
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, Comment::class);
+        $query->execute(['id' => $id]);
+        return $query->fetch();
+    }
+
+    /**
      * Return a comments list for given article ID
      * By default, return only approved comments
      *

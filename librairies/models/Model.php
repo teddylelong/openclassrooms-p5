@@ -16,11 +16,6 @@ abstract class Model
         $this->pdo = Database::getPdo();
     }
 
-    public function getClassName(): string
-    {
-        return '\Classes\\'.(new ReflectionClass(get_called_class()))->getShortName();
-    }
-
     /**
      * Return an item from database for given ID
      *

@@ -124,14 +124,16 @@ class CommentController extends Controller
      * @param string $is_approved
      * @return void
      */
-    public function indexByApprovement(string $is_approved = 'pending'): void
+    public function indexByApprovement(string $is_approved = Comment::PENDING): void
     {
         AccessControl::adminRightsNeeded();
 
-        $comments = $this->commentModel->findByApproved($is_approved);
+        $comments_pending = $this->commentModel->findByApproved($is_approved);
+        $comments_approved = $this->commentModel->findByApproved(Comment::APPROVED);
+        $comments_disapproved = $this->commentModel->findByApproved(Comment::DISAPPROVED);
 
-        $pageTitle = "Commentaires en attente de modération";
-        Renderer::render('admin/comments/approvement',compact('comments', 'pageTitle'));
+        $pageTitle = "Gestion des commentaires";
+        Renderer::render('admin/comments/approvement',compact('comments_pending', 'comments_approved', 'comments_disapproved', 'pageTitle'));
     }
 
     /**
@@ -188,6 +190,21 @@ class CommentController extends Controller
     }
 
     /**
+     * Set comment approvement to pending (User admin role is required)
+     *
+     * @return void
+     */
+    public function pending(): void
+    {
+        AccessControl::adminRightsNeeded();
+
+        $id = $this->checkApprovement();
+        $this->commentModel->updateApprovement($id, Comment::PENDING);
+        Notification::set('success', "Le commentaire est à nouveau en attente. Il n'est pas visible sur le site.");
+        Http::redirect('/comment/indexbyapprovement/');
+    }
+
+    /**
      * Delete a comment (User admin role is required)
      *
      * @return void
@@ -203,7 +220,7 @@ class CommentController extends Controller
 
         $id = $_GET['id'];
 
-        $commentaire = $this->model->find($id);
+        $commentaire = $this->commentModel->find($id);
         if (!$commentaire) {
             Notification::set('error', "Le commentaire est introuvable.");
             Http::redirect('/article/indexadmin/');

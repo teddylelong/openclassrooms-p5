@@ -2,29 +2,126 @@
 
 {% block content %}
 
-<h1>Commentaires en attente de modération</h1>
+<div class="accordion" id="accordionPanelsStayOpenExample">
 
-<table>
-    <thead>
-    <th>Pseudo</th>
-    <th>Email</th>
-    <th>Contenu</th>
-    <th>Date d'ajout</th>
-    <th>Article</th>
-    <th></th>
-    </thead>
-    <tbody>
-    {% for comment in comments %}
-        <tr>
-            <td>{{ comment.getAuthor }}</td>
-            <td>{{ comment.getEmail }}</td>
-            <td>{{ comment.getContent }}</td>
-            <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hs') }}</td>
-            <td><a href="/article/showadmin/{{ comment.getArticleId }}/">Voir</a></td>
-            <td><a href="/comment/approve/{{ comment.getId }}/">Approuver</a> <a href="/comment/disapprove/{{ comment.getId }}/">Désapprouver</a></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <!-- Accordion #1 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+            <button class="accordion-button text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                <i class="bi bi-clock"></i>&nbsp;Commentaires en attente de modération
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+            <div class="accordion-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <th>Pseudo</th>
+                        <th>Email</th>
+                        <th>Contenu</th>
+                        <th>Date d'ajout</th>
+                        <th>Article</th>
+                        <th></th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                        {% for comment in comments_pending %}
+                            <tr>
+                                <td>{{ comment.getAuthor }}</td>
+                                <td>{{ comment.getEmail }}</td>
+                                <td>{{ comment.getContent }}</td>
+                                <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hi') }}</td>
+                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">Voir</a></td>
+                                <td><a class="link-success" href="/comment/approve/{{ comment.getId }}/"><i class="bi bi-hand-thumbs-up"></i> Approuver</a></td>
+                                <td><a class="link-danger" href="/comment/disapprove/{{ comment.getId }}/"><i class="bi bi-hand-thumbs-down"></i> Désapprouver</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accordion #2 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+            <button class="accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                Commentaires approuvés
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+            <div class="accordion-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <th>Pseudo</th>
+                        <th>Email</th>
+                        <th>Contenu</th>
+                        <th>Date d'ajout</th>
+                        <th>Article</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                        {% for comment in comments_approved %}
+                            <tr>
+                                <td>{{ comment.getAuthor }}</td>
+                                <td>{{ comment.getEmail }}</td>
+                                <td>{{ comment.getContent }}</td>
+                                <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hi') }}</td>
+                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">Voir</a></td>
+                                <td><a class="link-primary" href="/comment/pending/{{ comment.getId }}/"><i class="bi bi-clock"></i> Remettre en file d'attente</a></td>
+                                <td><a class="link-danger" href="/comment/disapprove/{{ comment.getId }}/"><i class="bi bi-hand-thumbs-down"></i> Désapprouver</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accordion #3 -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+            <button class="accordion-button collapsed text-danger" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                Commentaires non-approuvés
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+            <div class="accordion-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <th>Pseudo</th>
+                        <th>Email</th>
+                        <th>Contenu</th>
+                        <th>Date d'ajout</th>
+                        <th>Article</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                        {% for comment in comments_disapproved %}
+                            <tr>
+                                <td>{{ comment.getAuthor }}</td>
+                                <td>{{ comment.getEmail }}</td>
+                                <td>{{ comment.getContent }}</td>
+                                <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hi') }}</td>
+                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">Voir</a></td>
+                                <td><a class="link-primary" href="/comment/pending/{{ comment.getId }}/"><i class="bi bi-clock"></i> Remettre en file d'attente</a></td>
+                                <td><a class="btn btn-outline-danger" href="/comment/delete/{{ comment.getId }}/" onclick="return window.confirm('Souhaitez-vous vraiment supprimer ce commentaire ? Cette action est irréversible.')"><i class="bi bi-trash3"></i> Supprimer</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

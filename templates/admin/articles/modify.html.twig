@@ -2,20 +2,20 @@
 
 {% block content %}
 
-<h1>Modifier l'article {{ article.getTitle }}</h1>
+{% include 'template-parts/admin/help/article-markdown.part.twig' %}
 
 <form action="/article/update/" method="POST">
-    <label for="title">Titre :</label>
-    <input type="text" name="title" id="title" value="{{ article.getTitle }}"/>
+    <label class="form-label mt-2" for="title">Titre :</label>
+    <input class="form-control" type="text" name="title" id="title" value="{{ article.getTitle }}"/>
 
-    <label for="excerpt">Extrait :</label>
-    <textarea name="excerpt" id="excerpt">{{ article.getExcerpt }}</textarea>
+    <label class="form-label mt-2" for="excerpt">Extrait :</label>
+    <textarea class="form-control" name="excerpt" id="excerpt" style="height: 100px">{{ article.getExcerpt }}</textarea>
 
-    <label for="content">Contenu :</label>
-    <textarea name="content" id="content">{{ article.getContent }}</textarea>
+    <label class="form-label mt-2" for="content">Contenu :</label>
+    <textarea class="form-control" name="content" id="content" style="height: 200px">{{ article.getContent }}</textarea>
 
-    <label for="author">Attribuer un nouvel auteur :</label>
-    <select name="author" id="author">
+    <label class="form-label mt-2" for="author">Attribuer un nouvel auteur :</label>
+    <select class="form-select" name="author" id="author">
         <option value="{{ article.getAuthorId }}">Garder l'auteur actuel ({{ article.getAuthorName }})</option>
         {% for user in users %}
         <option value="{{ user.getId }}">{{ user.getFirstname }} {{ user.getLastname }}</option>
@@ -24,7 +24,9 @@
 
     <input type="hidden" name="id" value="{{ article.getId }}">
 
-    <input type="submit" value="Mettre à jour">
+    <div class="d-grid gap-2">
+        <input class="btn btn-primary mt-3" type="submit" value="Mettre à jour">
+    </div>
 </form>
 
 {% endblock content %}

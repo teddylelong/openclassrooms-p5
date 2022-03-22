@@ -2,47 +2,7 @@
 
 {% block content %}
 
-<div class="alert-primary p-3 rounded-2 mb-2">
-    <i class="bi bi-info-circle-fill"></i> Les articles utilisent l'éditeur markdown pour l'extrait et le contenu. Consultez l'aide ci-dessous pour plus d'informations.
-</div>
-
-<div class="accordion my-2" id="accordionFlushExample">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="flush-headingOne">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                <i class="bi bi-question-circle"></i>&nbsp;Aide de l'éditeur Markdown
-            </button>
-        </h2>
-        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body">
-                <p>Texte en <code>**gras**</code></p>
-                <p>Texte en <code>__italique__</code></p>
-                <p>Texte en <code>~~barré~~</code></p>
-                <p>Lien vers un site web <code>[texte](https://site.com "Titre")</code></p>
-                <p>Titres : <br/>
-                    <code>
-                        # H1 <br/>
-                        ## H2 <br/>
-                        ### H3 <br/>
-                        etc.
-                    </code>
-                </p>
-                <p>Listes : <br/>
-                    <code>
-                        - Item <br/>
-                        - Item
-                    </code>
-                </p>
-                <p>
-                    <code>
-                        1. Item <br/>
-                        2. Item
-                    </code>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+{% include 'template-parts/admin/help/article-markdown.part.twig' %}
 
 <form action="/article/insert/" method="POST">
     <label class="form-label mt-2" for="title">Titre :</label>

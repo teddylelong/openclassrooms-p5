@@ -31,7 +31,7 @@
                                 <td>{{ comment.getEmail }}</td>
                                 <td>{{ comment.getContent }}</td>
                                 <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hi') }}</td>
-                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">Voir</a></td>
+                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">{{ comment.title }}</a></td>
                                 <td><a class="link-success" href="/comment/approve/{{ comment.getId }}/"><i class="bi bi-hand-thumbs-up"></i> Approuver</a></td>
                                 <td><a class="link-danger" href="/comment/disapprove/{{ comment.getId }}/"><i class="bi bi-hand-thumbs-down"></i> Désapprouver</a></td>
                             </tr>
@@ -71,7 +71,7 @@
                                 <td>{{ comment.getEmail }}</td>
                                 <td>{{ comment.getContent }}</td>
                                 <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hi') }}</td>
-                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">Voir</a></td>
+                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">{{ comment.title }}</a></td>
                                 <td><a class="link-primary" href="/comment/pending/{{ comment.getId }}/"><i class="bi bi-clock"></i> Remettre en file d'attente</a></td>
                                 <td><a class="link-danger" href="/comment/disapprove/{{ comment.getId }}/"><i class="bi bi-hand-thumbs-down"></i> Désapprouver</a></td>
                             </tr>
@@ -111,7 +111,7 @@
                                 <td>{{ comment.getEmail }}</td>
                                 <td>{{ comment.getContent }}</td>
                                 <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hi') }}</td>
-                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">Voir</a></td>
+                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">{{ comment.title }}</a></td>
                                 <td><a class="link-primary" href="/comment/pending/{{ comment.getId }}/"><i class="bi bi-clock"></i> Remettre en file d'attente</a></td>
                                 <td><a class="btn btn-outline-danger" href="/comment/delete/{{ comment.getId }}/" onclick="return window.confirm('Souhaitez-vous vraiment supprimer ce commentaire ? Cette action est irréversible.')"><i class="bi bi-trash3"></i> Supprimer</a></td>
                             </tr>

@@ -48,7 +48,7 @@ class CommentModel extends Model
      */
     public function findByApproved($is_approuved = 'pending'): array
     {
-        $query = $this->pdo->prepare("SELECT * FROM comments WHERE is_approved = :is_approved");
+        $query = $this->pdo->prepare("SELECT comments.*, articles.title FROM comments LEFT JOIN articles on comments.article_id = articles.pk_id WHERE is_approved = :is_approved");
         $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, Comment::class);
         $query->execute(['is_approved' => $is_approuved]);
         return $query->fetchAll();

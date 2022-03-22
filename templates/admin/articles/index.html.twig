@@ -2,19 +2,21 @@
 
 {% block content %}
 
-<h1>Gérer les articles</h1>
-
 {% for article in articles %}
 
-    <h2>{{ article.getTitle }}</h2>
+    <h2 class="h3">{{ article.getTitle }}</h2>
 
-    <small>Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hs') }} par {{ article.getAuthorName() }}</small>
+    <p class="fs-6 text-muted">Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hi') }} par {{ article.getAuthorName() }}</p>
 
     <p>{{ article.getMarkdownExcerpt }}</p>
 
-    <a href="/article/showadmin/{{ article.getId }}/">Consulter</a>
-    <a href="/article/modify/{{ article.getId }}/">Modifier</a>
-    <a href="/article/delete/{{ article.getId }}/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet article ?')">Supprimer</a>
+    <div class="text-end">
+    <a class="btn btn-sm btn-outline-primary" href="/article/showadmin/{{ article.getId }}/">Consulter</a>
+    <a class="btn btn-sm btn-primary" href="/article/modify/{{ article.getId }}/">Modifier</a>
+    <a class="btn btn-sm btn-outline-danger" href="/article/delete/{{ article.getId }}/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet article ?')">Supprimer</a>
+    </div>
+
+    <hr>
 
 {% endfor %}
 

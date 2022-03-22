@@ -3,13 +3,13 @@
 
 <h1>{{ article.getTitle }}</h1>
 
-<small>
-    Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hs')  }} par {{ article.getAuthorName }}
+<p class="fs-6 text-muted">
+    Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hi')  }} par {{ article.getAuthorName }}
 
     {% if article.getUpdatedAt %}
-        - Mis à jour le {{ article.getUpdatedAt|date('d\/m\/Y \à H\\hs')  }}
+        - Mis à jour le {{ article.getUpdatedAt|date('d\/m\/Y \à H\\hi')  }}
     {% endif %}
-</small>
+</p>
 
 <p>{{ article.getMarkdownExcerpt }}</p>
 
@@ -19,27 +19,33 @@
 
 {% if commentaires|length is same as(0) %}
 
-    <h2>Il n'y a pas encore de commentaires pour cet article... Soyez le premier !</h2>
+    <h2 class="h4">Il n'y a pas encore de commentaires pour cet article... Soyez le premier !</h2>
 
 {% else %}
-    <h2>Il y a déjà {{ commentaires|length }} réactions : </h2>
+    <h2 class="h4">Il y a déjà {{ commentaires|length }} réaction{% if commentaires|length > 1 %}s{% endif%} : </h2>
 
     {% for commentaire in commentaires %}
-        <h3>Commentaire de {{ commentaire.getAuthor }}</h3>
-        <small>Le {{ commentaire.getCreatedAt|date('d\/m\/Y \à H\\hs')  }}</small>
-        <blockquote>
-            {{ commentaire.getContent }}
-        </blockquote>
-        <a href="/comment/delete/{{ commentaire.getId }}/" onclick="return window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
+        <div class="comment m-2">
+            <h3 class="h5">Commentaire de {{ commentaire.getAuthor }}</h3>
+            <small>Le {{ commentaire.getCreatedAt|date('d\/m\/Y \à H\\hi')  }}</small>
+            <blockquote>
+                {{ commentaire.getContent }}
+            </blockquote>
+            <a class="link-danger" href="/comment/delete/{{ commentaire.getId }}/" onclick="return window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
+        </div>
     {% endfor %}
 
 {% endif %}
 
-<form action="/comment/insertadmin/" method="POST">
-    <h3>Déposez votre commentaire ci-dessous</h3>
-    <textarea name="content" id="" cols="30" rows="10" placeholder="Votre commentaire ..."></textarea>
+<form class="mt-5" action="/comment/insertadmin/" method="POST">
+    <h3 class="h5">Déposez votre commentaire ci-dessous :</h3>
+    <textarea class="form-control" name="content" id="" cols="30" rows="10" placeholder="Votre commentaire ..."></textarea>
     <input type="hidden" name="article_id" value="{{ article.getId }}">
-    <button>Commenter !</button>
+
+    <div class="d-grid gap-2 mt-3">
+        <button class="btn btn-primary" type="submit">Commenter !</button>
+        <a class="btn btn-outline-danger" href="/article/indexadmin/">Retour</a>
+    </div>
 </form>
 
 {% endblock content %}

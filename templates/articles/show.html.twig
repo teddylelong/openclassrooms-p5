@@ -3,13 +3,13 @@
 
 <h1>{{ article.getTitle }}</h1>
 
-<small>
+<p class="fs-6 text-muted">
     Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hi')  }} par {{ article.getAuthorName }}
 
     {% if article.getUpdatedAt %}
         - Mis à jour le {{ article.getUpdatedAt|date('d\/m\/Y \à H\\hi')  }}
     {% endif %}
-</small>
+</p>
 
 <p>{{ article.getMarkdownExcerpt }}</p>
 
@@ -19,17 +19,19 @@
 
 {% if commentaires|length is same as(0) %}
 
-    <h2>Il n'y a pas encore de commentaires pour cet article... Soyez le premier !</h2>
+    <h2 class="h4">Il n'y a pas encore de commentaires pour cet article... Soyez le premier !</h2>
 
 {% else %}
-    <h2>Il y a déjà {{ commentaires|length }} réaction{% if commentaires|length > 1 %}s{% endif%} : </h2>
+    <h2 class="h4">Il y a déjà {{ commentaires|length }} réaction{% if commentaires|length > 1 %}s{% endif%} : </h2>
 
     {% for commentaire in commentaires %}
-        <h3>Commentaire de {{ commentaire.getAuthor }}</h3>
-        <small>Le {{ commentaire.getCreatedAt|date('d\/m\/Y \à H\\hi')  }}</small>
-        <blockquote>
-            {{ commentaire.getContent }}
-        </blockquote>
+        <div class="comment m-2">
+            <h3 class="h5">Commentaire de {{ commentaire.getAuthor }}</h3>
+            <small class="text-muted">Le {{ commentaire.getCreatedAt|date('d\/m\/Y \à H\\hi')  }}</small>
+            <blockquote>
+                {{ commentaire.getContent }}
+            </blockquote>
+        </div>
     {% endfor %}
 
 {% endif %}
@@ -38,10 +40,10 @@
 
 <form action="/comment/insert/" method="POST">
     <h3>Déposez votre commentaire ci-dessous</h3>
-    <input type="text" name="author" placeholder="Votre pseudo !">
-    <input type="email" name="email" placeholder="Votre email !">
-    <textarea name="content" id="" cols="30" rows="10" placeholder="Votre commentaire ..."></textarea>
+    <input class="form-control mt-3 mb-3" type="text" name="author" placeholder="Votre pseudo">
+    <input class="form-control mb-3" type="email" name="email" placeholder="Votre adresse email">
+    <textarea class="form-control mb-3" name="content" id="" cols="30" rows="10" placeholder="Rédigez votre commentaire"></textarea>
     <input type="hidden" name="article_id" value="{{ article.getId }}">
-    <button>Commenter !</button>
+    <button class="btn btn-primary">Commenter !</button>
 </form>
 {% endblock content %}

@@ -27,7 +27,7 @@
     {% for commentaire in commentaires %}
         <div class="comment m-2">
             <h3 class="h5">Commentaire de {{ commentaire.getAuthor }}</h3>
-            <small>Le {{ commentaire.getCreatedAt|date('d\/m\/Y \à H\\hi')  }}</small>
+            <small class="text-muted">Le {{ commentaire.getCreatedAt|date('d\/m\/Y \à H\\hi')  }}</small>
             <blockquote>
                 {{ commentaire.getContent }}
             </blockquote>

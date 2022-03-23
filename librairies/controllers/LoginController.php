@@ -3,7 +3,9 @@
 namespace Controllers;
 
 use AccessControl;
+use Classes\Comment;
 use Http;
+use Models\CommentModel;
 use Models\LoginModel;
 use Notification;
 use Renderer;
@@ -79,8 +81,11 @@ class LoginController extends Controller
     {
         AccessControl::adminRightsNeeded();
 
+        $commentModel = new CommentModel();
+        $commentCount = count($commentModel->findByApproved(Comment::PENDING));
+
         $pageTitle = "Dashboard";
-        Renderer::render('admin/dashboard', compact('pageTitle'));
+        Renderer::render('admin/dashboard', compact('pageTitle', 'commentCount'));
     }
 
 

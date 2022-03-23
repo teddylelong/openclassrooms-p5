@@ -8,11 +8,12 @@
     <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
             <button class="accordion-button text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                <i class="bi bi-clock"></i>&nbsp;Commentaires en attente de modération
+                <i class="bi bi-clock"></i>&nbsp;Commentaires en attente de modération {% if comments_pending|length >= 1 %}({{ comments_pending|length }}){% endif %}
             </button>
         </h2>
         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
+                {% if comments_pending|length >= 1 %}
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -39,6 +40,9 @@
                         </tbody>
                     </table>
                 </div>
+                {% else %}
+                    <p class="alert-primary p-3 rounded">Il n'y a aucun commentaire à modérer pour l'instant.</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -47,11 +51,12 @@
     <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
             <button class="accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                Commentaires approuvés
+                Commentaires approuvés {% if comments_approved|length >= 1 %}({{ comments_approved|length }}){% endif %}
             </button>
         </h2>
         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
             <div class="accordion-body">
+                {% if comments_approved|length >= 1 %}
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -79,6 +84,9 @@
                         </tbody>
                     </table>
                 </div>
+                {% else %}
+                    <p class="alert-primary p-3 rounded">Il n'y a aucun commentaire approuvé pour l'instant.</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -87,11 +95,12 @@
     <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingThree">
             <button class="accordion-button collapsed text-danger" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                Commentaires non-approuvés
+                Commentaires non-approuvés {% if comments_disapproved|length >= 1 %}({{ comments_disapproved|length }}){% endif %}
             </button>
         </h2>
         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
             <div class="accordion-body">
+                {% if comments_disapproved|length >= 1 %}
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -119,6 +128,9 @@
                         </tbody>
                     </table>
                 </div>
+                {% else %}
+                    <p class="alert-primary p-3 rounded">Il n'y a aucun commentaire approuvé pour l'instant.</p>
+                {% endif %}
             </div>
         </div>
     </div>

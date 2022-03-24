@@ -45,7 +45,7 @@
                     <h3 class="card-subtitle mb-2 text-muted h6">Modérez les commentaires déposés sur le site</h3>
                     <p class="card-text d-grid gap-2">
                         <a class="btn btn-outline-primary text-start" href="/comment/indexbyapprovement/">
-                            <i class="bi bi-chat-left-text"></i> Commentaires en attente de modération {% if commentCount >= 1 %}({{ commentCount }}){% endif %}
+                            <i class="bi bi-chat-left-text"></i> Commentaires en attente de modération {% if commentCount >= 1 %}<span class="badge bg-danger">{{ commentCount }}</span>{% endif %}
                         </a>
                     </p>
                 </div>

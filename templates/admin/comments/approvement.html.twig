@@ -8,7 +8,7 @@
     <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
             <button class="accordion-button text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                <i class="bi bi-clock"></i>&nbsp;Commentaires en attente de modération {% if comments_pending|length >= 1 %}({{ comments_pending|length }}){% endif %}
+                <i class="bi bi-clock"></i>&nbsp;Commentaires en attente de modération {% if comments_pending|length >= 1 %} <span class="badge bg-primary ms-2">{{ comments_pending|length }}</span> {% endif %}
             </button>
         </h2>
         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
@@ -51,7 +51,7 @@
     <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
             <button class="accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                Commentaires approuvés {% if comments_approved|length >= 1 %}({{ comments_approved|length }}){% endif %}
+                Commentaires approuvés {% if comments_approved|length >= 1 %} <span class="badge bg-success ms-2">{{ comments_approved|length }}</span> {% endif %}
             </button>
         </h2>
         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
@@ -95,7 +95,7 @@
     <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingThree">
             <button class="accordion-button collapsed text-danger" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                Commentaires non-approuvés {% if comments_disapproved|length >= 1 %}({{ comments_disapproved|length }}){% endif %}
+                Commentaires non-approuvés {% if comments_disapproved|length >= 1 %} <span class="badge bg-danger ms-2">{{ comments_disapproved|length }}</span> {% endif %}
             </button>
         </h2>
         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">

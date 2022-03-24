@@ -16,12 +16,9 @@
         <!-- Header -->
         {% include 'template-parts/admin/admin-header.part.twig' %}
 
-        <!-- Nav menu -->
-        {% include'template-parts/admin/admin-nav.part.twig' %}
-
         <!-- Main content -->
-        <div id="site-background" class="container-fluid">
-            <main id="main-content" class="container p-2">
+        <div id="site-background" class="container-fluid p-0">
+            <main id="main-content" class="container px-4 py-3 shadow">
                 {{ notificationDisplay() }}
 
                 {% block content %}

@@ -2,30 +2,32 @@
 
 {% block content %}
 
-<table class="table table-striped">
-    <thead>
+<div class="table-responsive">
+    <table class="table table-striped">
         <thead>
-            <th scope="col">Nom</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Email</th>
-            <th scope="col">Rôle</th>
-            <th scope="col">Date d'inscription</th>
-            <th scope="col"></th>
+            <thead>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Email</th>
+                <th scope="col">Rôle</th>
+                <th scope="col">Date d'inscription</th>
+                <th scope="col"></th>
+            </thead>
         </thead>
-    </thead>
-    <tbody>
-    {% for user in users %}
-        <tr>
-            <td>{{ user.getLastname }}</td>
-            <td>{{ user.getFirstname }}</td>
-            <td>{{ user.getEmail }}</td>
-            <td>{{ user.getIsAdmin|replace({'1': 'Administrateur', '0': 'Membre'}) }}</td>
-            <td>{{ user.getCreatedAt }}</td>
-            <td><a class="link-danger" href="/user/delete/{{ user.getId }}/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur ?')">Supprimer</a></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.getLastname }}</td>
+                <td>{{ user.getFirstname }}</td>
+                <td>{{ user.getEmail }}</td>
+                <td>{{ user.getIsAdmin|replace({'1': 'Administrateur', '0': 'Membre'}) }}</td>
+                <td>{{ user.getCreatedAt }}</td>
+                <td><a class="link-danger" href="/user/delete/{{ user.getId }}/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur ?')">Supprimer</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 <div class="d-grid gap-2">
     <a class="btn btn-outline-primary" href="/login/dashboard/">Retour</a>

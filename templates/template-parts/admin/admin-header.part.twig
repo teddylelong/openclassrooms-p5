@@ -1,13 +1,13 @@
-<header class="container-fluid bg-primary px-0">
+<header class="container-fluid bg-primary px-0" style="height: 126px">
     {% block header %}
-            <div class="container py-2 my-auto" style="height: 126px;">
-                    <div class="row">
-                            <div class="col-3">
+            <div class="container py-2 my-auto">
+                    <div class="row" style="height: 126px">
+                            <div class="col-sm-4 d-none d-sm-block">
                                     <a href="/login/">
-                                            <img src="/assets/img/logo.png" height="100" alt="Teddy Lelong">
+                                            <img src="/assets/img/logo.png" height="100" alt="Teddy Lelong" style="margin-top: 5px">
                                     </a>
                             </div>
-                            <h1 class="text-light col-9 my-auto">{{ pageTitle }}</h1>
+                            <h1 class="h2 col-12 col-sm-8 text-light text-center text-sm-end my-auto">{{ pageTitle }}</h1>
                     </div>
             </div>
     {% endblock header %}

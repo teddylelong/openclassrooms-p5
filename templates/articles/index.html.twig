@@ -13,7 +13,7 @@
                         <h4 class="card-subtitle mb-2 text-muted h6">Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hi') }} par {{ article.getAuthorName }}</h4>
                         <p class="card-text">{{ article.getMarkdownExcerpt }}</p>
                         <p class="text-end mb-0">
-                            <a href="/article/show/{{ article.getId }}/" class="link-primary">Lire la suite</a>
+                            <a href="/article/show/{{ article.getId }}/" class="link-primary stretched-link">Lire la suite</a>
                         </p>
                     </div>
                 </div>

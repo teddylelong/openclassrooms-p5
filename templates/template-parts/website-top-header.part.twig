@@ -1,21 +1,53 @@
 {% if session.username %}
-    <div id="site-top-header" class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-lg-9 p-2 text-light">
-                <small>
-                    <a class="m-1 link-light" href="/login/dashboard/"><i class="bi bi-speedometer"></i> Dashboard</a>  |
-                    <a class="m-1 link-light" href="/article/create/"><i class="bi bi-pencil"></i> Écrire</a>
-                    <a class="m-1 link-light" href="/article/indexadmin/"><i class="bi bi-file-earmark-text"></i> Gérer les articles</a> |
-                    <a class="m-1 link-light" href="/comment/indexbyapprovement/"><i class="bi bi-chat-left-text"></i> Commentaires</a> |
-                    <a class="m-1 link-light" href="/user/create/"><i class="bi bi-person-plus"></i> Créer un utilisateur</a>
-                    <a class="m-1 link-light" href="/user/index/"><i class="bi bi-people"></i> Gérer les utilisateurs</a>
-                </small>
+
+    <nav id="site-top-header" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminMenuBar" aria-controls="adminMenuBar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="adminMenuBar">
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 small">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login/dashboard/"><i class="bi bi-speedometer"></i> Dashboard</a>
+                    </li>
+
+                    <div class="vr text-light d-none d-lg-inline-block"></div>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/article/create/"><i class="bi bi-pencil"></i> Écrire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/article/indexadmin/"><i class="bi bi-file-earmark-text"></i> Gérer les articles</a>
+                    </li>
+
+                    <div class="vr text-light d-none d-lg-inline-block"></div>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/comment/indexbyapprovement/"><i class="bi bi-chat-left-text"></i> Commentaires</a>
+                    </li>
+
+                    <div class="vr text-light d-none d-lg-inline-block"></div>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/create/"><i class="bi bi-person-plus"></i> Créer un utilisateur</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/index/"><i class="bi bi-people"></i> Gérer les utilisateurs</a>
+                    </li>
+                </ul>
             </div>
-            <div class="col-12 col-lg-3 p-1 text-end text-light">
-                <small>
-                    <span>{{ 'now'|date('d/m/Y') }}</span><span class="mx-3">Bonjour, {{ session.username }} !</span><a class="link-danger" href="/logout/"><i class="bi bi-power"></i> Déconnexion</a>
-                </small>
-            </div>
+
+            <span class="navbar-brand mt-2 text-light fs-6 position-absolute top-0 end-0">
+                <span class="small">Bonjour, {{ session.username }} !</span>
+                <a class="small link-danger" href="/logout/">
+                    <i class="bi bi-power"></i> Déconnexion
+                </a>
+            </span>
+
         </div>
-    </div>
+    </nav>
+
 {% endif %}

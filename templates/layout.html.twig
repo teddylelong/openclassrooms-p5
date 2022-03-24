@@ -17,8 +17,8 @@
         {% include'template-parts/website-header.part.twig' %}
 
         <!-- Main content -->
-        <div id="site-background" class="container-fluid">
-            <main id="main-content" class="container p-2 shadow">
+        <div id="site-background" class="container-fluid p-0">
+            <main id="main-content" class="container px-4 py-3 shadow">
                 {{ notificationDisplay() }}
 
                 {% block content %}

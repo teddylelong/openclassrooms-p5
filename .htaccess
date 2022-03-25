@@ -9,3 +9,5 @@ RewriteRule ^([a-z]+)/([a-z]+)/$ index.php?controller=$1&task=$2
 
 RewriteRule ^login/$ index.php?controller=login&task=loginform
 RewriteRule ^logout/$ index.php?controller=login&task=logout
+
+RewriteRule ^a-propos/$ index.php?controller=page&task=apropos

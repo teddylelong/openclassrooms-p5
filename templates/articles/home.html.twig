@@ -30,10 +30,13 @@
         <a class="btn btn-primary mt-3" href="/article/index/">Voir tous les articles</a>
     </div>
 
-
     <hr/>
 
-{% include 'contact/contact.html.twig' %}
+    <h2 id="me-contacter" class="h4">Me contacter</h2>
+
+    <div id="contact" class="col-12 col-md-6">
+        {% include 'template-parts/website-contactform.part.twig' %}
+    </div>
 
 {% endblock content %}
 

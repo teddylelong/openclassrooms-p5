@@ -29,7 +29,7 @@ class LoginController extends Controller
         if (isset($_SESSION['user_id'])) {
             $id = $_SESSION['user_id'];
 
-            if (AccessControl::isUserAdmin($id)) {
+            if ($this->accessControl::isUserAdmin($id)) {
                 Http::redirect('/login/dashboard/');
             }
         }

@@ -5,6 +5,7 @@ namespace Controllers;
 use Classes\Contact;
 use Notification;
 use Http;
+use Renderer;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -16,6 +17,16 @@ class ContactController extends Controller
     private const PASSWORD  = 'xxx';
     private const PORT      = 465;
 
+    /**
+     * Display the contact form
+     *
+     * @return void
+     */
+    public function contact()
+    {
+        $pageTitle = "Me contacter";
+        Renderer::render('contact/contact', compact('pageTitle'));
+    }
 
     /**
      * Check data in contact form, send email and save it in database

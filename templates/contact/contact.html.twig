@@ -1,26 +1,13 @@
-{% block contact %}
-<h2 id="me-contacter" class="h4">Me contacter</h2>
+{% extends 'layout.html.twig' %}
 
-<div id="contact" class="col-12 col-md-6">
+{% block content %}
+
+    <h1>{{ pageTitle }}</h1>
 
     <p>Un projet à me proposer, une demande d'informations ? N'hésitez pas à me contacter par email en renseignant le formulaire ci-dessous !</p>
 
-    <form class="" action="/contact/check/" method="POST">
-        <label class="form-label mt-2" for="firstname">Votre prénom</label>
-        <input class="form-control" type="text" name="firstname" id="firstname" placeholder="Saisissez votre prénom"/>
+    <div id="contact" class="col-12 col-md-6">
+        {% include 'template-parts/website-contactform.part.twig' %}
+    </div>
 
-        <label class="form-label mt-2" for="lastname">Votre nom</label>
-        <input class="form-control" type="text" name="lastname" id="lastname" placeholder="Saisissez votre nom"/>
-
-        <label class="form-label mt-2" for="email">Votre adresse email</label>
-        <input class="form-control" type="email" name="email" id="email" placeholder="votre-adresse@domaine.com"/>
-
-        <label class="form-label mt-2" for="message">Votre message</label>
-        <textarea class="form-control" name="message" id="message" placeholder="Saisissez votre message" style="height: 160px"></textarea>
-
-        <div class="d-grid gap-2">
-            <button class="btn btn-primary mt-3" type="submit"><i class="bi bi-send"></i> Envoyer</button>
-        </div>
-    </form>
-</div>
-{% endblock contact %}
+{% endblock content %}

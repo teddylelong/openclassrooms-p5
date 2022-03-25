@@ -32,15 +32,44 @@ body {
   }
 }
 
+
+/* Site Header */
+
+#website-header {
+  border-bottom: 4px solid darken($primary, 10);
+}
+
+
 /* Main content */
 
 #main-content {
   background-color: #ffffff;
 }
 
+.iframe-responsive{
+  overflow:hidden;
+  position:relative;
+  height:0;
+}
+.iframe-responsive iframe{
+  left:0;
+  top:0;
+  height:100%;
+  width:100%;
+  position:absolute;
+}
+#google-maps,
+.iframe-responsive iframe {
+  height: 488px;
+}
+
 
 /* Footer */
 
-#website-footer a:hover{
-  text-decoration: underline;
+#website-footer {
+  border-top: 4px solid darken($primary, 10);
+
+  a:hover{
+    text-decoration: underline;
+  }
 }

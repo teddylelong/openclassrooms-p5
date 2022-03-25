@@ -1,9 +1,12 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-<h1>Oups, une erreur s'est produite...</h1>
+    <div class="text-center text-primary">
+        <div style="font-size: 3.4em;">Erreur</div>
+        <div style="font-size: 6em; margin-top: -20px">404</div>
+    </div>
 
-<p>Erreur 404 - Page non trouvée</p>
-<p>La page à laquelle vous souhaitez accéder n'existe pas.</p>
-<p><a href="/">Retourner à l'accueil</a></p>
+<p class="alert-primary d-inline-block p-2 rounded"><i class="bi bi-exclamation-circle"></i> Erreur 404 - Page non trouvée</p>
+<p>Toutes nos excuses ! La page à laquelle vous souhaitez accéder n'existe pas sur ce site web.</p>
+<p><a class="btn btn-outline-primary" href="/">Retourner à l'accueil</a></p>
 {% endblock content %}

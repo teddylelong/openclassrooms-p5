@@ -1,21 +1,21 @@
 {% extends 'adminlayout.html.twig' %}
 {% block content %}
 
-<h1>{{ article.getTitle }}</h1>
+<h1>{{ article.title }}</h1>
 
 <p class="fs-6 text-muted">
-    Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hi')  }} par {{ article.getAuthorName }}
+    Écrit le {{ article.createdAt|date('d\/m\/Y \à H\\hi')  }} par {{ article.authorName }}
 
-    {% if article.getUpdatedAt %}
-        - Mis à jour le {{ article.getUpdatedAt|date('d\/m\/Y \à H\\hi')  }}
+    {% if article.updatedAt %}
+        - Mis à jour le {{ article.updatedAt|date('d\/m\/Y \à H\\hi')  }}
     {% endif %}
 </p>
 
-<p>{{ article.getMarkdownExcerpt }}</p>
+<p>{{ article.markdownExcerpt }}</p>
 
 <hr>
 
-{{ article.getMarkdownContent }}
+{{ article.markdownContent }}
 
 {% if commentaires|length is same as(0) %}
 
@@ -26,26 +26,28 @@
 
     {% for commentaire in commentaires %}
         <div class="comment m-2">
-            <h3 class="h5">Commentaire de {{ commentaire.getAuthor }}</h3>
-            <small class="text-muted">Le {{ commentaire.getCreatedAt|date('d\/m\/Y \à H\\hi')  }}</small>
+            <h3 class="h5">Commentaire de {{ commentaire.author }}</h3>
+            <small class="text-muted">Le {{ commentaire.createdAt|date('d\/m\/Y \à H\\hi')  }}</small>
             <blockquote>
-                {{ commentaire.getContent }}
+                {{ commentaire.content }}
             </blockquote>
-            <a class="link-danger" href="/comment/delete/{{ commentaire.getId }}/" onclick="return window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
+            <a class="link-danger" href="/comment/delete/{{ commentaire.id }}/" onclick="return window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</a>
         </div>
     {% endfor %}
 
 {% endif %}
 
-<form class="mt-5" action="/comment/insertadmin/" method="POST">
-    <h3 class="h5">Déposez votre commentaire ci-dessous :</h3>
-    <textarea class="form-control" name="content" id="" cols="30" rows="10" placeholder="Votre commentaire ..."></textarea>
-    <input type="hidden" name="article_id" value="{{ article.getId }}">
+<div class="col-12 col-md-6">
+    <form class="mt-5" action="/comment/insertadmin/" method="POST">
+        <h3 class="h5">Déposez votre commentaire ci-dessous :</h3>
+        <textarea class="form-control" name="content" id="" cols="30" rows="10" placeholder="Votre commentaire ..."></textarea>
+        <input type="hidden" name="article_id" value="{{ article.id }}">
 
-    <div class="d-grid gap-2 mt-3">
-        <button class="btn btn-primary" type="submit">Commenter !</button>
-        <a class="btn btn-outline-danger" href="/article/indexadmin/">Retour</a>
-    </div>
-</form>
+        <div class="d-grid gap-2 mt-3">
+            <button class="btn btn-primary" type="submit">Commenter !</button>
+            <a class="btn btn-outline-danger" href="/article/indexadmin/">Retour</a>
+        </div>
+    </form>
+</div>
 
 {% endblock content %}

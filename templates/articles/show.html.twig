@@ -1,21 +1,21 @@
 {% extends 'layout.html.twig' %}
 {% block content %}
 
-<h1>{{ article.getTitle }}</h1>
+<h1>{{ article.title }}</h1>
 
 <p class="fs-6 text-muted">
-    Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hi')  }} par {{ article.getAuthorName }}
+    Écrit le {{ article.createdAt|date('d\/m\/Y \à H\\hi')  }} par {{ article.aAuthorName }}
 
-    {% if article.getUpdatedAt %}
-        - Mis à jour le {{ article.getUpdatedAt|date('d\/m\/Y \à H\\hi')  }}
+    {% if article.updatedAt %}
+        - Mis à jour le {{ article.updatedAt|date('d\/m\/Y \à H\\hi')  }}
     {% endif %}
 </p>
 
-<p>{{ article.getMarkdownExcerpt }}</p>
+<p>{{ article.markdownExcerpt }}</p>
 
 <hr>
 
-{{ article.getMarkdownContent }}
+{{ article.markdownContent }}
 
 {% if commentaires|length is same as(0) %}
 
@@ -26,10 +26,10 @@
 
     {% for commentaire in commentaires %}
         <div class="comment m-2">
-            <h3 class="h5">Commentaire de {{ commentaire.getAuthor }}</h3>
-            <small class="text-muted">Le {{ commentaire.getCreatedAt|date('d\/m\/Y \à H\\hi')  }}</small>
+            <h3 class="h5">Commentaire de {{ commentaire.author }}</h3>
+            <small class="text-muted">Le {{ commentaire.createdAt|date('d\/m\/Y \à H\\hi')  }}</small>
             <blockquote>
-                {{ commentaire.getContent }}
+                {{ commentaire.content }}
             </blockquote>
         </div>
     {% endfor %}
@@ -38,12 +38,14 @@
 
 <hr>
 
-<form action="/comment/insert/" method="POST">
-    <h3>Déposez votre commentaire ci-dessous</h3>
-    <input class="form-control mt-3 mb-3" type="text" name="author" placeholder="Votre pseudo">
-    <input class="form-control mb-3" type="email" name="email" placeholder="Votre adresse email">
-    <textarea class="form-control mb-3" name="content" id="" cols="30" rows="10" placeholder="Rédigez votre commentaire"></textarea>
-    <input type="hidden" name="article_id" value="{{ article.getId }}">
-    <button class="btn btn-primary">Commenter !</button>
-</form>
+<div class="col-12 col-md-6">
+    <form action="/comment/insert/" method="POST">
+        <h3>Déposez votre commentaire ci-dessous</h3>
+        <input class="form-control mt-3 mb-3" type="text" name="author" placeholder="Votre pseudo">
+        <input class="form-control mb-3" type="email" name="email" placeholder="Votre adresse email">
+        <textarea class="form-control mb-3" name="content" id="" cols="30" rows="10" placeholder="Rédigez votre commentaire"></textarea>
+        <input type="hidden" name="article_id" value="{{ article.id }}">
+        <button class="btn btn-primary">Commenter !</button>
+    </form>
+</div>
 {% endblock content %}

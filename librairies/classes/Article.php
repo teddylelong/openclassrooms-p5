@@ -1,5 +1,7 @@
 <?php
 
+// Todo : UserArticle DTO -
+
 namespace Classes;
 
 use DateTime;

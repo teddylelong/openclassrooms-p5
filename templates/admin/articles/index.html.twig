@@ -4,16 +4,16 @@
 
 {% for article in articles %}
 
-    <h2 class="h3">{{ article.getTitle }}</h2>
+    <h2 class="h3">{{ article.title }}</h2>
 
-    <p class="fs-6 text-muted">Écrit le {{ article.getCreatedAt|date('d\/m\/Y \à H\\hi') }} par {{ article.getAuthorName() }}</p>
+    <p class="fs-6 text-muted">Écrit le {{ article.createdAt|date('d\/m\/Y \à H\\hi') }} par {{ article.authorName() }}</p>
 
-    <p>{{ article.getMarkdownExcerpt }}</p>
+    <p>{{ article.markdownExcerpt }}</p>
 
     <div class="text-end">
-    <a class="btn btn-sm btn-outline-primary" href="/article/showadmin/{{ article.getId }}/">Consulter</a>
-    <a class="btn btn-sm btn-primary" href="/article/modify/{{ article.getId }}/">Modifier</a>
-    <a class="btn btn-sm btn-outline-danger" href="/article/delete/{{ article.getId }}/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet article ?')">Supprimer</a>
+    <a class="btn btn-sm btn-outline-primary" href="/article/showadmin/{{ article.id }}/">Consulter</a>
+    <a class="btn btn-sm btn-primary" href="/article/modify/{{ article.id }}/">Modifier</a>
+    <a class="btn btn-sm btn-outline-danger" href="/article/delete/{{ article.id }}/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet article ?')">Supprimer</a>
     </div>
 
     <hr>

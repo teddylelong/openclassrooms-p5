@@ -5,24 +5,22 @@
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
-            <thead>
-                <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Email</th>
-                <th scope="col">Rôle</th>
-                <th scope="col">Date d'inscription</th>
-                <th scope="col"></th>
-            </thead>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Email</th>
+            <th scope="col">Rôle</th>
+            <th scope="col">Date d'inscription</th>
+            <th scope="col"></th>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.getLastname }}</td>
-                <td>{{ user.getFirstname }}</td>
-                <td>{{ user.getEmail }}</td>
-                <td>{{ user.getIsAdmin|replace({'1': 'Administrateur', '0': 'Membre'}) }}</td>
-                <td>{{ user.getCreatedAt }}</td>
-                <td><a class="link-danger" href="/user/delete/{{ user.getId }}/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur ?')">Supprimer</a></td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.isAdmin|replace({'1': '<i class="bi bi-shield-check"></i> Administrateur', '0': '<i class="bi bi-person-check"></i> Membre'}) }}</td>
+                <td>{{ user.createdAt }}</td>
+                <td><a class="link-danger" href="/user/delete/{{ user.id }}/" onclick="return window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur ?')">Supprimer</a></td>
             </tr>
         {% endfor %}
         </tbody>

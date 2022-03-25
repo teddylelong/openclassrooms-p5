@@ -28,13 +28,13 @@
                         <tbody>
                         {% for comment in comments_pending %}
                             <tr>
-                                <td>{{ comment.getAuthor }}</td>
-                                <td>{{ comment.getEmail }}</td>
-                                <td>{{ comment.getContent }}</td>
-                                <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hi') }}</td>
-                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">{{ comment.title }}</a></td>
-                                <td><a class="link-success" href="/comment/approve/{{ comment.getId }}/"><i class="bi bi-hand-thumbs-up"></i> Approuver</a></td>
-                                <td><a class="link-danger" href="/comment/disapprove/{{ comment.getId }}/"><i class="bi bi-hand-thumbs-down"></i> Désapprouver</a></td>
+                                <td>{{ comment.author }}</td>
+                                <td>{{ comment.email }}</td>
+                                <td>{{ comment.content }}</td>
+                                <td>{{ comment.createdAt|date('d\/m\/Y \à H\\hi') }}</td>
+                                <td><a href="/article/showadmin/{{ comment.articleId }}/">{{ comment.title }}</a></td>
+                                <td class="text-center"><a class="link-success" href="/comment/approve/{{ comment.id }}/"><i class="bi bi-hand-thumbs-up"></i> Approuver</a></td>
+                                <td class="text-center"><a class="link-danger" href="/comment/disapprove/{{ comment.id }}/"><i class="bi bi-hand-thumbs-down"></i> Désapprouver</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -72,13 +72,13 @@
                         <tbody>
                         {% for comment in comments_approved %}
                             <tr>
-                                <td>{{ comment.getAuthor }}</td>
-                                <td>{{ comment.getEmail }}</td>
-                                <td>{{ comment.getContent }}</td>
-                                <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hi') }}</td>
-                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">{{ comment.title }}</a></td>
-                                <td><a class="link-primary" href="/comment/pending/{{ comment.getId }}/"><i class="bi bi-clock"></i> Remettre en file d'attente</a></td>
-                                <td><a class="link-danger" href="/comment/disapprove/{{ comment.getId }}/"><i class="bi bi-hand-thumbs-down"></i> Désapprouver</a></td>
+                                <td>{{ comment.author }}</td>
+                                <td>{{ comment.email }}</td>
+                                <td>{{ comment.content }}</td>
+                                <td>{{ comment.createdAt|date('d\/m\/Y \à H\\hi') }}</td>
+                                <td><a href="/article/showadmin/{{ comment.articleId }}/">{{ comment.title }}</a></td>
+                                <td class="text-center"><a class="link-primary" href="/comment/pending/{{ comment.id }}/"><i class="bi bi-clock"></i> Remettre en file d'attente</a></td>
+                                <td class="text-center"><a class="link-danger" href="/comment/disapprove/{{ comment.id }}/"><i class="bi bi-hand-thumbs-down"></i> Désapprouver</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -116,13 +116,13 @@
                         <tbody>
                         {% for comment in comments_disapproved %}
                             <tr>
-                                <td>{{ comment.getAuthor }}</td>
-                                <td>{{ comment.getEmail }}</td>
-                                <td>{{ comment.getContent }}</td>
-                                <td>{{ comment.getCreatedAt|date('d\/m\/Y \à H\\hi') }}</td>
-                                <td><a href="/article/showadmin/{{ comment.getArticleId }}/">{{ comment.title }}</a></td>
-                                <td><a class="link-primary" href="/comment/pending/{{ comment.getId }}/"><i class="bi bi-clock"></i> Remettre en file d'attente</a></td>
-                                <td><a class="btn btn-outline-danger" href="/comment/delete/{{ comment.getId }}/" onclick="return window.confirm('Souhaitez-vous vraiment supprimer ce commentaire ? Cette action est irréversible.')"><i class="bi bi-trash3"></i> Supprimer</a></td>
+                                <td>{{ comment.author }}</td>
+                                <td>{{ comment.email }}</td>
+                                <td>{{ comment.content }}</td>
+                                <td>{{ comment.createdAt|date('d\/m\/Y \à H\\hi') }}</td>
+                                <td><a href="/article/showadmin/{{ comment.articleId }}/">{{ comment.title }}</a></td>
+                                <td class="text-center"><a class="link-primary" href="/comment/pending/{{ comment.id }}/"><i class="bi bi-clock"></i> Remettre en file d'attente</a></td>
+                                <td><a class="btn btn-outline-danger" href="/comment/delete/{{ comment.id }}/" onclick="return window.confirm('Souhaitez-vous vraiment supprimer ce commentaire ? Cette action est irréversible.')"><i class="bi bi-trash3"></i> Supprimer</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>

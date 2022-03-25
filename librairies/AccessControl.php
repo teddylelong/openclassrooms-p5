@@ -19,7 +19,7 @@ class AccessControl
             $id = $_SESSION['user_id'];
 
             if (self::isUserAdmin($id)) {
-                return true;
+                return;
             }
             self::denied();
         }

@@ -17,6 +17,11 @@ class ContactController extends Controller
     private const PORT      = 465;
 
 
+    /**
+     * Check data in contact form, send email and save it in database
+     *
+     * @return void
+     */
     public function check()
     {
         $firstname = null;
@@ -65,6 +70,12 @@ class ContactController extends Controller
         Http::redirect("/");
     }
 
+    /**
+     * Send a mail with PHP mailer
+     *
+     * @param Contact $contact
+     * @return void
+     */
     public function send(Contact $contact)
     {
         $mail = new PHPMailer(true);

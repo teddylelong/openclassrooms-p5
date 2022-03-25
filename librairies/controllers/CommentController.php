@@ -2,7 +2,6 @@
 
 namespace Controllers;
 
-use AccessControl;
 use Http;
 use Notification;
 use Renderer;
@@ -108,7 +107,7 @@ class CommentController extends Controller
      */
     public function insertAdmin()
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $comment = $this->checkInsert(true);
 
@@ -126,7 +125,7 @@ class CommentController extends Controller
      */
     public function indexByApprovement(string $is_approved = Comment::PENDING): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $comments_pending = $this->commentModel->findByApproved($is_approved);
         $comments_approved = $this->commentModel->findByApproved(Comment::APPROVED);
@@ -166,7 +165,7 @@ class CommentController extends Controller
      */
     public function approve(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $id = $this->checkApprovement();
         $this->commentModel->updateApprovement($id, Comment::APPROVED);
@@ -181,7 +180,7 @@ class CommentController extends Controller
      */
     public function disapprove(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $id = $this->checkApprovement();
         $this->commentModel->updateApprovement($id, Comment::DISAPPROVED);
@@ -211,7 +210,7 @@ class CommentController extends Controller
      */
     public function delete()
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
             Notification::set('error', "L'identifiant du commentaire n'est pas valide.");

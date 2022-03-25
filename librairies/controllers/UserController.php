@@ -2,7 +2,6 @@
 
 namespace Controllers;
 
-use AccessControl;
 use Http;
 use Models\UserModel;
 use Notification;
@@ -26,7 +25,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $users = $this->userModel->findAll('created_at DESC');
 
@@ -41,7 +40,7 @@ class UserController extends Controller
      */
     public function insert(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         // Check form data
         $firstname = null;
@@ -112,7 +111,7 @@ class UserController extends Controller
      */
     public function create(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $pageTitle = "Créer un nouvel utilisateur";
         Renderer::render('admin/users/create', compact('pageTitle'));
@@ -125,7 +124,7 @@ class UserController extends Controller
      */
     public function delete()
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         // Check $_GET params
         if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {

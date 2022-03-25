@@ -2,7 +2,6 @@
 
 namespace Controllers;
 
-use AccessControl;
 use Http;
 use Models\CommentModel;
 use Notification;
@@ -58,7 +57,7 @@ class ArticleController extends Controller
      */
     public function indexAdmin(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $articles = $this->articleModel->findAll('articles.created_at DESC');
 
@@ -73,7 +72,7 @@ class ArticleController extends Controller
      */
     public function create(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $pageTitle = "Rédiger un article";
         Renderer::render('admin/articles/create', compact('pageTitle'));
@@ -86,7 +85,7 @@ class ArticleController extends Controller
      */
     public function modify(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         //Check $_GET params
         $article_id = null;
@@ -119,7 +118,7 @@ class ArticleController extends Controller
      */
     public function update(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         // Form data checking
         $title = null;
@@ -173,7 +172,7 @@ class ArticleController extends Controller
      */
     public function insert(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         // Form data checking
         $title = null;
@@ -254,7 +253,7 @@ class ArticleController extends Controller
      */
     public function showAdmin(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $article_id = null;
 
@@ -281,7 +280,7 @@ class ArticleController extends Controller
      */
     public function delete(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         // Check $_GET params
         if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {

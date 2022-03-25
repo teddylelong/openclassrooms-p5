@@ -2,7 +2,6 @@
 
 namespace Controllers;
 
-use AccessControl;
 use Classes\Comment;
 use Http;
 use Models\CommentModel;
@@ -79,7 +78,7 @@ class LoginController extends Controller
      */
     public function dashboard(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $commentModel = new CommentModel();
         $commentCount = count($commentModel->findByApproved(Comment::PENDING));

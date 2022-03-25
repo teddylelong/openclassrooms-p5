@@ -1,7 +1,9 @@
 <header class="container-fluid bg-primary px-0">
     {% block header %}
+
         <nav class="navbar container navbar-expand-md navbar-dark py-2">
             {% block navigation %}
+
                 <a href="/" class="navbar-brand">
                     <img src="/assets/img/logo.png" height="100" alt="Teddy Lelong">
                 </a>
@@ -15,17 +17,19 @@
                             <a class="nav-link {{ echoActiveClass('/') }}" href="/">Accueil</a>
                         </li>
                         <li class="nav-item px-2">
-                            <a class="nav-link {{ echoActiveClass('/a-propos/') }}" href="#">À propos</a>
+                            <a class="nav-link {{ echoActiveClass('/a-propos/') }}" href="/a-propos/">À propos</a>
                         </li>
                         <li class="nav-item px-2">
-                            <a class="nav-link {{ echoActiveClass('/article/index/') }}" href="/article/index/">Le Blog</a>
+                            <a class="nav-link {{ echoActiveClass('/le-blog/') }}" href="/le-blog/">Le Blog</a>
                         </li>
                         <li class="nav-item px-2">
-                            <a class="nav-link {{ echoActiveClass('/me-contacter/') }}" href="#">Me contacter</a>
+                            <a class="nav-link {{ echoActiveClass('/contact/') }}" href="/contact/">Me contacter</a>
                         </li>
                     </ul>
                 </div>
+
             {% endblock navigation %}
         </nav>
+
     {% endblock header %}
 </header>

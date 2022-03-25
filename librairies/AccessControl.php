@@ -11,7 +11,6 @@ class AccessControl
      *
      * @return mixed
      */
-    // Todo : a instancier dans Controllers\Controller
     public static function adminRightsNeeded()
     {
         if (isset($_SESSION['user_id'])) {

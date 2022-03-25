@@ -11,3 +11,8 @@ RewriteRule ^login/$ index.php?controller=login&task=loginform
 RewriteRule ^logout/$ index.php?controller=login&task=logout
 
 RewriteRule ^a-propos/$ index.php?controller=page&task=apropos
+RewriteRule ^le-blog/$ index.php?controller=article&task=index
+RewriteRule ^contact/$ index.php?controller=contact&task=contact
+RewriteRule ^donnees-personnelles/$ index.php?controller=page&task=donneespersonnelles
+RewriteRule ^mentions-legales/$ index.php?controller=page&task=mentionslegales
+RewriteRule ^mon-cv/$ index.php?controller=page&task=moncv

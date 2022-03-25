@@ -4,8 +4,6 @@ namespace Controllers;
 
 use AccessControl;
 
-// Todo : Créer un controller pour les pages statiques (à propos, mentions légales, etc.)
-
 abstract class Controller
 {
     protected $accessControl;

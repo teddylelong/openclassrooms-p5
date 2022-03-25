@@ -57,12 +57,12 @@ class ContactController extends Controller
 
         if (!$firstname || !$lastname || !$email || !$message) {
             Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
-            Http::redirect('/');
+            Http::redirect('/contact/');
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             Notification::set('error', "L'adresse email saisie n'est pas valide.");
-            Http::redirect('/');
+            Http::redirect('/contact/');
         }
 
         $contact = (new Contact())
@@ -78,7 +78,7 @@ class ContactController extends Controller
         $this->model->insert($contact);
 
         Notification::set('success', "Merci pour votre message ! :) Il a bien été envoyé et je vous répondrai sous peu.");
-        Http::redirect("/");
+        Http::redirect('/contact/');
     }
 
     /**

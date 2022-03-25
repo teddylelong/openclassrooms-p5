@@ -25,7 +25,7 @@ class Renderer
      */
     public static function loadTwig()
     {
-        $loader = new FilesystemLoader('templates'); // Line 32 is here
+        $loader = new FilesystemLoader('templates');
 
         $twig = new Environment($loader, [
             'auto_reload' => true,

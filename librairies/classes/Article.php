@@ -1,11 +1,8 @@
 <?php
 
-// Todo : UserArticle DTO -
-
 namespace Classes;
 
 use DateTime;
-use Parsedown;
 
 class Article
 {
@@ -16,9 +13,6 @@ class Article
     private $created_at;
     private $fk_user_id;
     private $updated_at;
-    private $firstname;
-
-    private const UNKNOW_USER = 'Anonyme';
 
     /**
      * @param int $id
@@ -72,17 +66,6 @@ class Article
     }
 
     /**
-     * Get markdown formatted excerpt
-     *
-     * @return string|null
-     */
-    public function getMarkdownExcerpt(): ?string
-    {
-        $parsedown = new Parsedown();
-        return $parsedown->text($this->excerpt);
-    }
-
-    /**
      * @param string $content
      */
     public function setContent(string $content): self
@@ -97,17 +80,6 @@ class Article
     public function getContent(): ?string
     {
         return $this->content;
-    }
-
-    /**
-     * Get markdown formatted content
-     *
-     * @return string|null
-     */
-    public function getMarkdownContent(): ?string
-    {
-        $parsedown = new Parsedown();
-        return $parsedown->text($this->content);
     }
 
     /**
@@ -146,26 +118,6 @@ class Article
     public function getAuthorId(): ?int
     {
         return $this->fk_user_id;
-    }
-
-    /**
-     * @param string $firstname
-     */
-    public function setAuthorName(string $firstname): self
-    {
-        $this->firstname = $firstname;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuthorName(): string
-    {
-        if (is_null($this->firstname)) {
-            return self::UNKNOW_USER;
-        }
-        return $this->firstname;
     }
 
     /**

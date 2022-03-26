@@ -2,6 +2,8 @@
 
 namespace Controllers;
 
+use Classes\Post;
+use Classes\User;
 use Http;
 use Models\CommentModel;
 use Notification;
@@ -31,9 +33,20 @@ class ArticleController extends Controller
     public function home(): void
     {
         $articles = $this->articleModel->findAll('articles.created_at DESC LIMIT 0, 4');
+        $userModel = new UserModel();
+
+        foreach ($articles as $article) {
+            $user = $userModel->find($article->getAuthorId());
+
+            if (!$user) {
+                $user = new User();
+            }
+
+            $posts[] = new Post($article, $user);
+        }
 
         $pageTitle = "Accueil";
-        Renderer::render('articles/home', compact('pageTitle', 'articles'));
+        Renderer::render('articles/home', compact('pageTitle', 'posts'));
     }
 
     /**
@@ -45,8 +58,20 @@ class ArticleController extends Controller
     {
         $articles = $this->articleModel->findAll('articles.created_at DESC');
 
+        $userModel = new UserModel();
+
+        foreach ($articles as $article) {
+            $user = $userModel->find($article->getAuthorId());
+
+            if (!$user) {
+                $user = new User();
+            }
+
+            $posts[] = new Post($article, $user);
+        }
+
         $pageTitle = "Le Blog";
-        Renderer::render('articles/index', compact('pageTitle', 'articles'));
+        Renderer::render('articles/index', compact('pageTitle', 'posts'));
     }
 
     /**
@@ -61,8 +86,20 @@ class ArticleController extends Controller
 
         $articles = $this->articleModel->findAll('articles.created_at DESC');
 
+        $userModel = new UserModel();
+
+        foreach ($articles as $article) {
+            $user = $userModel->find($article->getAuthorId());
+
+            if (!$user) {
+                $user = new User();
+            }
+
+            $posts[] = new Post($article, $user);
+        }
+
         $pageTitle = "Gérer les articles";
-        Renderer::render('admin/articles/index', compact('pageTitle', 'articles'));
+        Renderer::render('admin/articles/index', compact('pageTitle', 'posts'));
     }
 
     /**
@@ -228,8 +265,7 @@ class ArticleController extends Controller
         }
 
         if (!$article_id) {
-            Notification::set('error', "Vous devez préciser un paramètre 'id' dans l'URL.");
-            Http::redirect('/article/index/');
+            Http::error404();
         }
 
         $article = $this->articleModel->find($article_id);
@@ -241,8 +277,19 @@ class ArticleController extends Controller
         // Find article comments
         $commentaires = $this->commentModel->findAllByArticle($article_id);
 
-        $pageTitle = $article->getTitle();
-        Renderer::render('articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
+        // Find author
+        $userModel = new UserModel();
+        $user = $userModel->find($article->getAuthorId());
+
+        if (!$user) {
+            $user = new User();
+        }
+
+        // Instantiate DTO Post
+        $post = new Post($article, $user, $commentaires);
+
+        $pageTitle = $post->getTitle();
+        Renderer::render('articles/show', compact('pageTitle', 'post'));
     }
 
     /**
@@ -267,10 +314,25 @@ class ArticleController extends Controller
 
         $article = $this->articleModel->find($article_id);
 
+        if (!$article) {
+            Http::error404();
+        }
+
         $commentaires = $this->commentModel->findAllByArticle($article_id);
 
+        // Find author
+        $userModel = new UserModel();
+        $user = $userModel->find($article->getAuthorId());
+
+        if (!$user) {
+            $user = new User();
+        }
+
+        // Instantiate DTO Post
+        $post = new Post($article, $user, $commentaires);
+
         $pageTitle = $article->getTitle();
-        Renderer::render('admin/articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));
+        Renderer::render('admin/articles/show', compact('pageTitle', 'post'));
     }
 
     /**

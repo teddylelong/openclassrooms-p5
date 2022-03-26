@@ -196,7 +196,7 @@ class CommentController extends Controller
      */
     public function pending(): void
     {
-        AccessControl::adminRightsNeeded();
+        $this->accessControl::adminRightsNeeded();
 
         $id = $this->checkApprovement();
         $this->commentModel->updateApprovement($id, Comment::PENDING);

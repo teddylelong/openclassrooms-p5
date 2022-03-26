@@ -44,6 +44,13 @@ class Renderer
             })
         );
 
+        $twig->addFunction(
+            new TwigFunction('markdown', function($text) {
+                $parsedown = new Parsedown();
+                return $parsedown->parse($text);
+            })
+        );
+
         // Twig globals vars
         $twig->addGlobal('session', $_SESSION);
 

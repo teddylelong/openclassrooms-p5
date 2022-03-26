@@ -46,6 +46,33 @@ body {
   background-color: #ffffff;
 }
 
+/* Text */
+
+#main-content > h1 {
+  margin-bottom: 16px;
+}
+
+/* Components */
+
+#articles-container .col:hover {
+  .card-title {
+    color: $primary;
+    transition: color ease-in-out .2s;
+  }
+  .card {
+    border: 1px solid $primary;
+    transition: border ease-in-out .2s;
+  }
+}
+#articles-container .col {
+  .card-title {
+    transition: color ease-in-out .2s;
+  }
+  .card {
+    transition: border ease-in-out .2s;
+  }
+}
+
 .iframe-responsive{
   overflow:hidden;
   position:relative;

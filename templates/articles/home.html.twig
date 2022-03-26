@@ -8,7 +8,7 @@
 
     <h2 class="h4">Découvrez mes derniers articles !</h2>
 
-    <div class="row row-cols-1 row-cols-md-2 g-3">
+    <div id="articles-container" class="row row-cols-1 row-cols-md-2 g-3">
         {% for article in articles %}
             <div class="col">
                 <div class="card h-100">
@@ -27,7 +27,7 @@
     </div>
 
     <div class="text-center">
-        <a class="btn btn-primary mt-3" href="/article/index/">Voir tous les articles</a>
+        <a class="btn btn-primary mt-3" href="/le-blog/">Voir tous les articles</a>
     </div>
 
     <hr/>
@@ -35,6 +35,8 @@
     <h2 id="me-contacter" class="h4">Me contacter</h2>
 
     <div id="contact" class="col-12 col-md-6">
+        <p>Un projet à me proposer, une demande d'informations ? N'hésitez pas à me contacter par email en renseignant le formulaire ci-dessous !</p>
+
         {% include 'template-parts/website-contactform.part.twig' %}
     </div>
 

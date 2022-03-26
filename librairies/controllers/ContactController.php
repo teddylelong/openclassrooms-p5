@@ -17,6 +17,11 @@ class ContactController extends Controller
     private const PASSWORD  = 'xxx';
     private const PORT      = 465;
 
+    public function __construct()
+    {
+        parent::__contruct();
+    }
+
     /**
      * Display the contact form
      *

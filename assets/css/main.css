@@ -12064,6 +12064,28 @@ body {
   background-color: #ffffff;
 }
 
+/* Text */
+#main-content > h1, #main-content > .h1 {
+  margin-bottom: 16px;
+}
+
+/* Components */
+#articles-container .col:hover .card-title {
+  color: #5094CA;
+  transition: color ease-in-out 0.2s;
+}
+#articles-container .col:hover .card {
+  border: 1px solid #5094CA;
+  transition: border ease-in-out 0.2s;
+}
+
+#articles-container .col .card-title {
+  transition: color ease-in-out 0.2s;
+}
+#articles-container .col .card {
+  transition: border ease-in-out 0.2s;
+}
+
 .iframe-responsive {
   overflow: hidden;
   position: relative;

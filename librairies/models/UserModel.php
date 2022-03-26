@@ -69,7 +69,6 @@ class UserModel extends Model
      */
     public function findByEmail(string $email)
     {
-        // Todo : how to add this return types ?
         $query = $this->pdo->prepare("SELECT * FROM users WHERE email = :email");
         $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, User::class);
         $query->execute(['email' => $email]);

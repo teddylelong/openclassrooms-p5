@@ -55,7 +55,6 @@ abstract class Model
             $sql .= ' ORDER BY ' . $order;
         }
         $query = $this->pdo->query($sql);
-        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->getClassName());
 
         return $query->fetchAll();
     }

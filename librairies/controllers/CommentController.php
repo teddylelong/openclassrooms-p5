@@ -2,6 +2,8 @@
 
 namespace Controllers;
 
+use Classes\CommentApprovement;
+use Classes\Post;
 use Http;
 use Notification;
 use Renderer;
@@ -128,12 +130,15 @@ class CommentController extends Controller
     {
         $this->accessControl::adminRightsNeeded();
 
-        $comments_pending = $this->commentModel->findByApproved($is_approved);
-        $comments_approved = $this->commentModel->findByApproved(Comment::APPROVED);
-        $comments_disapproved = $this->commentModel->findByApproved(Comment::DISAPPROVED);
+        $comments = $this->commentModel->findAll();
+
+        foreach ($comments as $comment) {
+            $article = $this->articleModel->find($comment->getArticleId());
+            $commentApprovement[] = new CommentApprovement($comment, $article);
+        }
 
         $pageTitle = "Gestion des commentaires";
-        Renderer::render('admin/comments/approvement',compact('comments_pending', 'comments_approved', 'comments_disapproved', 'pageTitle'));
+        Renderer::render('admin/comments/approvement',compact('commentApprovement', 'pageTitle'));
     }
 
     /**

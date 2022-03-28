@@ -24,6 +24,20 @@ class CommentModel extends Model
     }
 
     /**
+     * Return all comments from database
+     * @return array
+     */
+    public function findAll($order = null): array
+    {
+        $sql = "SELECT * FROM $this->table";
+
+        $query = $this->pdo->query($sql);
+        $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, Comment::class);
+
+        return $query->fetchAll();
+    }
+
+    /**
      * Return a comments list for given article ID
      * By default, return only approved comments
      *

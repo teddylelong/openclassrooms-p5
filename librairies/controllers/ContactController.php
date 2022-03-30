@@ -19,7 +19,7 @@ class ContactController extends Controller
 
     public function __construct()
     {
-        parent::__contruct();
+        parent::__construct();
     }
 
     /**

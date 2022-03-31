@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 {% block content %}
 
-<h1>{{ post.title }}</h1>
+<h1 class="mb-3">{{ post.title }}</h1>
 
 <p class="fs-6 text-muted">
     Écrit le {{ post.createdAt|date('d\/m\/Y \à H\\hi')  }} par {{ post.AuthorFirstname }}

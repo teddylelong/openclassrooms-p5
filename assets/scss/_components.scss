@@ -77,6 +77,12 @@ body {
       width: $social_icons_height;
       color: #fff;
       font-size: 24px;
+      transition: all ease-in-out .2s;
+    }
+    a:hover {
+      margin-top: -10px;
+      transition: all ease-in-out .2s;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
     }
   }
 }

@@ -3,7 +3,7 @@
 namespace Models;
 
 use PDO;
-use Classes\Comment;
+use Entities\Comment;
 
 class CommentModel extends Model
 {

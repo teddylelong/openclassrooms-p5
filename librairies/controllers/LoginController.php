@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Classes\Comment;
+use Entities\Comment;
 use Http;
 use Models\CommentModel;
 use Models\LoginModel;

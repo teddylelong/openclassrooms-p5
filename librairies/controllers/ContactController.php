@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Classes\Contact;
+use Entities\Contact;
 use Notification;
 use Http;
 use Renderer;

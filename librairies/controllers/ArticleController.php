@@ -3,7 +3,7 @@
 namespace Controllers;
 
 use Dto\PostDto;
-use Classes\User;
+use Entities\User;
 use Http;
 use Models\CommentModel;
 use Notification;
@@ -11,7 +11,7 @@ use Renderer;
 use Models\ArticleModel;
 use Models\UserModel;
 use DateTime;
-use Classes\Article;
+use Entities\Article;
 
 class ArticleController extends Controller
 {
@@ -60,7 +60,6 @@ class ArticleController extends Controller
 
         $userModel = new UserModel();
 
-        // Todo : recherche function magique fn
         foreach ($articles as $article) {
             $user = $userModel->find($article->getAuthorId());
 

@@ -2,16 +2,15 @@
 
 namespace Dto;
 
-use Classes\Article;
-use Classes\User;
+use Entities\Article;
+use Entities\User;
 use DateTime;
 /**
  * DTO for Article, Comment and User (author)
  */
 class PostDto
 {
-    // Todo : article_id
-    private $pk_id;
+    private $article_id;
     private $title;
     private $excerpt;
     private $content;
@@ -41,7 +40,7 @@ class PostDto
      */
     public function setPkId(int $pk_id): void
     {
-        $this->pk_id = $pk_id;
+        $this->article_id = $pk_id;
     }
 
     /**
@@ -49,7 +48,7 @@ class PostDto
      */
     public function getPkId(): int
     {
-        return $this->pk_id;
+        return $this->article_id;
     }
 
     /**

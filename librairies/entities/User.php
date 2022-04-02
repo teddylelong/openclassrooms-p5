@@ -1,29 +1,32 @@
 <?php
 
-namespace Classes;
+namespace Entities;
 
-class Contact
+use DateTime;
+
+class User
 {
     private $pk_id;
     private $firstname;
     private $lastname;
     private $email;
-    private $message;
+    private $password;
+    private $is_admin;
     private $created_at;
 
     /**
-     * @param int $pk_id
+     * @param int $id
      */
-    public function setPkId(int $pk_id): self
+    public function setId(int $id): self
     {
-        $this->pk_id = $pk_id;
+        $this->pk_id = $id;
         return $this;
     }
 
     /**
      * @return int
      */
-    public function getPkId(): int
+    public function getId(): int
     {
         return $this->pk_id;
     }
@@ -38,9 +41,9 @@ class Contact
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFirstname(): string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
@@ -80,26 +83,40 @@ class Contact
     }
 
     /**
-     * @param string $message
+     * @param string $password
      */
-    public function setMessage(string $message): self
+    public function setPassword(string $password): self
     {
-        $this->message = $message;
+        $this->password = $password;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getMessage(): string
+    public function getPassword(): string
     {
-        return $this->message;
+        return $this->password;
     }
 
     /**
-     * @param mixed $created_at
+     * @param int $is_admin
      */
-    public function setCreatedAt($created_at): self
+    public function setIsAdmin(int $is_admin): self
+    {
+        $this->is_admin = $is_admin;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIsAdmin(): int
+    {
+        return $this->is_admin;
+    }
+
+    public function setCreatedAt(?DateTime $created_at): self
     {
         $created_at->format('Y-m-d H:i:s');
         $this->created_at = $created_at;
@@ -107,9 +124,9 @@ class Contact
     }
 
     /**
-     * @return string
+     * @return string|null DateTime
      */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): ?string
     {
         if (is_string($this->created_at)) {
             $dateTime = new DateTime($this->created_at);
@@ -117,5 +134,4 @@ class Contact
         }
         return $this->created_at;
     }
-
 }

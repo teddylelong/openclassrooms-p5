@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use Classes\Article;
+use Entities\Article;
 use PDO;
 
 class ArticleModel extends Model

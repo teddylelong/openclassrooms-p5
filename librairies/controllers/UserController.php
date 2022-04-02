@@ -6,7 +6,7 @@ use Http;
 use Models\UserModel;
 use Notification;
 use Renderer;
-use Classes\User;
+use Entities\User;
 
 class UserController extends Controller
 {

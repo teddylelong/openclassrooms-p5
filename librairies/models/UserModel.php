@@ -3,7 +3,7 @@
 namespace Models;
 
 use PDO;
-use Classes\User;
+use Entities\User;
 
 class UserModel extends Model
 {

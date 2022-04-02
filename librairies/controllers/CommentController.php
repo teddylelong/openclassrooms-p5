@@ -6,7 +6,7 @@ use Dto\CommentApprovementDto;
 use Http;
 use Notification;
 use Renderer;
-use Classes\Comment;
+use Entities\Comment;
 use Models\CommentModel;
 use Models\ArticleModel;
 use Models\UserModel;

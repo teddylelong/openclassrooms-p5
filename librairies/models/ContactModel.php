@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use Classes\Contact;
+use Entities\Contact;
 
 class ContactModel extends Model
 {

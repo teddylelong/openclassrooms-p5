@@ -2,8 +2,8 @@
 
 namespace Dto;
 
-use Classes\Article;
-use Classes\Comment;
+use Entities\Article;
+use Entities\Comment;
 use DateTime;
 
 /**
@@ -11,8 +11,7 @@ use DateTime;
  */
 class CommentApprovementDto
 {
-    // Todo : comment_id
-    private $id;
+    private $comment_id;
     private $pseudo;
     private $email;
     private $content;
@@ -36,7 +35,7 @@ class CommentApprovementDto
      */
     public function setId($id): void
     {
-        $this->id = $id;
+        $this->comment_id = $id;
     }
 
     /**
@@ -44,7 +43,7 @@ class CommentApprovementDto
      */
     public function getId(): int
     {
-        return $this->id;
+        return $this->comment_id;
     }
 
     /**

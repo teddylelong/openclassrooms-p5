@@ -17,6 +17,7 @@ class CommentApprovementDto
     private $content;
     private $created_at;
     private $article_title;
+    private $article_id;
     private $approvement;
 
     public function __construct(Comment $comment, Article $article)
@@ -27,6 +28,7 @@ class CommentApprovementDto
         $this->setContent($comment->getContent());
         $this->setCreatedAt($comment->getCreatedAt());
         $this->setArticleTitle($article->getTitle());
+        $this->setArticleId($comment->getArticleId());
         $this->setApprovement($comment->getIsApproved());
     }
 
@@ -49,7 +51,7 @@ class CommentApprovementDto
     /**
      * @param string $pseudo
      */
-    public function setPseudo($pseudo): void
+    public function setPseudo(string $pseudo): void
     {
         $this->pseudo = $pseudo;
     }
@@ -65,7 +67,7 @@ class CommentApprovementDto
     /**
      * @param string $email
      */
-    public function setEmail($email): void
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
@@ -81,7 +83,7 @@ class CommentApprovementDto
     /**
      * @param string $content
      */
-    public function setContent($content): void
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
@@ -97,7 +99,7 @@ class CommentApprovementDto
     /**
      * @param DateTime $created_at
      */
-    public function setCreatedAt($created_at): void
+    public function setCreatedAt(DateTime $created_at): void
     {
         $this->created_at = $created_at;
     }
@@ -113,7 +115,7 @@ class CommentApprovementDto
     /**
      * @param string $article_title
      */
-    public function setArticleTitle($article_title): void
+    public function setArticleTitle(string $article_title): void
     {
         $this->article_title = $article_title;
     }
@@ -127,9 +129,25 @@ class CommentApprovementDto
     }
 
     /**
+     * @param int $article_id
+     */
+    public function setArticleId(int $article_id): void
+    {
+        $this->article_id = $article_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getArticleId(): int
+    {
+        return $this->article_id;
+    }
+
+    /**
      * @param string $approvement
      */
-    public function setApprovement($approvement): void
+    public function setApprovement(string $approvement): void
     {
         $this->approvement = $approvement;
     }

@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Classes\Post;
+use Dto\PostDto;
 use Classes\User;
 use Http;
 use Models\CommentModel;
@@ -42,7 +42,7 @@ class ArticleController extends Controller
                 $user = new User();
             }
 
-            $posts[] = new Post($article, $user);
+            $posts[] = new PostDto($article, $user);
         }
 
         $pageTitle = "Accueil";
@@ -60,6 +60,7 @@ class ArticleController extends Controller
 
         $userModel = new UserModel();
 
+        // Todo : recherche function magique fn
         foreach ($articles as $article) {
             $user = $userModel->find($article->getAuthorId());
 
@@ -67,7 +68,7 @@ class ArticleController extends Controller
                 $user = new User();
             }
 
-            $posts[] = new Post($article, $user);
+            $posts[] = new PostDto($article, $user);
         }
 
         $pageTitle = "Le Blog";
@@ -95,7 +96,7 @@ class ArticleController extends Controller
                 $user = new User();
             }
 
-            $posts[] = new Post($article, $user);
+            $posts[] = new PostDto($article, $user);
         }
 
         $pageTitle = "Gérer les articles";
@@ -286,7 +287,7 @@ class ArticleController extends Controller
         }
 
         // Instantiate DTO Post
-        $post = new Post($article, $user, $commentaires);
+        $post = new PostDto($article, $user, $commentaires);
 
         $pageTitle = $post->getTitle();
         Renderer::render('articles/show', compact('pageTitle', 'post'));
@@ -329,7 +330,7 @@ class ArticleController extends Controller
         }
 
         // Instantiate DTO Post
-        $post = new Post($article, $user, $commentaires);
+        $post = new PostDto($article, $user, $commentaires);
 
         $pageTitle = $article->getTitle();
         Renderer::render('admin/articles/show', compact('pageTitle', 'post'));

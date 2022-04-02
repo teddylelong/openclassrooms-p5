@@ -1,14 +1,17 @@
 <?php
 
-namespace Classes;
+namespace Dto;
 
+use Classes\Article;
+use Classes\Comment;
 use DateTime;
 
 /**
  * DTO for comments approvement list in admin interface
  */
-class CommentApprovement
+class CommentApprovementDto
 {
+    // Todo : comment_id
     private $id;
     private $pseudo;
     private $email;

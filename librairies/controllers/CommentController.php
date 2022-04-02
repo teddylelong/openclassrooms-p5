@@ -2,8 +2,7 @@
 
 namespace Controllers;
 
-use Classes\CommentApprovement;
-use Classes\Post;
+use Dto\CommentApprovementDto;
 use Http;
 use Notification;
 use Renderer;
@@ -134,7 +133,7 @@ class CommentController extends Controller
 
         foreach ($comments as $comment) {
             $article = $this->articleModel->find($comment->getArticleId());
-            $commentApprovement[] = new CommentApprovement($comment, $article);
+            $commentApprovement[] = new CommentApprovementDto($comment, $article);
         }
 
         $pageTitle = "Gestion des commentaires";

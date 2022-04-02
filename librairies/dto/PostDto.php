@@ -1,14 +1,16 @@
 <?php
 
-namespace Classes;
+namespace Dto;
 
+use Classes\Article;
+use Classes\User;
 use DateTime;
-
 /**
  * DTO for Article, Comment and User (author)
  */
-class Post
+class PostDto
 {
+    // Todo : article_id
     private $pk_id;
     private $title;
     private $excerpt;
@@ -21,7 +23,7 @@ class Post
 
     public const UNKNOW_USER = 'Anonyme';
 
-    public function __construct(Article $article, User $author, array $comments = null)
+    public function __construct(Article $article, User $author, array $comments = [])
     {
         $this->setPkId($article->getId());
         $this->setTitle($article->getTitle());

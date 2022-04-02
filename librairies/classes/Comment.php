@@ -13,7 +13,6 @@ class Comment
     private $created_at;
     private $is_approved;
     private $article_id;
-    private $title;
 
     const PENDING     = 'pending';
     const APPROVED    = 'approved';
@@ -140,21 +139,5 @@ class Comment
     public function getArticleId(): int
     {
         return $this->article_id;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle(): ?string
-    {
-        return $this->title;
     }
 }

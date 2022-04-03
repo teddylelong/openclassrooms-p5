@@ -122,7 +122,7 @@ class ContactController extends Controller
 
         } catch (Exception $e) {
             Notification::set('error', "Le message n'a pas pu être envoyé pour la raison suivante : $mail->ErrorInfo");
-            Http::redirect("/");
+            Http::redirect("/contact/");
         }
     }
 }

@@ -7,6 +7,7 @@ use Models\UserModel;
 use Notification;
 use Renderer;
 use Entities\User;
+use Session;
 
 class UserController extends Controller
 {
@@ -43,46 +44,54 @@ class UserController extends Controller
         $this->accessControl::adminRightsNeeded();
 
         // Check form data
-        $firstname = null;
-        if (!empty($_POST['firstname'])) {
-            $firstname = $_POST['firstname'];
+        $firstname = filter_input(INPUT_POST, 'firstname');
+        if (empty($firstname)) {
+            $firstname = null;
         }
 
-        $lastname = null;
-        if (!empty($_POST['lastname'])) {
-            $lastname = $_POST['lastname'];
+        $lastname = filter_input(INPUT_POST, 'lastname');
+        if (empty($lastname)) {
+            $lastname = null;
         }
 
-        $email = null;
-        if (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            $email = $_POST['email'];
+        $email = filter_input(INPUT_POST, 'email');
+        if (empty($email)) {
+            $email = null;
         }
 
-        $password = null;
-        $passwordConfirmation = ($_POST['password'] === $_POST['password_confirmation']);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            Notification::set('error', "L'adresse email saisie n'est pas valide.");
+            Http::redirect('/user/create/');
+        }
+
+        $password = filter_input(INPUT_POST, 'password');
+        $passwordRepeat = filter_input(INPUT_POST, 'password_confirmation');
+
+        $is_admin = filter_input(INPUT_POST, 'is_admin');
+        if (strlen($is_admin) === 0) {
+            $is_admin = null;
+        }
+
+        if (!$firstname || !$lastname || !$email || !$password || !$passwordRepeat || is_null($is_admin)) {
+            Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
+            Http::redirect('/user/create/');
+        }
+
+        $passwordConfirmation = ($password === $passwordRepeat);
+
         if (!$passwordConfirmation) {
             Notification::set('error', "Les mots de passe ne correspondent pas.");
             Http::redirect('/user/create/');
         }
 
-        $passwordCondition = (!empty($_POST['password']) && strlen($_POST['password']) >= 8);
+        $passwordCondition = (!empty($password) || strlen($password) >= 8);
         if (!$passwordCondition) {
             Notification::set('error', "Le mot de passe doit faire au moins 8 caractères.");
             Http::redirect('/user/create/');
         }
 
         if ($passwordCondition && $passwordConfirmation) {
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        }
-
-        $is_admin = null;
-        if ($_POST['is_admin'] === '1' || $_POST['is_admin'] === '0') {
-            $is_admin = $_POST['is_admin'];
-        }
-
-        if (!$firstname || !$lastname || !$email || !$password || is_null($is_admin)) {
-            Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
-            Http::redirect('/user/create/');
+            $password = password_hash($password, PASSWORD_DEFAULT);
         }
 
         // Check if email is already used by other account
@@ -127,18 +136,18 @@ class UserController extends Controller
         $this->accessControl::adminRightsNeeded();
 
         // Check $_GET params
-        if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
+        $id = filter_input(INPUT_GET, 'id');
+
+        if (empty($id) || !ctype_digit($id)) {
             Notification::set('error', "L'identifiant de l'utilisateur n'est pas valide.");
             Http::redirect('/user/index/');
         }
 
         // Check if user is not deleting himself
-        if ($_GET['id'] == $_SESSION['user_id']) {
+        if ($id == Session::get('user_id')) {
             Notification::set('error', "Vous ne pouvez pas vous supprimer vous-même...");
             Http::redirect('/user/index/');
         }
-
-        $id = $_GET['id'];
 
         $user = $this->userModel->find($id);
         if (!$user) {

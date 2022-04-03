@@ -126,12 +126,8 @@ class ArticleController extends Controller
         $this->accessControl::adminRightsNeeded();
 
         //Check $_GET params
-        $article_id = null;
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-            $article_id = $_GET['id'];
-        }
-
-        if (!$article_id) {
+        $article_id = filter_input(INPUT_GET, 'id');
+        if (empty($article_id) || !ctype_digit($article_id)) {
             Http::error404();
         }
 
@@ -141,11 +137,22 @@ class ArticleController extends Controller
             Http::error404();
         }
 
+        // Find article author
+        $userModel = new UserModel();
+        $user = $userModel->find($article->getAuthorId());
+
+        if (!$user) {
+            $user = new User();
+        }
+
+        // Instantiate DTO Post
+        $post = new PostDto($article, $user);
+
         // Get users list and show authors names
         $users = (new UserModel())->findAll();
 
         $pageTitle = "Modifier un article";
-        Renderer::render('admin/articles/modify', compact('article_id', 'article', 'pageTitle', 'users'));
+        Renderer::render('admin/articles/modify', compact('article_id', 'post', 'pageTitle', 'users'));
     }
 
     /**
@@ -159,29 +166,29 @@ class ArticleController extends Controller
         $this->accessControl::adminRightsNeeded();
 
         // Form data checking
-        $title = null;
-        if (!empty($_POST['title'])) {
-            $title = $_POST['title'];
+        $title = filter_input(INPUT_POST, 'title');
+        if (empty($title)) {
+            $title = null;
         }
 
-        $excerpt = null;
-        if (!empty($_POST['excerpt'])) {
-            $excerpt = $_POST['excerpt'];
+        $excerpt = filter_input(INPUT_POST, 'excerpt');
+        if (empty($excerpt)) {
+            $excerpt = null;
         }
 
-        $content = null;
-        if (!empty($_POST['content'])) {
-            $content = $_POST['content'];
+        $content = filter_input(INPUT_POST, 'content');
+        if (empty($content)) {
+            $content = null;
         }
 
-        $pk_id = null;
-        if (!empty($_POST['id']) && ctype_digit($_POST['id'])) {
-            $pk_id = $_POST['id'];
+        $pk_id = filter_input(INPUT_POST, 'id');
+        if (empty($pk_id) || !ctype_digit($pk_id)) {
+            $pk_id = null;
         }
 
-        $authorId = null;
-        if (!empty($_POST['author']) && ctype_digit($_POST['author'])) {
-            $authorId = $_POST['author'];
+        $authorId = filter_input(INPUT_POST, 'author');
+        if (empty($authorId) || !ctype_digit($authorId)) {
+            $authorId = null;
         }
 
         if (!$title || !$excerpt || !$content || !$authorId) {
@@ -213,24 +220,24 @@ class ArticleController extends Controller
         $this->accessControl::adminRightsNeeded();
 
         // Form data checking
-        $title = null;
-        if (!empty($_POST['title'])) {
-            $title = $_POST['title'];
+        $title = filter_input(INPUT_POST, 'title');
+        if (empty($title)) {
+            $title = null;
         }
 
-        $excerpt = null;
-        if (!empty($_POST['excerpt'])) {
-            $excerpt = $_POST['excerpt'];
+        $excerpt = filter_input(INPUT_POST, 'excerpt');
+        if (empty($excerpt)) {
+            $excerpt = null;
         }
 
-        $content = null;
-        if (!empty($_POST['content'])) {
-            $content = $_POST['content'];
+        $content = filter_input(INPUT_POST, 'content');
+        if (empty($content)) {
+            $content = null;
         }
 
-        $fk_user_id = null;
-        if (!empty(Session::get('user_id'))) {
-            $fk_user_id = Session::get('user_id');
+        $fk_user_id = Session::get('user_id');
+        if (empty($fk_user_id)) {
+            $fk_user_id = null;
         }
 
         if (!$title || !$excerpt || !$content || !$fk_user_id) {
@@ -258,14 +265,10 @@ class ArticleController extends Controller
      */
     public function show(): void
     {
-        $article_id = null;
+        $article_id = filter_input(INPUT_GET, 'id');
 
         // Check $_GET params
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-            $article_id = $_GET['id'];
-        }
-
-        if (!$article_id) {
+        if (empty($article_id) && !ctype_digit($article_id)) {
             Http::error404();
         }
 
@@ -303,13 +306,9 @@ class ArticleController extends Controller
     {
         $this->accessControl::adminRightsNeeded();
 
-        $article_id = null;
+        $article_id = filter_input(INPUT_GET, 'id');;
 
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-            $article_id = $_GET['id'];
-        }
-
-        if (!$article_id) {
+        if (empty($article_id) || !ctype_digit($article_id)) {
             Http::error404();
         }
 
@@ -346,14 +345,14 @@ class ArticleController extends Controller
         $this->accessControl::adminRightsNeeded();
 
         // Check $_GET params
-        if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
+        $id = filter_input(INPUT_GET, 'id');
+        if (empty($id) || !ctype_digit($id)) {
             Notification::set('error', "L'identifiant de l'article n'est pas valide.");
             Http::redirect('/article/indexadmin/');
         }
 
-        $id = $_GET['id'];
-
         $article = $this->articleModel->find($id);
+
         if (!$article) {
             Notification::set('error', "L'article est introuvable.");
             Http::redirect('/article/indexadmin');

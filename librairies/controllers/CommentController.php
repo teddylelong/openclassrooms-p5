@@ -31,14 +31,14 @@ class CommentController extends Controller
     public function checkInsert(bool $ifAdmin = false) : ?Comment
     {
         // Check form data
-        $author = null;
-        if (!empty($_POST['author'])) {
-            $author = htmlspecialchars($_POST['author']);
+        $author = filter_input(INPUT_POST, 'author');
+        if (empty($author)) {
+            $author = null;
         }
 
-        $email = null;
-        if (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            $email = htmlspecialchars($_POST['email']);
+        $email = filter_input(INPUT_POST, 'email');
+        if (empty($email)) {
+            $email = null;
         }
 
         if ($ifAdmin) {
@@ -49,14 +49,14 @@ class CommentController extends Controller
             $email = $user->getEmail();
         }
 
-        $content = null;
-        if (!empty($_POST['content'])) {
-            $content = htmlspecialchars($_POST['content']);
+        $content = filter_input(INPUT_POST, 'content');
+        if (empty($content)) {
+            $content = null;
         }
 
-        $article_id = null;
-        if (!empty($_POST['article_id']) && ctype_digit($_POST['article_id'])) {
-            $article_id = $_POST['article_id'];
+        $article_id = filter_input(INPUT_POST, 'article_id');
+        if (empty($article_id && !ctype_digit($article_id))) {
+            $article_id = null;
         }
 
         if (!$author || !$email || !$article_id || !$content) {
@@ -64,6 +64,11 @@ class CommentController extends Controller
             if ($ifAdmin) {
                 Http::redirect('/article/showadmin/'.$article_id.'/');
             }
+            Http::redirect('/article/show/'.$article_id.'/');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            Notification::set('error', "L'adresse e-mail saisie n'est pas valide.");
             Http::redirect('/article/show/'.$article_id.'/');
         }
 
@@ -147,9 +152,9 @@ class CommentController extends Controller
      */
     public function checkApprovement(): int
     {
-        $id = null;
-        if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
-            $id = $_GET['id'];
+        $id = filter_input(INPUT_GET, 'id');
+        if (!isset($id) && !ctype_digit($id)) {
+            $id = null;
         }
         if (!$id) {
             Notification::set('error', "L'identifiant du commentaire n'est pas valide.");
@@ -217,14 +222,14 @@ class CommentController extends Controller
     {
         $this->accessControl::adminRightsNeeded();
 
-        if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
+        $id = filter_input(INPUT_GET, 'id');
+        if (empty($id) || !ctype_digit($id)) {
             Notification::set('error', "L'identifiant du commentaire n'est pas valide.");
             Http::redirect('/article/indexadmin/');
         }
 
-        $id = $_GET['id'];
-
         $commentaire = $this->commentModel->find($id);
+
         if (!$commentaire) {
             Notification::set('error', "Le commentaire est introuvable.");
             Http::redirect('/article/indexadmin/');

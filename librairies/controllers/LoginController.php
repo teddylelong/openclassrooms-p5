@@ -46,14 +46,14 @@ class LoginController extends Controller
     public function process(): void
     {
         // check form data
-        $email = null;
-        if (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            $email = $_POST['email'];
+        $email = filter_input(INPUT_POST, 'email');
+        if (empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $email = null;
         }
 
-        $password = null;
-        if (!empty($_POST['password'])) {
-            $password = $_POST['password'];
+        $password = filter_input(INPUT_POST, 'password');
+        if (empty($password)) {
+            $password = null;
         }
 
         if (!$email || !$password) {

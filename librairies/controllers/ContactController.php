@@ -40,24 +40,24 @@ class ContactController extends Controller
      */
     public function check()
     {
-        $firstname = null;
-        if (!empty($_POST['firstname'])) {
-            $firstname = $_POST['firstname'];
+        $firstname = filter_input(INPUT_POST, 'firstname');
+        if (empty($firstname)) {
+            $firstname = null;
         }
 
-        $lastname = null;
-        if (!empty($_POST['lastname'])) {
-            $lastname = $_POST['lastname'];
+        $lastname = filter_input(INPUT_POST, 'lastname');
+        if (empty($lastname)) {
+            $lastname = null;
         }
 
-        $email = null;
-        if (!empty($_POST['email'])) {
-            $email = $_POST['email'];
+        $email = filter_input(INPUT_POST, 'email');
+        if (empty($email)) {
+            $email = null;
         }
 
-        $message = null;
-        if (!empty($_POST['message'])) {
-            $message = $_POST['message'];
+        $message = filter_input(INPUT_POST, 'message');
+        if (empty($message)) {
+            $message = null;
         }
 
         if (!$firstname || !$lastname || !$email || !$message) {

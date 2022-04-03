@@ -3,9 +3,11 @@
 a {
   text-decoration: none;
 }
+
 body {
   background-color: $primary;
 }
+
 #site-background {
   background-color: #efefef;
   background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%235094ca' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
@@ -14,11 +16,12 @@ body {
 /* Buttons */
 
 .btn-primary,
-.btn-primary:hover{
-  color: #ffffff;
+.btn-primary:hover {
+  color: #fff;
 }
+
 .btn-outline-primary:hover {
-  color: #ffffff;
+  color: #fff;
 }
 
 
@@ -51,11 +54,13 @@ body {
 #intro {
   background-color: darken($primary, 20);
   color: #fff;
+
   .intro-text {
     h1 {
       color: #fff;
     }
   }
+
   .intro-img {
     img {
       border-top: 6px solid transparent;
@@ -71,6 +76,7 @@ body {
 
 #website-sidebar {
   $social_icons_height: 48px;
+
   #social-sidebar {
     a {
       height: $social_icons_height;
@@ -79,10 +85,11 @@ body {
       font-size: 24px;
       transition: all ease-in-out .2s;
     }
+
     a:hover {
       margin-top: -10px;
       transition: all ease-in-out .2s;
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
   }
 }
@@ -96,37 +103,40 @@ body {
 
 /* Components */
 
+#articles-container .col {
+  .card-title {
+    transition: color ease-in-out 0.2s;
+  }
+  .card {
+    transition: border ease-in-out 0.2s;
+  }
+}
+
 #articles-container .col:hover {
   .card-title {
     color: $primary;
-    transition: color ease-in-out .2s;
+    transition: color ease-in-out 0.2s;
   }
   .card {
     border: 1px solid $primary;
-    transition: border ease-in-out .2s;
-  }
-}
-#articles-container .col {
-  .card-title {
-    transition: color ease-in-out .2s;
-  }
-  .card {
-    transition: border ease-in-out .2s;
+    transition: border ease-in-out 0.2s;
   }
 }
 
 .iframe-responsive{
-  overflow:hidden;
-  position:relative;
-  height:0;
+  overflow: hidden;
+  position: relative;
+  height: 0;
 }
+
 .iframe-responsive iframe{
-  left:0;
-  top:0;
-  height:100%;
-  width:100%;
-  position:absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
+
 #google-maps,
 .iframe-responsive iframe {
   height: 488px;

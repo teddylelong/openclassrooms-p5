@@ -12,10 +12,10 @@ class Renderer
      * @param string $path
      * @param array $var
      */
-    public static function render(string $path, $var = [])
+    public static function render(string $path, $var = []): void
     {
         $template = self::loadTwig()->load("$path.html.twig");
-        echo $template->display($var);
+        $template->display($var);
     }
 
     /**
@@ -39,8 +39,8 @@ class Renderer
 
         $twig->addFunction(
             new TwigFunction('echoActiveClass', function($requestUri) {
-                if ($_SERVER['REQUEST_URI'] == $requestUri)
-                    echo 'active';
+                if (filter_input(INPUT_SERVER, 'REQUEST_URI') == $requestUri)
+                    return 'active';
             })
         );
 

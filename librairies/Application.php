@@ -14,19 +14,19 @@ class Application
      */
     public static function process()
     {
+        $controllerName = filter_input(INPUT_GET, 'controller');
+        $task = filter_input(INPUT_GET, 'task');
+
         // By default, call homepage
-        $controllerName = 'ArticleController';
-        $task = 'home';
-
-        if (!empty($_GET['controller'])) {
-            $controllerName = ucfirst($_GET['controller'] . 'controller');
+        if (empty($controllerName)) {
+            $controllerName = 'Article';
         }
 
-        if (!empty(filter_input(INPUT_GET, 'task'))) {
-            $task = filter_input(INPUT_GET, 'task');
+        if (empty($task)) {
+            $task = 'home';
         }
 
-        $controllerPath = "\controllers\\" . $controllerName;
+        $controllerPath = "\controllers\\" . ucfirst($controllerName) . 'Controller';
 
         // Check if this controller & method exists
         if (!method_exists($controllerPath, $task)) {

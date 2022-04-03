@@ -11,7 +11,7 @@ class Http
     public static function redirect(string $url): void
     {
         header('Location: ' . $url);
-        exit;
+        return;
     }
 
     /**
@@ -24,6 +24,6 @@ class Http
         header('HTTP/1.1 404 Not Found');
         $pageTitle = "Erreur 404 - Page non-trouvée";
         Renderer::render('errors/404', compact('pageTitle'));
-        exit;
+        return;
     }
 }

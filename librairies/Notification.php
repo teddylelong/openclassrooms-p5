@@ -24,15 +24,19 @@ class Notification
      *
      * @return void
      */
-    public static function display(): void
+    public static function display(): ?string
     {
         if (Session::get(self::TYPE_ERROR)) {
-            echo '<div class="alert alert-danger alert-dismissible fade show p-3 mb-2" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> ' . Session::get('error') . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            $notification = '<div class="alert alert-danger alert-dismissible fade show p-3 mb-2" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> ' . Session::get('error') . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
             Session::destroy(self::TYPE_ERROR);
+            return $notification;
         }
+
         if (Session::get(self::TYPE_SUCCESS)) {
-            echo '<div class="alert alert-success alert-dismissible fade show m-2" role="alert"><i class="bi bi-check-circle-fill"></i> ' . Session::get('success') . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            $notification = '<div class="alert alert-success alert-dismissible fade show m-2" role="alert"><i class="bi bi-check-circle-fill"></i> ' . Session::get('success') . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
             Session::destroy(self::TYPE_SUCCESS);
+            return $notification;
         }
+        return null;
     }
 }

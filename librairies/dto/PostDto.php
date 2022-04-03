@@ -152,7 +152,7 @@ class PostDto
      */
     public function setAuthorFirstname(?string $firstname)
     {
-        if (is_null($firstname)) {
+        if ($firstname === null) {
             $this->author_firstname = self::UNKNOW_USER;
         }
         else {

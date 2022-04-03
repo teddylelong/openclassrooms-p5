@@ -13,9 +13,9 @@ class AccessControl
      */
     public static function adminRightsNeeded()
     {
-        if (isset($_SESSION['user_id'])) {
+        if (Session::get('user_id')) {
 
-            $id = $_SESSION['user_id'];
+            $id = Session::get('user_id');
 
             if (self::isUserAdmin($id)) {
                 return;

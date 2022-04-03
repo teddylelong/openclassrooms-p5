@@ -4,6 +4,7 @@ namespace Models;
 
 use PDO;
 use Entities\User;
+use Session;
 
 class LoginModel extends Model
 {
@@ -27,8 +28,8 @@ class LoginModel extends Model
         }
 
         if (password_verify($password, $user->getPassword())) {
-            $_SESSION['user_id'] = $user->getId();
-            $_SESSION['username'] = $user->getFirstname();
+            Session::create('user_id', $user->getId());
+            Session::create('username', $user->getFirstname());
             return true;
         }
 

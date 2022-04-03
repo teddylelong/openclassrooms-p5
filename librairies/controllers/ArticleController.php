@@ -12,6 +12,7 @@ use Models\ArticleModel;
 use Models\UserModel;
 use DateTime;
 use Entities\Article;
+use Session;
 
 class ArticleController extends Controller
 {
@@ -228,8 +229,8 @@ class ArticleController extends Controller
         }
 
         $fk_user_id = null;
-        if (!empty($_SESSION['user_id'])) {
-            $fk_user_id = $_SESSION['user_id'];
+        if (!empty(Session::get('user_id'))) {
+            $fk_user_id = Session::get('user_id');
         }
 
         if (!$title || !$excerpt || !$content || !$fk_user_id) {

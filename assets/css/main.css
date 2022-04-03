@@ -12023,6 +12023,7 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+/* This file contains all reusable elements (buttons, navbar, forms...) */
 a {
   text-decoration: none;
 }
@@ -12061,22 +12062,15 @@ body {
 
 /* Main content */
 #main-content {
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
-/* Intro (homepage) */
-#intro {
-  background-color: #2a608a;
-  color: #fff;
+/* Footer */
+#website-footer {
+  border-top: 4px solid #367bb1;
 }
-#intro .intro-text h1, #intro .intro-text .h1 {
-  color: #fff;
-}
-#intro .intro-img img {
-  border-top: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #5094CA;
-  border-left: 6px solid #FDC456;
+#website-footer a:hover {
+  text-decoration: underline;
 }
 
 /* Sidebar */
@@ -12096,6 +12090,21 @@ body {
 /* Text */
 #main-content > h1, #main-content > .h1 {
   margin-bottom: 16px;
+}
+
+/* Intro (homepage) */
+#intro {
+  background-color: #2a608a;
+  color: #fff;
+}
+#intro .intro-text h1, #intro .intro-text .h1 {
+  color: #fff;
+}
+#intro .intro-img img {
+  border-top: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #5094CA;
+  border-left: 6px solid #FDC456;
 }
 
 /* Components */
@@ -12132,14 +12141,6 @@ body {
 #google-maps,
 .iframe-responsive iframe {
   height: 488px;
-}
-
-/* Footer */
-#website-footer {
-  border-top: 4px solid #367bb1;
-}
-#website-footer a:hover {
-  text-decoration: underline;
 }
 
 /*# sourceMappingURL=main.css.map */

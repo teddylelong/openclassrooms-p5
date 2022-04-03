@@ -1,5 +1,4 @@
-// This file contains all reusable elements (buttons, navbar, forms...)
-
+/* This file contains all reusable elements (buttons, navbar, forms...) */
 a {
   text-decoration: none;
 }
@@ -31,7 +30,7 @@ body {
   background-color: #1c1f23;
 
   a:hover {
-   color: $secondary;
+    color: $secondary;
   }
 }
 
@@ -46,7 +45,48 @@ body {
 /* Main content */
 
 #main-content {
-  background-color: #ffffff;
+  background-color: #fff;
+}
+
+
+/* Footer */
+
+#website-footer {
+  border-top: 4px solid darken($primary, 10);
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+
+/* Sidebar */
+
+#website-sidebar {
+  $social_icons_height: 48px;
+
+  #social-sidebar {
+    a {
+      height: $social_icons_height;
+      width: $social_icons_height;
+      color: #fff;
+      font-size: 24px;
+      transition: all ease-in-out 0.2s;
+    }
+
+    a:hover {
+      margin-top: -10px;
+      transition: all ease-in-out .2s;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+
+/* Text */
+
+#main-content > h1 {
+  margin-bottom: 16px;
 }
 
 /* Intro (homepage) */
@@ -71,42 +111,13 @@ body {
   }
 }
 
-
-/* Sidebar */
-
-#website-sidebar {
-  $social_icons_height: 48px;
-
-  #social-sidebar {
-    a {
-      height: $social_icons_height;
-      width: $social_icons_height;
-      color: #fff;
-      font-size: 24px;
-      transition: all ease-in-out .2s;
-    }
-
-    a:hover {
-      margin-top: -10px;
-      transition: all ease-in-out .2s;
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    }
-  }
-}
-
-
-/* Text */
-
-#main-content > h1 {
-  margin-bottom: 16px;
-}
-
 /* Components */
 
 #articles-container .col {
   .card-title {
     transition: color ease-in-out 0.2s;
   }
+
   .card {
     transition: border ease-in-out 0.2s;
   }
@@ -123,7 +134,7 @@ body {
   }
 }
 
-.iframe-responsive{
+.iframe-responsive {
   overflow: hidden;
   position: relative;
   height: 0;
@@ -140,15 +151,4 @@ body {
 #google-maps,
 .iframe-responsive iframe {
   height: 488px;
-}
-
-
-/* Footer */
-
-#website-footer {
-  border-top: 4px solid darken($primary, 10);
-
-  a:hover{
-    text-decoration: underline;
-  }
 }

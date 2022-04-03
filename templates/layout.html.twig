@@ -32,45 +32,9 @@
                         {% endblock content %}
                     </div>
 
+                    <!-- Sidebar -->
                     {% block sidebar %}
-                    <aside id="website-sidebar" class="col-12 col-lg-3 text-muted">
-                        <div class="sidebar-block border rounded mt-3 mt-md-0 p-0">
-                            <h6 class="border-bottom p-2 text-muted">Qui suis-je ?</h6>
-                            <div class="block-content px-2 small">
-                                <p>Je suis Teddy, jeune développeur web junior.</p>
-                                <p>Je souhaite m'améliorer, apprendre et expérimenter afin de devenir expert PHP/Symfony.</p>
-                                <p>Ce blog est un espace qui me permet de créer et partager mes dernières trouvailles. J'espère qu'il vous plaira !</p>
-                            </div>
-                        </div>
-
-                        <div class="sidebar-block border rounded mt-3 p-0">
-                            <h6 class="border-bottom p-2 text-muted">Mon CV</h6>
-                            <div class="block-content p-2">
-                                <div class="d-grid gap-2">
-                                    <a href="#" class="btn btn-outline-primary">Consulter</a>
-                                    <a href="#" class="btn btn-outline-primary">Télécharger (.pdf)</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sidebar-block border rounded mt-3 p-0">
-                            <h6 class="border-bottom p-2 text-muted">Suivez-moi sur les réseaux !</h6>
-                            <div id="social-sidebar" class="block-content p-2 text-center">
-                                <!-- Twitter -->
-                                <a href="#" class="btn rounded-circle border-0 mx-1" style="background-color: #00acee;">
-                                    <i class="bi bi-twitter"></i>
-                                </a>
-                                <!-- Github -->
-                                <a href="#" class="btn rounded-circle border-0 mx-1" style="background-color: #161b22;">
-                                    <i class="bi bi-github"></i>
-                                </a>
-                                <!-- LinkedIn -->
-                                <a href="#" class="btn rounded-circle border-0 mx-1" style="background-color: #0a66c2;">
-                                    <i class="bi bi-linkedin"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </aside>
+                        {% include 'template-parts/website-sidebar.part.twig' %}
                     {%  endblock sidebar %}
 
                 </div>

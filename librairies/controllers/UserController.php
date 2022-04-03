@@ -72,7 +72,7 @@ class UserController extends Controller
             $is_admin = null;
         }
 
-        if (!$firstname || !$lastname || !$email || !$password || !$passwordRepeat || is_null($is_admin)) {
+        if (!$firstname || !$lastname || !$email || !$password || !$passwordRepeat || $is_admin === null) {
             Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
             Http::redirect('/user/create/');
         }

@@ -8,6 +8,7 @@ use Models\CommentModel;
 use Models\LoginModel;
 use Notification;
 use Renderer;
+use Session;
 
 class LoginController extends Controller
 {
@@ -26,8 +27,8 @@ class LoginController extends Controller
      */
     public function loginForm(): void
     {
-        if (isset($_SESSION['user_id'])) {
-            $id = $_SESSION['user_id'];
+        if (Session::get('user_id')) {
+            $id = Session::get('user_id');
 
             if ($this->accessControl::isUserAdmin($id)) {
                 Http::redirect('/login/dashboard/');
@@ -95,10 +96,8 @@ class LoginController extends Controller
      */
     public function logout(): void
     {
-        unset(
-            $_SESSION['user_id'],
-            $_SESSION['username']
-        );
+        Session::destroy('user_id');
+        Session::destroy('username');
 
         Notification::set('success', "Déconnexion effectuée avec succès. À bientôt !");
         Http::redirect('/login/');

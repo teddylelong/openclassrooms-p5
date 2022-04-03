@@ -10,6 +10,7 @@ use Entities\Comment;
 use Models\CommentModel;
 use Models\ArticleModel;
 use Models\UserModel;
+use Session;
 
 class CommentController extends Controller
 {
@@ -43,7 +44,7 @@ class CommentController extends Controller
 
         if ($ifAdmin) {
             $userModel = new UserModel();
-            $user = $userModel->find($_SESSION['user_id']);
+            $user = $userModel->find(Session::get('user_id'));
 
             $author = $user->getFirstname() . " (admin)";
             $email = $user->getEmail();

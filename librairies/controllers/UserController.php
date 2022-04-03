@@ -136,26 +136,26 @@ class UserController extends Controller
         $this->accessControl::adminRightsNeeded();
 
         // Check $_GET params
-        $id = filter_input(INPUT_GET, 'id');
+        $user_id = filter_input(INPUT_GET, 'id');
 
-        if (empty($id) || !ctype_digit($id)) {
+        if (empty($user_id) || !ctype_digit($user_id)) {
             Notification::set('error', "L'identifiant de l'utilisateur n'est pas valide.");
             Http::redirect('/user/index/');
         }
 
         // Check if user is not deleting himself
-        if ($id == Session::get('user_id')) {
+        if ($user_id == Session::get('user_id')) {
             Notification::set('error', "Vous ne pouvez pas vous supprimer vous-même...");
             Http::redirect('/user/index/');
         }
 
-        $user = $this->userModel->find($id);
+        $user = $this->userModel->find($user_id);
         if (!$user) {
             Notification::set('error', "L'utilisateur est introuvable.");
             Http::redirect('/user/index/');
         }
 
-        $this->userModel->delete($id);
+        $this->userModel->delete($user_id);
 
         Notification::set('success', "L'utilisateur a été supprimé avec succès.");
         Http::redirect('/user/index/');

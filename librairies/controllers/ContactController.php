@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Entities\Contact;
+use Models\ContactModel;
 use Notification;
 use Http;
 use Renderer;
@@ -12,6 +13,8 @@ use PHPMailer\PHPMailer\SMTP;
 
 class ContactController extends Controller
 {
+    protected ContactModel $contactModel;
+
     private const HOST      = 'xxx';
     private const USERNAME  = 'xxx';
     private const PASSWORD  = 'xxx';
@@ -20,6 +23,7 @@ class ContactController extends Controller
     public function __construct()
     {
         parent::__construct();
+        $this->contactModel = new ContactModel();
     }
 
     /**
@@ -80,7 +84,7 @@ class ContactController extends Controller
         $this->send($contact);
 
         // Rec email in DB
-        $this->model->insert($contact);
+        $this->contactModel->insert($contact);
 
         Notification::set('success', "Merci pour votre message ! :) Il a bien été envoyé et je vous répondrai sous peu.");
         Http::redirect('/contact/');

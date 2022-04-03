@@ -21,9 +21,9 @@ class Comment
     /**
      * @param int $id
      */
-    public function setId(int $id): self
+    public function setId(int $comment_id): self
     {
-        $this->pk_id = $id;
+        $this->pk_id = $comment_id;
         return $this;
     }
 

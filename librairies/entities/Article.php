@@ -15,11 +15,12 @@ class Article
     private $updated_at;
 
     /**
-     * @param int $id
+     * @param int $article_id
+     * @return Article
      */
-    public function setId(int $id): self
+    public function setId(int $article_id): self
     {
-        $this->pk_id = $id;
+        $this->pk_id = $article_id;
         return $this;
     }
 
@@ -33,6 +34,7 @@ class Article
 
     /**
      * @param string $title
+     * @return Article
      */
     public function setTitle(string $title): self
     {
@@ -50,6 +52,7 @@ class Article
 
     /**
      * @param string $excerpt
+     * @return Article
      */
     public function setExcerpt(string $excerpt): self
     {
@@ -67,6 +70,7 @@ class Article
 
     /**
      * @param string $content
+     * @return Article
      */
     public function setContent(string $content): self
     {
@@ -84,6 +88,7 @@ class Article
 
     /**
      * @param DateTime $createdAt
+     * @return Article
      */
     public function setCreatedAt(DateTime $createdAt): self
     {
@@ -105,6 +110,7 @@ class Article
 
     /**
      * @param int $authorId
+     * @return Article
      */
     public function setAuthorId(int $authorId): self
     {
@@ -122,6 +128,7 @@ class Article
 
     /**
      * @param DateTime $updatedAt
+     * @return Article
      */
     public function setUpdatedAt(DateTime $updatedAt): self
     {

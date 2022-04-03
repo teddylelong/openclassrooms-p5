@@ -9,15 +9,15 @@ class AccessControl
     /**
      * Check if current $_SESSION exist and matches with an existing admin user
      *
-     * @return mixed
+     * @return void
      */
-    public static function adminRightsNeeded()
+    public static function adminRightsNeeded(): void
     {
         if (Session::get('user_id')) {
 
-            $id = Session::get('user_id');
+            $user_id = Session::get('user_id');
 
-            if (self::isUserAdmin($id)) {
+            if (self::isUserAdmin($user_id)) {
                 return;
             }
             self::denied();
@@ -29,13 +29,13 @@ class AccessControl
      * Check if user is admin or not.
      * Return true on success, false on failure
      *
-     * @param int $id
+     * @param int $user_id
      * @return bool
      */
-    public static function isUserAdmin(int $id): bool
+    public static function isUserAdmin(int $user_id): bool
     {
         $userModel = new UserModel();
-        $user = $userModel->find($id);
+        $user = $userModel->find($user_id);
 
         if (!$user) {
             return false;

@@ -12,14 +12,14 @@ class UserModel extends Model
     /**
      * Return a user from database for given ID
      *
-     * @param int $id
+     * @param int $user_id
      * @return mixed
      */
-    public function find(int $id)
+    public function find(int $user_id)
     {
         $query = $this->pdo->prepare("SELECT * FROM $this->table WHERE pk_id = :id");
         $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, User::class);
-        $query->execute(['id' => $id]);
+        $query->execute(['id' => $user_id]);
         return $query->fetch();
     }
 

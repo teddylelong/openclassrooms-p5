@@ -12,14 +12,14 @@ class CommentModel extends Model
     /**
      * Return a comment from database for given ID
      *
-     * @param int $id
+     * @param int $comment_id
      * @return mixed
      */
-    public function find(int $id)
+    public function find(int $comment_id)
     {
         $query = $this->pdo->prepare("SELECT * FROM $this->table WHERE pk_id = :id");
         $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, Comment::class);
-        $query->execute(['id' => $id]);
+        $query->execute(['id' => $comment_id]);
         return $query->fetch();
     }
 

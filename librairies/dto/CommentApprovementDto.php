@@ -33,11 +33,11 @@ class CommentApprovementDto
     }
 
     /**
-     * @param int $id
+     * @param int $comment_id
      */
-    public function setId($id): void
+    public function setId($comment_id): void
     {
-        $this->comment_id = $id;
+        $this->comment_id = $comment_id;
     }
 
     /**

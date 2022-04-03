@@ -12,14 +12,14 @@ class ArticleModel extends Model
     /**
      * Return an article from database for given ID
      *
-     * @param int $id
+     * @param int $article_id
      * @return Article|false
      */
-    public function find(int $id)
+    public function find(int $article_id)
     {
         $query = $this->pdo->prepare("SELECT articles.*, users.firstname, users.lastname FROM articles LEFT JOIN users ON articles.fk_user_id = users.pk_id WHERE articles.pk_id = :id");
         $query->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, Article::class);
-        $query->execute(['id' => $id]);
+        $query->execute(['id' => $article_id]);
         return $query->fetch();
     }
 

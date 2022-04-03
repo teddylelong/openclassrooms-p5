@@ -128,10 +128,9 @@ class CommentController extends Controller
     /**
      * Display a list of comments by approvement status (User admin role is required)
      *
-     * @param string $is_approved
      * @return void
      */
-    public function indexByApprovement(string $is_approved = Comment::PENDING): void
+    public function indexByApprovement(): void
     {
         $this->accessControl::adminRightsNeeded();
 
@@ -153,20 +152,20 @@ class CommentController extends Controller
      */
     public function checkApprovement(): int
     {
-        $id = filter_input(INPUT_GET, 'id');
-        if (!isset($id) && !ctype_digit($id)) {
-            $id = null;
+        $comment_id = filter_input(INPUT_GET, 'id');
+        if (!isset($comment_id) && !ctype_digit($comment_id)) {
+            $comment_id = null;
         }
-        if (!$id) {
+        if (!$comment_id) {
             Notification::set('error', "L'identifiant du commentaire n'est pas valide.");
         }
 
-        $comment = $this->commentModel->find($id);
+        $comment = $this->commentModel->find($comment_id);
         if (!$comment) {
             Notification::set('error', "Le commentaire est introuvable. Veuillez réessayer.");
             Http::redirect('admin/comment/indexbyapprovement');
         }
-        return $id;
+        return $comment_id;
     }
 
     /**

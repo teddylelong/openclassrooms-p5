@@ -345,20 +345,20 @@ class ArticleController extends Controller
         $this->accessControl::adminRightsNeeded();
 
         // Check $_GET params
-        $id = filter_input(INPUT_GET, 'id');
-        if (empty($id) || !ctype_digit($id)) {
+        $article_id = filter_input(INPUT_GET, 'id');
+        if (empty($article_id) || !ctype_digit($article_id)) {
             Notification::set('error', "L'identifiant de l'article n'est pas valide.");
             Http::redirect('/article/indexadmin/');
         }
 
-        $article = $this->articleModel->find($id);
+        $article = $this->articleModel->find($article_id);
 
         if (!$article) {
             Notification::set('error', "L'article est introuvable.");
             Http::redirect('/article/indexadmin');
         }
 
-        $this->articleModel->delete($id);
+        $this->articleModel->delete($article_id);
 
         Notification::set('success', "Suppression de l'article effectuée avec succès !");
         Http::redirect('/article/indexadmin/');

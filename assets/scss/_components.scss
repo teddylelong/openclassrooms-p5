@@ -23,7 +23,6 @@ body {
   color: #fff;
 }
 
-
 /* Site Top-Header */
 
 #site-top-header {
@@ -34,20 +33,17 @@ body {
   }
 }
 
-
 /* Site Header */
 
 #website-header {
   border-bottom: 4px solid darken($primary, 10);
 }
 
-
 /* Main content */
 
 #main-content {
   background-color: #fff;
 }
-
 
 /* Footer */
 
@@ -58,7 +54,6 @@ body {
     text-decoration: underline;
   }
 }
-
 
 /* Sidebar */
 
@@ -76,12 +71,11 @@ body {
 
     a:hover {
       margin-top: -10px;
-      transition: all ease-in-out .2s;
+      transition: all ease-in-out 0.2s;
       box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
   }
 }
-
 
 /* Text */
 
@@ -128,6 +122,7 @@ body {
     color: $primary;
     transition: color ease-in-out 0.2s;
   }
+  
   .card {
     border: 1px solid $primary;
     transition: border ease-in-out 0.2s;

@@ -28,9 +28,9 @@ class LoginController extends Controller
     public function loginForm(): void
     {
         if (Session::get('user_id')) {
-            $id = Session::get('user_id');
+            $user_id = Session::get('user_id');
 
-            if ($this->accessControl::isUserAdmin($id)) {
+            if ($this->accessControl::isUserAdmin($user_id)) {
                 Http::redirect('/login/dashboard/');
             }
         }

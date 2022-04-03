@@ -22,8 +22,8 @@ class Application
             $controllerName = ucfirst($_GET['controller'] . 'controller');
         }
 
-        if (!empty($_GET['task'])) {
-            $task = $_GET['task'];
+        if (!empty(filter_input(INPUT_GET, 'task'))) {
+            $task = filter_input(INPUT_GET, 'task');
         }
 
         $controllerPath = "\controllers\\" . $controllerName;

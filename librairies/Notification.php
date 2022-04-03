@@ -2,6 +2,9 @@
 
 class Notification
 {
+    public const TYPE_ERROR = 'error';
+    public const TYPE_SUCCESS = 'success';
+
     /**
      * Initialize a $_SESSION notification
      *
@@ -11,8 +14,8 @@ class Notification
      */
     public static function set(string $type, string $message): void
     {
-        if ($type == 'error' || $type == 'success') {
-             $_SESSION[$type] = $message;
+        if ($type == self::TYPE_ERROR || $type == self::TYPE_SUCCESS) {
+            Session::create($type, $message);
         }
     }
 
@@ -23,13 +26,13 @@ class Notification
      */
     public static function display(): void
     {
-        if (isset($_SESSION['error'])) {
-            echo '<div class="alert alert-danger alert-dismissible fade show p-3 mb-2" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> ' . $_SESSION['error'] . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-            unset($_SESSION['error']);
+        if (Session::get(self::TYPE_ERROR)) {
+            echo '<div class="alert alert-danger alert-dismissible fade show p-3 mb-2" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> ' . Session::get('error') . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            Session::destroy(self::TYPE_ERROR);
         }
-        if (isset($_SESSION['success'])) {
-            echo '<div class="alert alert-success alert-dismissible fade show m-2" role="alert"><i class="bi bi-check-circle-fill"></i> ' . $_SESSION['success'] . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-            unset($_SESSION['success']);
+        if (Session::get(self::TYPE_SUCCESS)) {
+            echo '<div class="alert alert-success alert-dismissible fade show m-2" role="alert"><i class="bi bi-check-circle-fill"></i> ' . Session::get('success') . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            Session::destroy(self::TYPE_SUCCESS);
         }
     }
 }

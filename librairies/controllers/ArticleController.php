@@ -4,10 +4,7 @@ namespace Controllers;
 
 use Dto\PostDto;
 use Entities\User;
-use Http;
 use Models\CommentModel;
-use Notification;
-use Renderer;
 use Models\ArticleModel;
 use Models\UserModel;
 use DateTime;
@@ -192,7 +189,7 @@ class ArticleController extends Controller
         }
 
         if (!$title || !$excerpt || !$content || !$authorId) {
-            Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
+            $this->notification->set('error', "Tous les champs du formulaire doivent être remplis.");
             $this->http->redirect('/article/showadmin/'.$pk_id.'/');
         }
 
@@ -205,7 +202,7 @@ class ArticleController extends Controller
 
         $this->articleModel->update($article);
 
-        Notification::set('success', "Les modifications de l'article ont bien été enregistrées.");
+        $this->notification->set('success', "Les modifications de l'article ont bien été enregistrées.");
         $this->http->redirect("/article/indexadmin/");
     }
 
@@ -241,7 +238,7 @@ class ArticleController extends Controller
         }
 
         if (!$title || !$excerpt || !$content || !$fk_user_id) {
-            Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
+            $this->notification->set('error', "Tous les champs du formulaire doivent être remplis.");
             $this->http->redirect('/article/create/');
         }
 
@@ -254,7 +251,7 @@ class ArticleController extends Controller
 
         $this->articleModel->insert($article);
 
-        Notification::set('success', "Article ajouté avec succès !");
+        $this->notification->set('success', "Article ajouté avec succès !");
         $this->http->redirect("/article/indexadmin/");
     }
 
@@ -347,20 +344,20 @@ class ArticleController extends Controller
         // Check $_GET params
         $article_id = filter_input(INPUT_GET, 'id');
         if (empty($article_id) || !ctype_digit($article_id)) {
-            Notification::set('error', "L'identifiant de l'article n'est pas valide.");
+            $this->notification->set('error', "L'identifiant de l'article n'est pas valide.");
             $this->http->redirect('/article/indexadmin/');
         }
 
         $article = $this->articleModel->find($article_id);
 
         if (!$article) {
-            Notification::set('error', "L'article est introuvable.");
+            $this->notification->set('error', "L'article est introuvable.");
             $this->http->redirect('/article/indexadmin');
         }
 
         $this->articleModel->delete($article_id);
 
-        Notification::set('success', "Suppression de l'article effectuée avec succès !");
+        $this->notification->set('success', "Suppression de l'article effectuée avec succès !");
         $this->http->redirect('/article/indexadmin/');
     }
 }

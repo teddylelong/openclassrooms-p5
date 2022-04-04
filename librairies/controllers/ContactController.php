@@ -65,12 +65,12 @@ class ContactController extends Controller
         }
 
         if (!$firstname || !$lastname || !$email || !$message) {
-            Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
+            $this->notification->set('error', "Tous les champs du formulaire doivent être remplis.");
             $this->http->redirect('/contact/');
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            Notification::set('error', "L'adresse email saisie n'est pas valide.");
+            $this->notification->set('error', "L'adresse email saisie n'est pas valide.");
             $this->http->redirect('/contact/');
         }
 
@@ -86,7 +86,7 @@ class ContactController extends Controller
         // Rec email in DB
         $this->contactModel->insert($contact);
 
-        Notification::set('success', "Merci pour votre message ! :) Il a bien été envoyé et je vous répondrai sous peu.");
+        $this->notification->set('success', "Merci pour votre message ! :) Il a bien été envoyé et je vous répondrai sous peu.");
         $this->http->redirect('/contact/');
     }
 
@@ -125,7 +125,7 @@ class ContactController extends Controller
             $mail->send();
 
         } catch (Exception $e) {
-            Notification::set('error', "Le message n'a pas pu être envoyé pour la raison suivante : $mail->ErrorInfo");
+            $this->notification->set('error', "Le message n'a pas pu être envoyé pour la raison suivante : $mail->ErrorInfo");
             $this->http->redirect("/contact/");
         }
     }

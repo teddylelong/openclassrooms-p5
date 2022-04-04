@@ -61,7 +61,7 @@ class CommentController extends Controller
         }
 
         if (!$author || !$email || !$article_id || !$content) {
-            Notification::set('error', "Tous les champs doivent être remplis.");
+            $this->notification->set('error', "Tous les champs doivent être remplis.");
             if ($ifAdmin) {
                 $this->http->redirect('/article/showadmin/'.$article_id.'/');
             }
@@ -69,7 +69,7 @@ class CommentController extends Controller
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            Notification::set('error', "L'adresse e-mail saisie n'est pas valide.");
+            $this->notification->set('error', "L'adresse e-mail saisie n'est pas valide.");
             $this->http->redirect('/article/show/'.$article_id.'/');
         }
 
@@ -103,7 +103,7 @@ class CommentController extends Controller
 
         $this->commentModel->insert($comment);
 
-        Notification::set('success', "Merci pour votre commentaire ! Il est en attente de modération et sera traité dans les plus brefs délais.");
+        $this->notification->set('success', "Merci pour votre commentaire ! Il est en attente de modération et sera traité dans les plus brefs délais.");
         $this->http->redirect('/article/show/' . $comment->getArticleId() . '/');
     }
 
@@ -121,7 +121,7 @@ class CommentController extends Controller
 
         $this->commentModel->insert($comment);
 
-        Notification::set('success', "Le commentaire a été publié avec succès.");
+        $this->notification->set('success', "Le commentaire a été publié avec succès.");
         $this->http->redirect('/article/showadmin/' . $comment->getArticleId() . '/');
     }
 
@@ -157,12 +157,12 @@ class CommentController extends Controller
             $comment_id = null;
         }
         if (!$comment_id) {
-            Notification::set('error', "L'identifiant du commentaire n'est pas valide.");
+            $this->notification->set('error', "L'identifiant du commentaire n'est pas valide.");
         }
 
         $comment = $this->commentModel->find($comment_id);
         if (!$comment) {
-            Notification::set('error', "Le commentaire est introuvable. Veuillez réessayer.");
+            $this->notification->set('error', "Le commentaire est introuvable. Veuillez réessayer.");
             $this->http->redirect('admin/comment/indexbyapprovement');
         }
         return $comment_id;
@@ -179,7 +179,7 @@ class CommentController extends Controller
 
         $id = $this->checkApprovement();
         $this->commentModel->updateApprovement($id, Comment::APPROVED);
-        Notification::set('success', "Le commentaire à été approuvé. Il est désormais visible publiquement.");
+        $this->notification->set('success', "Le commentaire à été approuvé. Il est désormais visible publiquement.");
         $this->http->redirect('/comment/indexbyapprovement/');
     }
 
@@ -194,7 +194,7 @@ class CommentController extends Controller
 
         $id = $this->checkApprovement();
         $this->commentModel->updateApprovement($id, Comment::DISAPPROVED);
-        Notification::set('success', "Le commentaire a été refusé. Il ne sera pas visible sur le site.");
+        $this->notification->set('success', "Le commentaire a été refusé. Il ne sera pas visible sur le site.");
         $this->http->redirect('/comment/indexbyapprovement/');
     }
 
@@ -209,7 +209,7 @@ class CommentController extends Controller
 
         $id = $this->checkApprovement();
         $this->commentModel->updateApprovement($id, Comment::PENDING);
-        Notification::set('success', "Le commentaire est à nouveau en attente. Il n'est pas visible sur le site.");
+        $this->notification->set('success', "Le commentaire est à nouveau en attente. Il n'est pas visible sur le site.");
         $this->http->redirect('/comment/indexbyapprovement/');
     }
 
@@ -224,20 +224,20 @@ class CommentController extends Controller
 
         $id = filter_input(INPUT_GET, 'id');
         if (empty($id) || !ctype_digit($id)) {
-            Notification::set('error', "L'identifiant du commentaire n'est pas valide.");
+            $this->notification->set('error', "L'identifiant du commentaire n'est pas valide.");
             $this->http->redirect('/article/indexadmin/');
         }
 
         $commentaire = $this->commentModel->find($id);
 
         if (!$commentaire) {
-            Notification::set('error', "Le commentaire est introuvable.");
+            $this->notification->set('error', "Le commentaire est introuvable.");
             $this->http->redirect('/article/indexadmin/');
         }
 
         $this->commentModel->delete($id);
 
-        Notification::set('success', "Le commentaire a été supprimé avec succès.");
+        $this->notification->set('success', "Le commentaire a été supprimé avec succès.");
         $this->http->redirect('/article/showadmin/' . $commentaire->getArticleId() . '/');
     }
 }

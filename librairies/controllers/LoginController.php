@@ -58,16 +58,16 @@ class LoginController extends Controller
         }
 
         if (!$email || !$password) {
-            Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
+            $this->notification->set('error', "Tous les champs du formulaire doivent être remplis.");
             $this->http->redirect('/login/');
         }
 
         if($this->loginModel->checkLogin($email, $password)) {
-            Notification::set('success', "Bienvenue, {$_SESSION['username']} !");
+            $this->notification->set('success', "Bienvenue, {$_SESSION['username']} !");
             $this->http->redirect('/login/dashboard/');
         }
         else {
-            Notification::set('error', "L'adresse email ou le mot de passe est incorrect.");
+            $this->notification->set('error', "L'adresse email ou le mot de passe est incorrect.");
             $this->http->redirect('/login/');
         }
     }
@@ -99,7 +99,7 @@ class LoginController extends Controller
         Session::destroy('user_id');
         Session::destroy('username');
 
-        Notification::set('success', "Déconnexion effectuée avec succès. À bientôt !");
+        $this->notification->set('success', "Déconnexion effectuée avec succès. À bientôt !");
         $this->http->redirect('/login/');
     }
 }

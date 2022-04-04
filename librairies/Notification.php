@@ -12,7 +12,7 @@ class Notification
      * @param string $message The message to display
      * @return void
      */
-    public static function set(string $type, string $message): void
+    public function set(string $type, string $message): void
     {
         if ($type == self::TYPE_ERROR || $type == self::TYPE_SUCCESS) {
             Session::create($type, $message);
@@ -24,7 +24,7 @@ class Notification
      *
      * @return void
      */
-    public static function display(): ?string
+    public function display(): ?string
     {
         if (Session::get(self::TYPE_ERROR)) {
             $notification = '<div class="alert alert-danger alert-dismissible fade show p-3 mb-2" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> ' . Session::get('error') . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';

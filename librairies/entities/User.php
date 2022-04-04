@@ -15,11 +15,11 @@ class User
     private $created_at;
 
     /**
-     * @param int $id
+     * @param int $user_id
      */
-    public function setId(int $id): self
+    public function setId(int $user_id): self
     {
-        $this->pk_id = $id;
+        $this->pk_id = $user_id;
         return $this;
     }
 

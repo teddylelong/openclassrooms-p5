@@ -19,7 +19,7 @@ class Application
 
         // By default, call homepage
         if (empty($controllerName)) {
-            $controllerName = 'Article';
+            $controllerName = 'Page';
         }
 
         if (empty($task)) {
@@ -30,7 +30,8 @@ class Application
 
         // Check if this controller & method exists
         if (!method_exists($controllerPath, $task)) {
-            Http::error404();
+            $http = new Http();
+            $http->error404();
         }
 
         $controller = new $controllerPath();

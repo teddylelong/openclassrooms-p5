@@ -178,8 +178,8 @@ class CommentController extends Controller
     {
         $this->accessControl::adminRightsNeeded();
 
-        $id = $this->checkApprovement();
-        $this->commentModel->updateApprovement($id, Comment::APPROVED);
+        $comment_id = $this->checkApprovement();
+        $this->commentModel->updateApprovement($comment_id, Comment::APPROVED);
         $this->notification->set('success', "Le commentaire à été approuvé. Il est désormais visible publiquement.");
         $this->http->redirect('/comment/indexbyapprovement/');
     }
@@ -193,8 +193,8 @@ class CommentController extends Controller
     {
         $this->accessControl::adminRightsNeeded();
 
-        $id = $this->checkApprovement();
-        $this->commentModel->updateApprovement($id, Comment::DISAPPROVED);
+        $comment_id = $this->checkApprovement();
+        $this->commentModel->updateApprovement($comment_id, Comment::DISAPPROVED);
         $this->notification->set('success', "Le commentaire a été refusé. Il ne sera pas visible sur le site.");
         $this->http->redirect('/comment/indexbyapprovement/');
     }
@@ -208,8 +208,8 @@ class CommentController extends Controller
     {
         $this->accessControl::adminRightsNeeded();
 
-        $id = $this->checkApprovement();
-        $this->commentModel->updateApprovement($id, Comment::PENDING);
+        $comment_id = $this->checkApprovement();
+        $this->commentModel->updateApprovement($comment_id, Comment::PENDING);
         $this->notification->set('success', "Le commentaire est à nouveau en attente. Il n'est pas visible sur le site.");
         $this->http->redirect('/comment/indexbyapprovement/');
     }
@@ -223,20 +223,20 @@ class CommentController extends Controller
     {
         $this->accessControl::adminRightsNeeded();
 
-        $id = filter_input(INPUT_GET, 'id');
-        if (empty($id) || !ctype_digit($id)) {
+        $comment_id = filter_input(INPUT_GET, 'id');
+        if (empty($comment_id) || !ctype_digit($comment_id)) {
             $this->notification->set('error', "L'identifiant du commentaire n'est pas valide.");
             $this->http->redirect('/article/indexadmin/');
         }
 
-        $commentaire = $this->commentModel->find($id);
+        $commentaire = $this->commentModel->find($comment_id);
 
         if (!$commentaire) {
             $this->notification->set('error', "Le commentaire est introuvable.");
             $this->http->redirect('/article/indexadmin/');
         }
 
-        $this->commentModel->delete($id);
+        $this->commentModel->delete($comment_id);
 
         $this->notification->set('success', "Le commentaire a été supprimé avec succès.");
         $this->http->redirect('/article/showadmin/' . $commentaire->getArticleId() . '/');

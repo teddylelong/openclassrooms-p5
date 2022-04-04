@@ -24,30 +24,6 @@ class ArticleController extends Controller
     }
 
     /**
-     * Get last articles order by date and display it on homepage
-     *
-     * @return void
-     */
-    public function home(): void
-    {
-        $articles = $this->articleModel->findAll('articles.created_at DESC LIMIT 0, 4');
-        $userModel = new UserModel();
-
-        foreach ($articles as $article) {
-            $user = $userModel->find($article->getAuthorId());
-
-            if (!$user) {
-                $user = new User();
-            }
-
-            $posts[] = new PostDto($article, $user);
-        }
-
-        $pageTitle = "Accueil";
-        $this->renderer->render('articles/home', compact('pageTitle', 'posts'));
-    }
-
-    /**
      * Get all articles order by date and display it
      *
      * @return void

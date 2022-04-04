@@ -8,10 +8,9 @@ class Http
      * @param string $url
      * @return void
      */
-    public function redirect(string $url): void
+    public function redirect(string $url)
     {
-        header('Location: ' . $url);
-        exit;
+        exit(header('Location: ' . $url));
     }
 
     /**
@@ -26,7 +25,6 @@ class Http
         $renderer = new Renderer();
 
         $pageTitle = "Erreur 404 - Page non-trouvée";
-        $renderer->render('errors/404', compact('pageTitle'));
-        exit;
+        exit($renderer->render('errors/404', compact('pageTitle')));
     }
 }

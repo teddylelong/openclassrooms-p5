@@ -55,6 +55,7 @@ class AccessControl
      */
     public static function denied() {
         Notification::set('error', self::DENIED_MSG);
-        Http::redirect('/login/');
+        $http = new Http();
+        $http->redirect('/login/');
     }
 }

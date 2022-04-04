@@ -12,7 +12,7 @@ class Renderer
      * @param string $path
      * @param array $var
      */
-    public static function render(string $path, $var = []): void
+    public function render(string $path, $var = []): void
     {
         $template = self::loadTwig()->load("$path.html.twig");
         $template->display($var);
@@ -23,7 +23,7 @@ class Renderer
      *
      * @return Environment
      */
-    public static function loadTwig()
+    public function loadTwig()
     {
         $loader = new FilesystemLoader('templates');
 

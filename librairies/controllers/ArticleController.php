@@ -128,13 +128,13 @@ class ArticleController extends Controller
         //Check $_GET params
         $article_id = filter_input(INPUT_GET, 'id');
         if (empty($article_id) || !ctype_digit($article_id)) {
-            Http::error404();
+            $this->http->error404();
         }
 
         $article = $this->articleModel->find($article_id);
 
         if (!$article) {
-            Http::error404();
+            $this->http->error404();
         }
 
         // Find article author
@@ -193,7 +193,7 @@ class ArticleController extends Controller
 
         if (!$title || !$excerpt || !$content || !$authorId) {
             Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
-            Http::redirect('/article/showadmin/'.$pk_id.'/');
+            $this->http->redirect('/article/showadmin/'.$pk_id.'/');
         }
 
         $article = (new Article())
@@ -206,7 +206,7 @@ class ArticleController extends Controller
         $this->articleModel->update($article);
 
         Notification::set('success', "Les modifications de l'article ont bien été enregistrées.");
-        Http::redirect("/article/indexadmin/");
+        $this->http->redirect("/article/indexadmin/");
     }
 
     /**
@@ -242,7 +242,7 @@ class ArticleController extends Controller
 
         if (!$title || !$excerpt || !$content || !$fk_user_id) {
             Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
-            Http::redirect('/article/create/');
+            $this->http->redirect('/article/create/');
         }
 
         $article = (new Article())
@@ -255,7 +255,7 @@ class ArticleController extends Controller
         $this->articleModel->insert($article);
 
         Notification::set('success', "Article ajouté avec succès !");
-        Http::redirect("/article/indexadmin/");
+        $this->http->redirect("/article/indexadmin/");
     }
 
     /**
@@ -269,13 +269,13 @@ class ArticleController extends Controller
 
         // Check $_GET params
         if (empty($article_id) && !ctype_digit($article_id)) {
-            Http::error404();
+            $this->http->error404();
         }
 
         $article = $this->articleModel->find($article_id);
 
         if (!$article) {
-            Http::error404();
+            $this->http->error404();
         }
 
         // Find article comments
@@ -309,13 +309,13 @@ class ArticleController extends Controller
         $article_id = filter_input(INPUT_GET, 'id');;
 
         if (empty($article_id) || !ctype_digit($article_id)) {
-            Http::error404();
+            $this->http->error404();
         }
 
         $article = $this->articleModel->find($article_id);
 
         if (!$article) {
-            Http::error404();
+            $this->http->error404();
         }
 
         $commentaires = $this->commentModel->findAllByArticle($article_id);
@@ -348,19 +348,19 @@ class ArticleController extends Controller
         $article_id = filter_input(INPUT_GET, 'id');
         if (empty($article_id) || !ctype_digit($article_id)) {
             Notification::set('error', "L'identifiant de l'article n'est pas valide.");
-            Http::redirect('/article/indexadmin/');
+            $this->http->redirect('/article/indexadmin/');
         }
 
         $article = $this->articleModel->find($article_id);
 
         if (!$article) {
             Notification::set('error', "L'article est introuvable.");
-            Http::redirect('/article/indexadmin');
+            $this->http->redirect('/article/indexadmin');
         }
 
         $this->articleModel->delete($article_id);
 
         Notification::set('success', "Suppression de l'article effectuée avec succès !");
-        Http::redirect('/article/indexadmin/');
+        $this->http->redirect('/article/indexadmin/');
     }
 }

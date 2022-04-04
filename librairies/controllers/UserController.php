@@ -61,7 +61,7 @@ class UserController extends Controller
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             Notification::set('error', "L'adresse email saisie n'est pas valide.");
-            Http::redirect('/user/create/');
+            $this->http->redirect('/user/create/');
         }
 
         $password = filter_input(INPUT_POST, 'password');
@@ -74,20 +74,20 @@ class UserController extends Controller
 
         if (!$firstname || !$lastname || !$email || !$password || !$passwordRepeat || $is_admin === null) {
             Notification::set('error', "Tous les champs du formulaire doivent être remplis.");
-            Http::redirect('/user/create/');
+            $this->http->redirect('/user/create/');
         }
 
         $passwordConfirmation = ($password === $passwordRepeat);
 
         if (!$passwordConfirmation) {
             Notification::set('error', "Les mots de passe ne correspondent pas.");
-            Http::redirect('/user/create/');
+            $this->http->redirect('/user/create/');
         }
 
         $passwordCondition = (!empty($password) || strlen($password) >= 8);
         if (!$passwordCondition) {
             Notification::set('error', "Le mot de passe doit faire au moins 8 caractères.");
-            Http::redirect('/user/create/');
+            $this->http->redirect('/user/create/');
         }
 
         if ($passwordCondition && $passwordConfirmation) {
@@ -97,7 +97,7 @@ class UserController extends Controller
         // Check if email is already used by other account
         if ($this->userModel->findByEmail($email)) {
             Notification::set('error', "L'adresse email utilisée existe déjà.");
-            Http::redirect('/user/create/');
+            $this->http->redirect('/user/create/');
         }
 
         $user = (new User())
@@ -110,7 +110,7 @@ class UserController extends Controller
         $this->userModel->insert($user);
 
         Notification::set('success', "Nouvel utilisateur créé avec succès !");
-        Http::redirect('/user/index/');
+        $this->http->redirect('/user/index/');
     }
 
     /**
@@ -140,24 +140,24 @@ class UserController extends Controller
 
         if (empty($user_id) || !ctype_digit($user_id)) {
             Notification::set('error', "L'identifiant de l'utilisateur n'est pas valide.");
-            Http::redirect('/user/index/');
+            $this->http->redirect('/user/index/');
         }
 
         // Check if user is not deleting himself
         if ($user_id == Session::get('user_id')) {
             Notification::set('error', "Vous ne pouvez pas vous supprimer vous-même...");
-            Http::redirect('/user/index/');
+            $this->http->redirect('/user/index/');
         }
 
         $user = $this->userModel->find($user_id);
         if (!$user) {
             Notification::set('error', "L'utilisateur est introuvable.");
-            Http::redirect('/user/index/');
+            $this->http->redirect('/user/index/');
         }
 
         $this->userModel->delete($user_id);
 
         Notification::set('success', "L'utilisateur a été supprimé avec succès.");
-        Http::redirect('/user/index/');
+        $this->http->redirect('/user/index/');
     }
 }

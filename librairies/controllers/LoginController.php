@@ -35,7 +35,7 @@ class LoginController extends Controller
             }
         }
         $pageTitle = "Connexion";
-        Renderer::render('admin/users/login', compact('pageTitle'));
+        $this->renderer->render('admin/users/login', compact('pageTitle'));
     }
 
     /**
@@ -85,7 +85,7 @@ class LoginController extends Controller
         $commentCount = count($commentModel->findByApproved(Comment::PENDING));
 
         $pageTitle = "Dashboard";
-        Renderer::render('admin/dashboard', compact('pageTitle', 'commentCount'));
+        $this->renderer->render('admin/dashboard', compact('pageTitle', 'commentCount'));
     }
 
 

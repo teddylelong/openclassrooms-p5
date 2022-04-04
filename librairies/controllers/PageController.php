@@ -19,7 +19,7 @@ class PageController extends Controller
     public function aPropos()
     {
         $pageTitle = 'À propos';
-        Renderer::render('pages/a-propos', compact('pageTitle'));
+        $this->renderer->render('pages/a-propos', compact('pageTitle'));
     }
 
     /**
@@ -30,7 +30,7 @@ class PageController extends Controller
     public function mentionsLegales()
     {
         $pageTitle = 'Mentions légales';
-        Renderer::render('pages/mentions-legales', compact('pageTitle'));
+        $this->renderer->render('pages/mentions-legales', compact('pageTitle'));
     }
 
     /**
@@ -41,7 +41,7 @@ class PageController extends Controller
     public function donneesPersonnelles()
     {
         $pageTitle = "Données personnelles";
-        Renderer::render('pages/donnees-personnelles', compact('pageTitle'));
+        $this->renderer->render('pages/donnees-personnelles', compact('pageTitle'));
     }
 
     /**
@@ -52,6 +52,6 @@ class PageController extends Controller
     public function monCv()
     {
         $pageTitle = "Mon CV";
-        Renderer::render('pages/mon-cv', compact('pageTitle'));
+        $this->renderer->render('pages/mon-cv', compact('pageTitle'));
     }
 }

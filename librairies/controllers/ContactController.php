@@ -34,7 +34,7 @@ class ContactController extends Controller
     public function contact()
     {
         $pageTitle = "Me contacter";
-        Renderer::render('contact/contact', compact('pageTitle'));
+        $this->renderer->render('contact/contact', compact('pageTitle'));
     }
 
     /**

@@ -31,7 +31,7 @@ class UserController extends Controller
         $users = $this->userModel->findAll('created_at DESC');
 
         $pageTitle = "Liste des utilisateurs";
-        Renderer::render('admin/users/index', compact('pageTitle', 'users'));
+        $this->renderer->render('admin/users/index', compact('pageTitle', 'users'));
     }
 
     /**
@@ -123,7 +123,7 @@ class UserController extends Controller
         $this->accessControl::adminRightsNeeded();
 
         $pageTitle = "Créer un nouvel utilisateur";
-        Renderer::render('admin/users/create', compact('pageTitle'));
+        $this->renderer->render('admin/users/create', compact('pageTitle'));
     }
 
     /**

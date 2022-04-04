@@ -22,8 +22,11 @@ class Http
     public static function error404(): void
     {
         header('HTTP/1.1 404 Not Found');
+
+        $renderer = new Renderer();
+
         $pageTitle = "Erreur 404 - Page non-trouvée";
-        Renderer::render('errors/404', compact('pageTitle'));
+        $renderer->render('errors/404', compact('pageTitle'));
         return;
     }
 }

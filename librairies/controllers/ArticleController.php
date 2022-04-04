@@ -47,7 +47,7 @@ class ArticleController extends Controller
         }
 
         $pageTitle = "Accueil";
-        Renderer::render('articles/home', compact('pageTitle', 'posts'));
+        $this->renderer->render('articles/home', compact('pageTitle', 'posts'));
     }
 
     /**
@@ -72,7 +72,7 @@ class ArticleController extends Controller
         }
 
         $pageTitle = "Le Blog";
-        Renderer::render('articles/index', compact('pageTitle', 'posts'));
+        $this->renderer->render('articles/index', compact('pageTitle', 'posts'));
     }
 
     /**
@@ -100,7 +100,7 @@ class ArticleController extends Controller
         }
 
         $pageTitle = "Gérer les articles";
-        Renderer::render('admin/articles/index', compact('pageTitle', 'posts'));
+        $this->renderer->render('admin/articles/index', compact('pageTitle', 'posts'));
     }
 
     /**
@@ -113,7 +113,7 @@ class ArticleController extends Controller
         $this->accessControl::adminRightsNeeded();
 
         $pageTitle = "Rédiger un article";
-        Renderer::render('admin/articles/create', compact('pageTitle'));
+        $this->renderer->render('admin/articles/create', compact('pageTitle'));
     }
 
     /**
@@ -152,7 +152,7 @@ class ArticleController extends Controller
         $users = (new UserModel())->findAll();
 
         $pageTitle = "Modifier un article";
-        Renderer::render('admin/articles/modify', compact('article_id', 'post', 'pageTitle', 'users'));
+        $this->renderer->render('admin/articles/modify', compact('article_id', 'post', 'pageTitle', 'users'));
     }
 
     /**
@@ -293,7 +293,7 @@ class ArticleController extends Controller
         $post = new PostDto($article, $user, $commentaires);
 
         $pageTitle = $post->getTitle();
-        Renderer::render('articles/show', compact('pageTitle', 'post'));
+        $this->renderer->render('articles/show', compact('pageTitle', 'post'));
     }
 
     /**
@@ -332,7 +332,7 @@ class ArticleController extends Controller
         $post = new PostDto($article, $user, $commentaires);
 
         $pageTitle = $article->getTitle();
-        Renderer::render('admin/articles/show', compact('pageTitle', 'post'));
+        $this->renderer->render('admin/articles/show', compact('pageTitle', 'post'));
     }
 
     /**

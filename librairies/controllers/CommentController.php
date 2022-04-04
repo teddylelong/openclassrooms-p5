@@ -142,7 +142,7 @@ class CommentController extends Controller
         }
 
         $pageTitle = "Gestion des commentaires";
-        Renderer::render('admin/comments/approvement',compact('commentApprovement', 'pageTitle'));
+        $this->renderer->render('admin/comments/approvement',compact('commentApprovement', 'pageTitle'));
     }
 
     /**

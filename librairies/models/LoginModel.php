@@ -28,8 +28,9 @@ class LoginModel extends Model
         }
 
         if (password_verify($password, $user->getPassword())) {
-            Session::create('user_id', $user->getId());
-            Session::create('username', $user->getFirstname());
+            $session = new Session();
+            $session->create('user_id', $user->getId());
+            $session->create('username', $user->getFirstname());
             return true;
         }
 

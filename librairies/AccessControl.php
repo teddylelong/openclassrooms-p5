@@ -4,7 +4,7 @@ use Models\UserModel;
 
 class AccessControl
 {
-    private const DENIED_MSG = "Vous n'avez pas les autorisations requises pour accéder à cette page.";
+    public const DENIED_MSG = "Vous n'avez pas les autorisations requises pour accéder à cette page.";
 
     /**
      * Check if current $_SESSION exist and matches with an existing admin user
@@ -13,11 +13,11 @@ class AccessControl
      */
     public static function adminRightsNeeded(): void
     {
-        if (Session::get('user_id')) {
+        $session = new Session();
 
-            $user_id = Session::get('user_id');
+        if ($session->get('user_id')) {
 
-            if (self::isUserAdmin($user_id)) {
+            if (self::isUserAdmin($session->get('user_id'))) {
                 return;
             }
             self::denied();
@@ -53,7 +53,8 @@ class AccessControl
      *
      * @return void
      */
-    public static function denied() {
+    public static function denied(): void
+    {
         $notification = new Notification();
         $notification->set('error', self::DENIED_MSG);
         $http = new Http();

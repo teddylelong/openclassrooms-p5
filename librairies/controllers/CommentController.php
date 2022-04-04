@@ -43,8 +43,9 @@ class CommentController extends Controller
         }
 
         if ($ifAdmin) {
+            $session = new Session();
             $userModel = new UserModel();
-            $user = $userModel->find(Session::get('user_id'));
+            $user = $userModel->find($session->get('user_id'));
 
             $author = $user->getFirstname() . " (admin)";
             $email = $user->getEmail();

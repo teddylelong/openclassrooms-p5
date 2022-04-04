@@ -3,21 +3,20 @@
 namespace Controllers;
 
 use Entities\Comment;
-use Http;
 use Models\CommentModel;
 use Models\LoginModel;
-use Notification;
-use Renderer;
 use Session;
 
 class LoginController extends Controller
 {
     protected LoginModel $loginModel;
+    protected Session $session;
 
     public function __construct()
     {
         parent::__construct();
         $this->loginModel = new LoginModel();
+        $this->session = new Session();
     }
 
     /**
@@ -27,8 +26,8 @@ class LoginController extends Controller
      */
     public function loginForm(): void
     {
-        if (Session::get('user_id')) {
-            $user_id = Session::get('user_id');
+        if ($this->session->get('user_id')) {
+            $user_id = $this->session->get('user_id');
 
             if ($this->accessControl::isUserAdmin($user_id)) {
                 $this->http->redirect('/login/dashboard/');
@@ -96,8 +95,8 @@ class LoginController extends Controller
      */
     public function logout(): void
     {
-        Session::destroy('user_id');
-        Session::destroy('username');
+        $this->session->destroy('user_id');
+        $this->session->destroy('username');
 
         $this->notification->set('success', "Déconnexion effectuée avec succès. À bientôt !");
         $this->http->redirect('/login/');

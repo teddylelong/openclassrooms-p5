@@ -144,7 +144,8 @@ class UserController extends Controller
         }
 
         // Check if user is not deleting himself
-        if ($user_id == Session::get('user_id')) {
+        $session = new Session();
+        if ($user_id == $session->get('user_id')) {
             $this->notification->set('error', "Vous ne pouvez pas vous supprimer vous-même...");
             $this->http->redirect('/user/index/');
         }

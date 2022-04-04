@@ -80,7 +80,7 @@ class ArticleController extends Controller
      */
     public function indexAdmin(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->adminRightsNeeded();
 
         $articles = $this->articleModel->findAll('articles.created_at DESC');
 
@@ -107,7 +107,7 @@ class ArticleController extends Controller
      */
     public function create(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->adminRightsNeeded();
 
         $pageTitle = "Rédiger un article";
         $this->renderer->render('admin/articles/create', compact('pageTitle'));
@@ -120,7 +120,7 @@ class ArticleController extends Controller
      */
     public function modify(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->adminRightsNeeded();
 
         //Check $_GET params
         $article_id = filter_input(INPUT_GET, 'id');
@@ -160,7 +160,7 @@ class ArticleController extends Controller
      */
     public function update(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->adminRightsNeeded();
 
         // Form data checking
         $title = filter_input(INPUT_POST, 'title');
@@ -214,7 +214,7 @@ class ArticleController extends Controller
      */
     public function insert(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->adminRightsNeeded();
 
         // Form data checking
         $title = filter_input(INPUT_POST, 'title');
@@ -232,7 +232,8 @@ class ArticleController extends Controller
             $content = null;
         }
 
-        $fk_user_id = Session::get('user_id');
+        $session = new Session();
+        $fk_user_id = $session->get('user_id');
         if (empty($fk_user_id)) {
             $fk_user_id = null;
         }
@@ -301,7 +302,7 @@ class ArticleController extends Controller
      */
     public function showAdmin(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->adminRightsNeeded();
 
         $article_id = filter_input(INPUT_GET, 'id');;
 
@@ -339,7 +340,7 @@ class ArticleController extends Controller
      */
     public function delete(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->adminRightsNeeded();
 
         // Check $_GET params
         $article_id = filter_input(INPUT_GET, 'id');

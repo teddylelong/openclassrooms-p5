@@ -57,7 +57,7 @@ class CommentController extends Controller
         }
 
         $article_id = filter_input(INPUT_POST, 'article_id');
-        if (empty($article_id && !ctype_digit($article_id))) {
+        if (empty($article_id)) {
             $article_id = null;
         }
 
@@ -140,6 +140,11 @@ class CommentController extends Controller
         foreach ($comments as $comment) {
             $article = $this->articleModel->find($comment->getArticleId());
             $commentApprovement[] = new CommentApprovementDto($comment, $article);
+        }
+
+        // No comments finded : generate empty array for Twig filters
+        if (empty($comments)) {
+            $commentApprovement = [];
         }
 
         $pageTitle = "Gestion des commentaires";

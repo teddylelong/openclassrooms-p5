@@ -155,7 +155,7 @@ class PostDto
         if ($firstname === null) {
             $this->author_firstname = self::UNKNOW_USER;
         }
-        else {
+        if ($firstname !== null) {
             $this->author_firstname = $firstname;
         }
     }

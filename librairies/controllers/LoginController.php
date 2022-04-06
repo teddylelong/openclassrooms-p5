@@ -65,10 +65,9 @@ class LoginController extends Controller
             $this->notification->set('success', "Bienvenue, {$_SESSION['username']} !");
             $this->http->redirect('/login/dashboard/');
         }
-        else {
-            $this->notification->set('error', "L'adresse email ou le mot de passe est incorrect.");
-            $this->http->redirect('/login/');
-        }
+        $this->notification->set('error', "L'adresse email ou le mot de passe est incorrect.");
+        $this->http->redirect('/login/');
+
     }
 
     /**

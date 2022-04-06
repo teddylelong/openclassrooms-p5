@@ -34,7 +34,9 @@ class Renderer
 
         // Twig functions
         $twig->addFunction(
-            new TwigFunction('notificationDisplay', function() { return Notification::display(); })
+            new TwigFunction('notificationDisplay', function() {
+                return (new Notification())->display();
+            })
         );
 
         $twig->addFunction(

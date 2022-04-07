@@ -35,5 +35,5 @@ Pour fonctionner, ce projet à besoin :
 Une fois le projet installé, vous pouvez visiter l'interface d'administration via le lien situé en bas de chaque page.
 Pour vous connecter, utilisez le compte admin suivant :
 
-* Email : admin@user.com
-* MdP : admin@user.com
+* Email : admin@test.com
+* MdP : admin@test.com

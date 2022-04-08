@@ -18,20 +18,18 @@
     <label class="form-label mt-2" for="password_confirmation">Confirmez le mot de passe :</label>
     <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="Répétez le mot de passe ici">
 
-    <p class="mt-2">Ce nouvel utilisateur aura-t-il les droits d'administrateur ?</p>
-    <div class="form-check-inline">
-        <input class="form-check-input" type="radio" name="is_admin" id="is_admin_y" value="1">
-        <label class="form-check-label" for="is_admin_y">
-            Oui
-        </label>
+    <label class="form-label mt-2" for="role">Sélectionnez le rôle du nouvel utilisateur :</label>
+
+    <select class="form-select" name="role" id="role">
+        {% for role in roles %}
+            <option value="{{ role.pkId }}">{{ role.name|capitalize }}</option>
+        {% endfor %}
+    </select>
+
+    <div class="alert alert-danger p-3 my-2" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> Attention : les utilisateurs ayant le droit Administrateur peuvent supprimer les autres utilisateurs.
     </div>
 
-    <div class="form-check-inline">
-        <input class="form-check-input" type="radio" name="is_admin" id="is_admin_n" value="0" checked>
-        <label class="form-check-label" for="is_admin_n">
-            Non
-        </label>
-    </div>
 
     <div class="d-grid gap-2 mt-3">
         <input class="btn btn-primary" type="submit" value="Créer l'utilisateur">

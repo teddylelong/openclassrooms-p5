@@ -21,10 +21,11 @@ class Http
      */
     public static function error404(): void
     {
+        // Todo : switch N° Error
         $renderer = new Renderer();
 
         $pageTitle = "Erreur 404 - Page non-trouvée";
-        header('HTTP/1.1 404 Not Found');
         $renderer->render('errors/404', compact('pageTitle'));
+        header('HTTP/1.1 404 Not Found');
     }
 }

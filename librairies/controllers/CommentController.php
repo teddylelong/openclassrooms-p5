@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Dto\CommentApprovementDto;
 use Http;
+use Models\RoleModel;
 use Notification;
 use Renderer;
 use Entities\Comment;
@@ -45,9 +46,13 @@ class CommentController extends Controller
         if ($ifAdmin) {
             $session = new Session();
             $userModel = new UserModel();
+
             $user = $userModel->find($session->get('user_id'));
 
-            $author = $user->getFirstname() . " (admin)";
+            $roleModel = new RoleModel();
+            $role = $roleModel->find($user->getFkRoleId());
+
+            $author = '<i class="bi bi-shield-check text-primary"></i> '.$user->getFirstname();
             $email = $user->getEmail();
         }
 
@@ -116,7 +121,8 @@ class CommentController extends Controller
      */
     public function insertAdmin()
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('comment.create');
 
         $comment = $this->checkInsert(true);
 
@@ -133,7 +139,8 @@ class CommentController extends Controller
      */
     public function indexByApprovement(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('comment.manage');
 
         $comments = $this->commentModel->findAll();
 
@@ -181,7 +188,8 @@ class CommentController extends Controller
      */
     public function approve(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('comment.manage');
 
         $comment_id = $this->checkApprovement();
         $this->commentModel->updateApprovement($comment_id, Comment::APPROVED);
@@ -196,7 +204,8 @@ class CommentController extends Controller
      */
     public function disapprove(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('comment.manage');
 
         $comment_id = $this->checkApprovement();
         $this->commentModel->updateApprovement($comment_id, Comment::DISAPPROVED);
@@ -211,7 +220,8 @@ class CommentController extends Controller
      */
     public function pending(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('comment.manage');
 
         $comment_id = $this->checkApprovement();
         $this->commentModel->updateApprovement($comment_id, Comment::PENDING);
@@ -226,7 +236,8 @@ class CommentController extends Controller
      */
     public function delete()
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('comment.delete');
 
         $comment_id = filter_input(INPUT_GET, 'id');
         if (empty($comment_id) || !ctype_digit($comment_id)) {

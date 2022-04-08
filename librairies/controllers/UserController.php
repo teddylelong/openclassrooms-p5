@@ -2,10 +2,8 @@
 
 namespace Controllers;
 
-use Http;
+use Models\RoleModel;
 use Models\UserModel;
-use Notification;
-use Renderer;
 use Entities\User;
 use Session;
 
@@ -26,7 +24,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('user.index');
 
         $users = $this->userModel->findAll('created_at DESC');
 
@@ -41,7 +40,8 @@ class UserController extends Controller
      */
     public function insert(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('user.create');
 
         // Check form data
         $firstname = filter_input(INPUT_POST, 'firstname');
@@ -59,21 +59,21 @@ class UserController extends Controller
             $email = null;
         }
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->notification->set('error', "L'adresse email saisie n'est pas valide.");
-            $this->http->redirect('/user/create/');
-        }
-
         $password = filter_input(INPUT_POST, 'password');
         $passwordRepeat = filter_input(INPUT_POST, 'password_confirmation');
 
-        $is_admin = filter_input(INPUT_POST, 'is_admin');
-        if (strlen($is_admin) === 0) {
-            $is_admin = null;
+        $role = filter_input(INPUT_POST, 'role');
+        if (!$role) {
+            $role = null;
         }
 
-        if (!$firstname || !$lastname || !$email || !$password || !$passwordRepeat || $is_admin === null) {
+        if (!$firstname || !$lastname || !$email || !$password || !$passwordRepeat || !$role) {
             $this->notification->set('error', "Tous les champs du formulaire doivent être remplis.");
+            $this->http->redirect('/user/create/');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->notification->set('error', "L'adresse email saisie n'est pas valide.");
             $this->http->redirect('/user/create/');
         }
 
@@ -105,7 +105,7 @@ class UserController extends Controller
             ->setLastname($lastname)
             ->setEmail($email)
             ->setPassword($password)
-            ->setIsAdmin($is_admin);
+            ->setFkRoleId($role);
 
         $this->userModel->insert($user);
 
@@ -120,10 +120,15 @@ class UserController extends Controller
      */
     public function create(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('user.create');
+
+        // Get a roles list and show this in select form
+        $roleModel = new RoleModel();
+        $roles = $roleModel->findAll();
 
         $pageTitle = "Créer un nouvel utilisateur";
-        $this->renderer->render('admin/users/create', compact('pageTitle'));
+        $this->renderer->render('admin/users/create', compact('pageTitle', 'roles'));
     }
 
     /**
@@ -133,7 +138,8 @@ class UserController extends Controller
      */
     public function delete()
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('user.delete');
 
         // Check $_GET params
         $user_id = filter_input(INPUT_GET, 'id');

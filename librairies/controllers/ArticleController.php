@@ -56,7 +56,8 @@ class ArticleController extends Controller
      */
     public function indexAdmin(): void
     {
-        $this->accessControl->adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('article.index');
 
         $articles = $this->articleModel->findAll('articles.created_at DESC');
 
@@ -83,7 +84,8 @@ class ArticleController extends Controller
      */
     public function create(): void
     {
-        $this->accessControl->adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('article.create');
 
         $pageTitle = "Rédiger un article";
         $this->renderer->render('admin/articles/create', compact('pageTitle'));
@@ -96,7 +98,8 @@ class ArticleController extends Controller
      */
     public function modify(): void
     {
-        $this->accessControl->adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('article.update');
 
         //Check $_GET params
         $article_id = filter_input(INPUT_GET, 'id');
@@ -136,7 +139,8 @@ class ArticleController extends Controller
      */
     public function update(): void
     {
-        $this->accessControl->adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('article.update');
 
         // Form data checking
         $title = filter_input(INPUT_POST, 'title');
@@ -190,7 +194,8 @@ class ArticleController extends Controller
      */
     public function insert(): void
     {
-        $this->accessControl->adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('article.create');
 
         // Form data checking
         $title = filter_input(INPUT_POST, 'title');
@@ -278,7 +283,8 @@ class ArticleController extends Controller
      */
     public function showAdmin(): void
     {
-        $this->accessControl->adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('article.index');
 
         $article_id = filter_input(INPUT_GET, 'id');;
 
@@ -316,7 +322,8 @@ class ArticleController extends Controller
      */
     public function delete(): void
     {
-        $this->accessControl->adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
+        $this->accessControl->hasPermission('article.delete');
 
         // Check $_GET params
         $article_id = filter_input(INPUT_GET, 'id');

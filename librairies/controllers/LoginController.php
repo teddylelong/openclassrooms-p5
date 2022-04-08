@@ -29,7 +29,7 @@ class LoginController extends Controller
         if ($this->session->get('user_id')) {
             $user_id = $this->session->get('user_id');
 
-            if ($this->accessControl::isUserAdmin($user_id)) {
+            if ($this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR])) {
                 $this->http->redirect('/login/dashboard/');
             }
         }
@@ -77,7 +77,7 @@ class LoginController extends Controller
      */
     public function dashboard(): void
     {
-        $this->accessControl::adminRightsNeeded();
+        $this->accessControl->hasRole([self::ROLE_ADMIN, self::ROLE_MODERATOR]);
 
         $commentModel = new CommentModel();
         $commentCount = count($commentModel->findByApproved(Comment::PENDING));

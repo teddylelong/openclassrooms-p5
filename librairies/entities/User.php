@@ -13,6 +13,7 @@ class User
     private $password;
     private $is_admin;
     private $created_at;
+    private $fk_role_id;
 
     /**
      * @param int $user_id
@@ -133,5 +134,22 @@ class User
             return $dateTime->format('d\/m\/Y \à H\hi');
         }
         return $this->created_at;
+    }
+
+    /**
+     * @param int $fk_role_id
+     */
+    public function setFkRoleId(int $fk_role_id): self
+    {
+        $this->fk_role_id = $fk_role_id;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFkRoleId(): int
+    {
+        return $this->fk_role_id;
     }
 }

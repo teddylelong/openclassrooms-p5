@@ -50,13 +50,13 @@ class UserModel extends Model
      */
     public function insert(User $user): void
     {
-        $query = $this->pdo->prepare("INSERT INTO users SET firstname = :firstname, lastname = :lastname, email = :email, password = :password, is_admin = :is_admin");
+        $query = $this->pdo->prepare("INSERT INTO users SET firstname = :firstname, lastname = :lastname, email = :email, password = :password, fk_role_id = :fk_role_id");
         $query->execute([
-            'firstname' => $user->getFirstname(),
-            'lastname'  => $user->getLastname(),
-            'email'     => $user->getEmail(),
-            'password'  => $user->getPassword(),
-            'is_admin'  => $user->getIsAdmin(),
+            'firstname'   => $user->getFirstname(),
+            'lastname'    => $user->getLastname(),
+            'email'       => $user->getEmail(),
+            'password'    => $user->getPassword(),
+            'fk_role_id'  => $user->getFkRoleId(),
         ]);
     }
 

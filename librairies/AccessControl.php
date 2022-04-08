@@ -1,24 +1,29 @@
 <?php
 
 use Models\UserModel;
+use Models\RoleModel;
 
 class AccessControl
 {
     public const DENIED_MSG = "Vous n'avez pas les autorisations requises pour accéder à cette page.";
+    public const BAD_PERM_MSG = "Désolé ! Vous n'avez pas les permissions nécessaires pour effectuer cette action.";
 
     /**
-     * Check if current $_SESSION exist and matches with an existing admin user
+     * Check if current logged user has given role
      *
-     * @return void
+     * @param array $role_id
+     * @return bool
      */
-    public static function adminRightsNeeded(): void
+    public function hasRole(array $role_id): bool
     {
         $session = new Session();
-
         if ($session->get('user_id')) {
 
-            if (self::isUserAdmin($session->get('user_id'))) {
-                return;
+            $userModel = new UserModel();
+            $user = $userModel->find($session->get('user_id'));
+
+            if ($user && in_array($user->getFkRoleId(), $role_id, true)) {
+                return true;
             }
             self::denied();
         }
@@ -26,26 +31,37 @@ class AccessControl
     }
 
     /**
-     * Check if user is admin or not.
-     * Return true on success, false on failure
+     * check if current logged user has given permission
+     * List of actual permissions :
      *
-     * @param int $user_id
-     * @return bool
+     * | article.create | article.index  | article.update | article.delete |
+     * | comment.create | comment.manage | comment.delete |
+     * | user.index     | user.create    | user.update    | user.delete
+     *
+     * @param string $permission
+     * @return void
      */
-    public static function isUserAdmin(int $user_id): bool
+    public function hasPermission(string $permission): void
     {
-        $userModel = new UserModel();
-        $user = $userModel->find($user_id);
+        $session = new Session();
+        if ($session->get('user_id')) {
 
-        if (!$user) {
-            return false;
+            $userModel = new UserModel();
+            $user = $userModel->find($session->get('user_id'));
+
+            $roleModel = new RoleModel();
+            $role = $roleModel->find($user->getFkRoleId());
+
+            $userPermissions = $role->getPermissions();
+
+            $arrayPermissions = explode(', ', $userPermissions);
+
+            if (in_array($permission, $arrayPermissions, true)) {
+                return;
+            }
+            self::badPermissions();
         }
-
-        if ($user->getIsAdmin() == true) {
-            return true;
-        }
-
-        return false;
+        self::badPermissions();
     }
 
     /**
@@ -59,5 +75,18 @@ class AccessControl
         $notification->set('error', self::DENIED_MSG);
         $http = new Http();
         $http->redirect('/login/');
+    }
+
+    /**
+     * Redirect user to dashboard page and display message.
+     *
+     * @return void
+     */
+    public static function badPermissions(): void
+    {
+        $notification = new Notification();
+        $notification->set('error', self::BAD_PERM_MSG);
+        $http = new Http();
+        $http->redirect('/login/dashboard/');
     }
 }
